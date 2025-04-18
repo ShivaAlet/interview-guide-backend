@@ -27,17 +27,32 @@ app.post('/api/company_research', async (req, res) => {
 
      const response = await anthropic.messages.create({
       model: "claude-3-7-sonnet-20250219",
-      max_tokens: 20000,
-      messages: [{ role: "user", content: question }]
+      max_tokens: 4096,
+      messages: [{ role: "user", content: question }],
+      stream: true
     });
 
-    let answer = response.content[0].text;
+    let fullAnswer = '';
 
-    answer = answer.substring(8)
-    answer = answer.slice(0, -3); 
+    // Process the stream
+    for await (const chunk of response) {
+      const chunkText = chunk.delta?.text || "";
+      fullAnswer += chunkText;
+      
+      // Optional: If you want to show progress as it comes in
+      // process.stdout.write(chunkText);
+    }
+    
+    // Process the answer like you were doing before
+    if (fullAnswer.startsWith('```json')) {
+      fullAnswer = fullAnswer.substring(8);
+      if (fullAnswer.endsWith('```')) {
+        fullAnswer = fullAnswer.slice(0, -3);
+      }
+    }
 
-
-    res.json(JSON.parse(answer))
+    const parsedAnswer = JSON.parse(fullAnswer);
+    res.json(parsedAnswer);
 
   //   let answer =[
   //     {
