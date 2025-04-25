@@ -1,8 +1,11 @@
 from flask import Flask, request, jsonify
-import requests
-import json
 import threading
+from multiprocessing import Process, Manager
+import utils
 from flask_cors import CORS
+from google.oauth2 import id_token
+from google.auth.transport import requests
+from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -10,82 +13,104 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-api_key = os.getenv("API_KEY")
+YOUR_GOOGLE_CLIENT_ID=os.getenv("YOUR_GOOGLE_CLIENT_ID")
+client = MongoClient(os.getenv("MONGO_URI"))
+db = client["Interview_Guide"]
+googleAuth = db["googleAuth"]
 
-def get_response(question, results, index):
-    while True:
-        try:
-            response = requests.post(
-                url="https://openrouter.ai/api/v1/chat/completions",
-                headers={
-                    "Authorization": "Bearer " + api_key,
-                },
-                data=json.dumps({
-                    "model": "google/gemini-2.0-flash-001",
-                    "messages": [
-                        {"role": "user", "content": question}
-                    ]
-                })
-            )
-            results[index] = json.loads(response.json()["choices"][0]["message"]["content"][8:-4])
-            break  # success, exit loop
-        except Exception as e:
-            print(f"Error occurred: {e}. Retrying in 2 seconds...")
-
-
-@app.route('/generate_guide', methods=['POST'])
-def ask_questions():
+@app.route('/generate_guidee', methods=['POST'])
+def ask_questionss():
     required_keys = ["company_name","company_website", "job_role", "job_description","resume","company_location"]
     data = request.json
     if all(key in data for key in required_keys):
-        pass   
+        pass  
     else:
         return {"error": "Missing keys"}, 400
     
-    prompts = [
-        "{\\n company_name:'"+data['company_name']+"',\\n company_website:'"+data['company_website']+"',\\n company_location:'"+data['company_location']+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+"',\\n resume:'"+data['resume']+"'\\n }"+" Your goal is to generate a comprehensive yet concise research dossier tailored for this role preparing for an interview at this specific company. Please gather information from reliable public sources (like the company's official website, reputable news outlets, financial reports if public).Structure the output into the distinct sections listed below. Present detailed information using bullet points or short paragraphs as appropriate. Ensure the output is cleanly formatted and ready to populate UI cards.---REQUIRED SECTIONS:1. Company Overview • Summary of the company in 1 line • What are their main products/services? • What's their core business model and value proposition? • When were they founded, and what are some key historical milestones? • What's their current market position? 2. Mission & Culture • What are the company's official mission and vision statements? • What are their stated core values? 3. Target Market & Customers • Who are their primary customers (B2B, B2C, specific industries)? • What industries/verticals do they serve? • Any notable public clients?  4. Size & Structure • Approximately how many employees? • Estimated revenue (if public)? • Are they public or private? • Do they have parent companies or subsidiaries? 5. Leadership • Who are the key executives (especially CEO, CPO/Head of Product)? 6. Competitive Landscape • 3–5 main competitors? • What is the company's Unique Selling Proposition or key differentiator? • What are their competitive advantages? 7. Recent News & Developments • Major announcements, product updates, M&A, or partnerships in the last 6–12 months? 8. Industry Trends • What key trends affect the sector they operate in? • How might these represent opportunities or threats?9. Funding/Financial Health • Recent funding history (if private)?• General financial health (if public)?.also search on the entire web and Result should contain all sub modules and it is fixed : Company Overview, Mission & Culture, Target Market & Customers, Size & Structure, Leadership, Competitive Landscape, Recent News & Developments, Industry Trends, Funding/Financial Health. And give me JSON data of 'COMPANY RESEARCH' only and provide me entire full JSON Data in this exact ARRAY format only:[{title:'Company Overview',summary:'',content:'some text content only',points:[{main:'title of point can be short text or little long short text',subPoints:['value1 can be text only','value2',..]},{main:'',subPoints:['value1',..]},..]},{title:'Mission & Culture',summary:'',content:'',points:[]}\\}...]",
-        "{\\n company_name:'"+data['company_name']+"',\\n company_website:'"+data['company_website']+"',\\n company_location:'"+data['company_location']+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+"',\\n resume:'"+data['resume']+"'\\n }"+". Your goal is to generate a structured, comprehensive analysis to help this role prepare for an interview related to this product. Please base your research on reliable public sources such as the company's official website, product pages, press releases, and reputable industry news outlets.REQUIRED SECTIONS: 1. CORE OFFERING • What does the product actually do (primary functionality)? • What key customer pain points does it solve? • What is the value proposition — why do users choose this? 2. MARKET POSITION • Who are the product's target customers? • Who are the main competitors (direct/indirect)? • What makes it unique — key differentiators? 3. TECHNICAL FOUNDATION • What kind of platform is it (SaaS, mobile app, API, etc.)? • What technologies or frameworks are used (if known)? • What's the general architectural approach or model? 4. BUSINESS APPROACH • How does the company monetize the product (revenue model)? • What are the latest features, releases, or updates? • Are there any public roadmaps or future direction hints?"+" . Add more points,values, etc. as per your understanding and I want json data to be more so add accordingly. Result should contain all sub modules and it is fixed : Core Offering, Market Position, Technical Foundation, Business Approach. And give me JSON data of 'PRODUCT RESEARCH' only and provide me entire full JSON Data in this exact ARRAY format only:[{title:'Core Offering',summary:'',content:'some text content only',points:[{main:'title of point can be short text or little long short text',subPoints:['value1 can be text only','value2',..]},{main:'',subPoints:['value1',..]},..]},{title:'Market Position',summary:'',content:'',points:[]}\\}...]",
-        "{\\n company_name:'"+data['company_name']+"',\\n company_website:'"+data['company_website']+"',\\n company_location:'"+data['company_location']+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+"',\\n resume:'"+data['resume']+"'\\n }"+". Your goal is to provide a structured analysis of the role's key elements to help this role  understand the specific requirements and expectations for the job. Base your analysis primarily on the details within the provided Job Description and offer insights in the following sections: --- REQUIRED SECTIONS: 1. CORE RESPONSIBILITIES • What are the key responsibilities of the role? • What are the primary tasks or goals the person will be responsible for in this position? 2. REQUIRED SKILLS • What technical skills and tools are required for the job (specific software, platforms, technologies)? • What methodologies (e.g., Agile, Scrum, etc.) does the role expect experience with? • What are the experience requirements (years in role/industry)? • What essential soft skills are important (e.g., communication, leadership)? 3. PREFERRED QUALIFICATIONS • What are the 'nice-to-have' skills or experience? • What differentiators would make a candidate stand out for this role? 4. SUCCESS METRICS • How will performance be measured for this role? • What impact areas and outcomes are expected? 5. TEAM STRUCTURE • Who are the key stakeholders and collaborators the person in this role will work with? "+" . Add more points,values, etc. as per your understanding and I want json data to be more so add accordingly. Result should contain all sub modules and it is fixed : Core Responsibilities, Required Skills, Preferred Qualifications, Success Metrics, Team Structure. And give me JSON data of 'Job Description Analysis' only and provide me entire full JSON Data in this exact ARRAY format only:[{title:'Core Responsibilities',summary:'',content:'some text content only',points:[{main:'title of point can be short text or little long short text',subPoints:['value1 can be text only','value2',..]},{main:'',subPoints:['value1',..]},..]},{title:'Required Skills',summary:'',content:'',points:[]}\\n}...]",
-        "{\\n company_name:'"+data['company_name']+"',\\n company_website:'"+data['company_website']+"',\\n company_location:'"+data['company_location']+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+"',\\n resume:'"+data['resume']+"'\\n }"+". Add more points,values, etc. as per your understanding and I want json data to be more so add accordingly. Result should contain all sub modules and it is fixed : 'Background and Experience', 'Technical Knowledge', 'Role-Specific Competencies', 'Leadership and Collaboration', 'Company & Product Knowledge', 'Career Vision', 'General Questions', 'Questions for Recruiter on Team Structure', 'Questions for Recruiter on Role Responsibilities', 'Questions for Recruiter on Company Environment', 'Questions for Recruiter on Role Purpose', 'Questions for Recruiter on Job Description. And give me JSON data of 'Recruiter Screen Preparation' only and provide me entire full JSON Data in this exact ARRAY format only:[{title:'Background and Experience',summary:'',content:'some text content only',points:[{main:'title of point can be short text or little long short text',subPoints:['value1 can be text only','value2',..]},{main:'',subPoints:['value1',..]},..]},{title:'Technical Knowledge',summary:'',content:'',points:[]}\\}...]",
-        "{\\n company_name:'"+data['company_name']+"',\\n company_website:'"+data['company_website']+"',\\n company_location:'"+data['company_location']+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+"',\\n resume:'"+data['resume']+"'\\n }"+". Add more points,values, etc. as per your understanding and I want json data to be more so add accordingly. Result should contain all sub modules and it is fixed : 'Phase 1: Introduction & Background', 'Phase 2: Product Experience Deep Dives', 'Phase 3: Product Methodology Assessment', 'Phase 4: Cross-Functional Collaboration', 'Phase 5: Strategic Thinking', 'Phase 6: Technical Understanding', 'Phase 7: Role-Specific Challenges'. And give me JSON data of 'Hiring Manager Round' only and provide me entire full JSON Data in this exact ARRAY format only:[{title:'Phase 1: Introduction & Background',summary:'',content:'some text content only',points:[{main:'title of point can be short text or little long short text',subPoints:['value1 can be text only','value2',..]},{main:'',subPoints:['value1',..]},..]},{title:'Phase 2: Product Experience Deep Dives',summary:'',content:'',points:[]}\\}...]",
-        "{\\n company_name:'"+data['company_name']+"',\\n company_website:'"+data['company_website']+"',\\n company_location:'"+data['company_location']+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+"',\\n resume:'"+data['resume']+"'\\n }"+".Generate 15 behavioral questions that focus on: leadership, conflict resolution, failure recovery, crossfunctional collaboration, Decision Making, Communication style, prioritization style for this job description. Mention all the questions"+". Add more points,values, etc. as per your understanding and I want json data to be more so add accordingly. Result should contain all sub modules and it is fixed : STAR Method for Behavioral Questions,Essential Behavioral Interview Questions Decision Making & Problem Solving, Taking Initiative, Customer/Client Focus, Teamwork & Collaboration, Leadership, Adaptability, Results & Accountability, Innovation & Creativity, Communication, Integrity & Ethics. And give me JSON data of 'Behavioral Interview' only and provide me entire full JSON Data in this exact ARRAY format only :[{title:'...',summary:'',content:'some text content only',points:[{main:'title of point can be short text or little long short text',subPoints:['value1 can be text only','value2',..]},{main:'',subPoints:['value1',..]},..]},{title:'',summary:'',content:'',points:[]}\\}...]",
-        "{\\n company_name:'"+data['company_name']+"',\\n company_website:'"+data['company_website']+"',\\n company_location:'"+data['company_location']+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+"',\\n resume:'"+data['resume']+"'\\n }"+".Identify the best experiences or skill to highlight to stand out and show the interviewer that you are good fit for the job"+" . Add more points,values, etc. as per your understanding and I want json data to be more so add accordingly. And give me JSON data of 'Resume Experience to highlight To stand out' only and provide me entire full JSON Data in this exact ARRAY format only:[{title:'some important title..',summary:'',content:'some text content only',points:[{main:'title of point can be short text or little long short text',subPoints:['value1 can be text only','value2',..]},{main:'',subPoints:['value1',..]},..]},{title:'some important title...',summary:'',content:'',points:[]}\\}...]",
-        "You're being asked 'What is your favorite product?' and 'How would you improve your favorite product?',etc questions. in an interview setting. Your goal is to provide insightful answers that showcase your analytical skills, user-centric thinking, and potential for innovation"+" . Add more points,values, etc. as per your understanding and I want json data to be more so add accordingly. And give me JSON data of 'Favorite Product Question' only and provide me entire full JSON Data in this exact ARRAY format only:[{title:'Choose Thoughtfully',summary:'',content:'some text content only',points:[{main:'title of point can be short text or little long short text',subPoints:['value1 can be text only','value2',..]},{main:'',subPoints:['value1',..]},..]},{title:'Explain Your Choice',summary:'',content:'',points:[]}\\}...]",
-        "{\\n company_name:'"+data['company_name']+"',\\n company_website:'"+data['company_website']+"',\\n company_location:'"+data['company_location']+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+"',\\n resume:'"+data['resume']+"'\\n }"+".Generate 5 Product Design type question for this job role interview based on the company’s industry or product type mentioned in the JD. Add more points,values, etc. as per your understanding and I want json data to be more so add accordingly. And give me JSON data of 'Product Design' only and provide me entire full JSON Data in this exact ARRAY format only:[{title:'Important title text',summary:'',content:'some text content only',points:[{main:'title of point can be short text or little long short text',subPoints:['value1 can be text only','value2',..]},{main:'',subPoints:['value1',..]},..]},{title:'Important title text',summary:'',content:'',points:[]}\\}...]",
-        "{\\n company_name:'"+data['company_name']+"',\\n company_website:'"+data['company_website']+"',\\n company_location:'"+data['company_location']+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+"',\\n resume:'"+data['resume']+"'\\n }"+". The questions should be composed of: **2-3 Analytical Questions:**, **2-3 A/B Testing Scenarios:**"+" . Add more points,values, etc. as per your understanding and I want json data to be more so add accordingly.And give me JSON data of 'Product Sense' only and provide me entire full JSON Data in this exact ARRAY format only:[{title:'Important title text',summary:'',content:'some text content only',points:[{main:'title of point can be short text or little long short text',subPoints:['value1 can be text only','value2',..]},{main:'',subPoints:['value1',..]},..]},{title:'Important title text',summary:'',content:'',points:[]}\\}...]",
-        "{\\n company_name:'"+data['company_name']+"',\\n company_website:'"+data['company_website']+"',\\n company_location:'"+data['company_location']+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+"',\\n resume:'"+data['resume']+"'\\n }"+".Generate 7 strategic product questions for a this role at this company. Company:... Product: ... Industry: ... Competitors: ... Mix of question types: - Product investment: 'Why should this company continue investing in product?' - Competitive strategy: 'How would you respond to competitor's new features?' - Market expansion: 'Should this company enter new market?' - Metrics & goals: 'What metrics would you track for product?' - Industry trends: 'How should this company adapt to industry trend ?' Make questions specific to real products, competitors, and industry challenges. '+' . Add more points,values, etc. as per your understanding and I want json data to be more so add accordingly. And give me JSON data of 'Product Strategy' only and provide me entire full JSON Data in this exact ARRAY format only :[{title:'some important title..',summary:'',content:'some text content only',points:[{main:'title of point can be short text or little long short text',subPoints:['value1 can be text only','value2',..]},{main:'',subPoints:['value1',..]},..]},{title:'some important title...',summary:'',content:'',points:[]}\\}...]",
-        "{\\n company_name:'"+data['company_name']+"',\\n company_website:'"+data['company_website']+"',\\n company_location:'"+data['company_location']+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+"',\\n resume:'"+data['resume']+"'\\n }"+".Generate a list of market sizing interview questions that test a candidate's estimation and analytical skills. 'Guidelines • Focus on strategic understanding and market potential, • Cover diverse industries and technologies', 'Question Types 1. Total Addressable Market (TAM) estimates, 2. Revenue potential calculations, 3. User base or adoption rate projections,4. Infrastructure and operational cost estimations'"+" . Add more points,values, etc. as per your understanding and I want json data to be more so add accordingly. And give me JSON data of 'Product Strategy' only and provide me entire full JSON Data in this exact ARRAY format only :[{title:'some important title..',summary:'',content:'some text content only',points:[{main:'title of point can be short text or little long short text',subPoints:['value1 can be text only','value2',..]},{main:'',subPoints:['value1',..]},..]},{title:'some important title...',summary:'',content:'',points:[]}\\}...]",
-        "{\\n company_name:'"+data['company_name']+"',\\n company_website:'"+data['company_website']+"',\\n company_location:'"+data['company_location']+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+"',\\n resume:'"+data['resume']+"'\\n }"+".Generate a comprehensive list of technical interview questions that probe the candidate's expertise in key areas mentioned in the job description. Question types: high level understanding based questions on key technical concepts mentioned in JD Experience-based scenario questions based on resume, The candidate’s experience collaborating with engineers, Their understanding of technical trade-offs, implementation complexity, or API design Probing questions about past projects that demonstrate proficiency"+" . Add more points,values, etc. as per your understanding and I want entire json data to be more so add accordingly. And give me JSON data of 'Product Strategy' only and provide me entire full JSON Data in this exact ARRAY format only :[{title:'some important title..',summary:'...',content:'some text content only',points:[{main:'title of point can be short text or little long short text',subPoints:['value1 can be text only','value2',..]},{main:'',subPoints:['value1',..]},..]},{title:'some important title...',summary:'',content:'',points:[]}\\}...]",
-        "{\\n company_name:'"+data['company_name']+"',\\n company_website:'"+data['company_website']+"',\\n company_location:'"+data['company_location']+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+"',\\n resume:'"+data['resume']+"'\\n }"+".Generate a list of 15 leadership interview questions that assess the candidate's ability to lead and influence. Question types: Strategic vision and alignment with company goals Experience managing crossfunctional stakeholders Decision-making and prioritization approaches Team leadership and development capabilities Communication and influence strategies Handling organizational challenges and change"+" . Add more points,values, etc. as per your understanding and I want json data to be more so add accordingly. And give me JSON data of 'Product Strategy' only and provide me entire full JSON Data in this exact ARRAY format only :[{title:'some important title..',summary:'',content:'some text content only',points:[{main:'title of point can be short text or little long short text',subPoints:['value1 can be text only','value2',..]},{main:'',subPoints:['value1',..]},..]},{title:'some important title...',summary:'',content:'',points:[]}\\}...]"
-        ]
+    prompts = utils.generatePrompts(data)
+    
     results = [None, None,None,None,None,None, None,None,None,None,None, None,None,None]
+    errorJsons = [None, None,None,None,None,None, None,None,None,None,None, None,None,None]
     threads = []
 
     for i, prompt in enumerate(prompts):
-        thread = threading.Thread(target=get_response, args=(prompt, results, i))
+        thread = threading.Thread(target=utils.get_response, args=(prompt, results,errorJsons, i))
         threads.append(thread)
         thread.start()
 
     for thread in threads:
         thread.join()
 
-    return jsonify({
-        "company_research": results[0],
-        "product_research": results[1],
-        "job_description_analysis": results[2],
-        "recruiter_screen_preparation": results[3],
-        "hiring_manager_round": results[4],
-        "behavioral_interview": results[5],
-        "resume_experience_to_highlight_to_stand_out": results[6],
-        "favorite_product_question": results[7],
-        "product_design": results[8],
-        "product_sense": results[9],
-        "product_strategy": results[10],
-        "analytical_estimation": results[11],
-        "technical": results[12],
-        "leadership": results[13]
-    })
+    return jsonify(utils.structureGuide(results,data))
+
+    # return jsonify({"error":errorJsons})
+
+@app.route('/generate_guide', methods=['POST'])
+def ask_questions():
+    try:
+        required_keys = ["company_name","company_website", "job_role", "job_description","resume","company_location","token"]
+        data = request.json
+        if all(key in data for key in required_keys):
+            pass  
+        else:
+            return {"error": "Missing keys"}, 400
+        
+        token = request.json.get('token')
+        idinfo = id_token.verify_oauth2_token(token, requests.Request(),YOUR_GOOGLE_CLIENT_ID )
+        user_email = idinfo['email']
+        user = googleAuth.find_one({"email": user_email})
+
+        if user is None:
+            return jsonify({"error": "User not found"}), 404
+
+        prompts  = utils.generatePrompts(data)
+
+        results = [None, None,None,None,None,None, None,None,None,None,None, None,None,None]
+        errorJsons = [None, None,None,None,None,None, None,None,None,None,None, None,None,None]
+        manager = Manager()
+        results = manager.list([None] * len(prompts))  # Shared list across processes
+        errorJsons = manager.list([None] * len(prompts))  # Shared list across processes
+        processes = []
+
+        for i, prompt in enumerate(prompts):
+            process = Process(target=utils.get_response, args=(prompt, results,errorJsons, i))
+            processes.append(process)
+            process.start()
+
+        for process in processes:
+            process.join()
+
+        errorJsons = list(errorJsons)
+        results = list(results)
+
+        history = user["history"]
+        history.append(utils.structureGuide(results,data))
+        
+        result = googleAuth.update_one({"email": user_email}, {"$set": {"history":history}})
+        if result.matched_count:
+            return jsonify({"status":"Ok","message": "User updated","history":history,"guide":utils.structureGuide(results,data)})
+    except Exception as e:
+        return jsonify({"status":"Not Ok","error": "Invalid token","error":str(e)}), 400
+
+    # return jsonify({"error":errorJsons})
+
+@app.route('/google-login', methods=['POST'])
+def google_login():
+    token = request.json.get('token')
+    try:
+        idinfo = id_token.verify_oauth2_token(token, requests.Request(),YOUR_GOOGLE_CLIENT_ID )
+        user_email = idinfo['email']
+        user_name = idinfo['name']
+        user = googleAuth.find_one({"email": user_email})
+        if user is None:
+            user={"name":user_name,"email":user_email,"credits":100,"history":[]}
+            googleAuth.insert_one(user)
+        return jsonify({"status":"Ok","message": "Login Successful", "user":utils.convert_objectid(user)})
+    except Exception as e:
+        return jsonify({"status":"Not Ok","error": "Invalid token"}), 400
+
+
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-    # app.run(debug=True)
+    # app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)
