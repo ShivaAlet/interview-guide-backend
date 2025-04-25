@@ -109,8 +109,30 @@ def google_login():
     except Exception as e:
         return jsonify({"status":"Not Ok","error": "Invalid token"}), 400
 
+@app.route("/guide/<id>",methods=['GET'])
+def get_guide(id):
+    try:        
+        auth_header = request.headers.get('Authorization')
+        if auth_header:
+            token = auth_header.split(" ")[1] 
+            idinfo = id_token.verify_oauth2_token(token, requests.Request(),YOUR_GOOGLE_CLIENT_ID )
+            user_email = idinfo['email']
+            user = googleAuth.find_one({"email": user_email})
+            if user is None:
+                return jsonify({"error": "User not found"}), 404
+            history = user["history"]
+            guide=next((g for g in history if g["id"] == id), None)
+            if guide:
+                return jsonify({"status":"Ok","guide":guide}), 200
+            else:
+                return jsonify({"status":"Not Ok",'error': 'Guide not found with this id'}), 401
+        else:
+            return jsonify({"status":"Not Ok",'error': 'Authorization header missing'}), 401
+    except Exception as e:
+        return jsonify({"status":"Not Ok","error": "Invalid token","error":str(e)}), 400
+    
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-    # app.run(debug=True)
+    # app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)
