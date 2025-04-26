@@ -7,6 +7,9 @@ from google.oauth2 import id_token
 from google.auth.transport import requests
 from pymongo import MongoClient
 import uuid
+from werkzeug.utils import secure_filename
+import PyPDF2
+import os
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -20,6 +23,11 @@ YOUR_GOOGLE_CLIENT_ID=os.getenv("YOUR_GOOGLE_CLIENT_ID")
 client = MongoClient(os.getenv("MONGO_URI"))
 db = client["Interview_Guide"]
 googleAuth = db["googleAuth"]
+
+# Temporary folder to save PDFs
+UPLOAD_FOLDER = 'uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 
 @app.route('/generate_guidee', methods=['POST'])
 def ask_questionss():
@@ -57,58 +65,81 @@ def ask_questionss():
 def ask_questions():
     access_key = request.headers.get('x-api-key')
 
-    if access_key!=ACCESS_KEY:
-        return jsonify({"status":"Not Ok","error": "missing or invalid access key"}), 400
-    
+    if access_key != ACCESS_KEY:
+        return jsonify({"status": "Not Ok", "error": "Missing or invalid access key"}), 400
+
     try:
-        required_keys = ["company_name","company_website", "job_role", "job_description","resume","company_location","token"]
-        data = request.json
-        if all(key in data for key in required_keys):
-            pass  
-        else:
-            return {"error": "Missing keys"}, 400
-        
-        token = request.json.get('token')
-        idinfo = id_token.verify_oauth2_token(token, requests.Request(),YOUR_GOOGLE_CLIENT_ID )
+        required_keys = ["company_name", "company_website", "job_role", "job_description", "company_location", "token"]
+        data = request.form
+
+        if not all(key in data for key in required_keys) or "resume" not in request.files:
+            return jsonify({"error": "Missing keys or resume file"}), 400
+
+        resume_file = request.files["resume"]
+        if resume_file.filename == '':
+            return jsonify({"error": "No selected PDF file"}), 400
+
+        # Save the file
+        filename = secure_filename(resume_file.filename)
+        file_path = os.path.join(UPLOAD_FOLDER, filename)
+        resume_file.save(file_path)
+
+        # Extract text from the resume
+        reader = PyPDF2.PdfReader(file_path)
+        resume_text = ''
+        for page in reader.pages:
+            resume_text += page.extract_text()
+
+        # Delete the uploaded file after processing
+        os.remove(file_path)
+
+        # Use request.form to get 'token'
+        token = data.get('token')
+        idinfo = id_token.verify_oauth2_token(token, requests.Request(), YOUR_GOOGLE_CLIENT_ID)
         user_email = idinfo['email']
+
         user = googleAuth.find_one({"email": user_email})
 
         if user is None:
             return jsonify({"error": "User not found"}), 404
 
-        prompts  = utils.generatePrompts(data)
+        # Add extracted resume text to data
+        updated_data = dict(data)
+        updated_data["resume"] = resume_text
 
-        results = [None, None,None,None,None,None, None,None,None,None,None, None,None,None]
-        errorJsons = [None, None,None,None,None,None, None,None,None,None,None, None,None,None]
+        prompts = utils.generatePrompts(updated_data)
+
+        # Using multiprocessing to get responses
         manager = Manager()
-        results = manager.list([None] * len(prompts))  # Shared list across processes
-        errorJsons = manager.list([None] * len(prompts))  # Shared list across processes
+        results = manager.list([None] * len(prompts))
+        errorJsons = manager.list([None] * len(prompts))
         processes = []
 
         for i, prompt in enumerate(prompts):
-            process = Process(target=utils.get_response, args=(prompt, results,errorJsons, i))
+            process = Process(target=utils.get_response, args=(prompt, results, errorJsons, i))
             processes.append(process)
             process.start()
 
         for process in processes:
             process.join()
 
-        errorJsons = list(errorJsons)
-        results = list(results)
+        idd = str(uuid.uuid4())
+        newGuide = utils.structureGuide(list(results), updated_data, idd)
 
-        idd=str(uuid.uuid4())
-        newGuide = utils.structureGuide(results,data,idd)
-
-        history = user["history"]
+        history = user.get("history", [])
         history.append(newGuide)
-        
-        result = googleAuth.update_one({"email": user_email}, {"$set": {"history":history}})
-        if result.matched_count:
-            return jsonify({"status":"Ok","message": "User updated","history":history,"guide":newGuide})
-    except Exception as e:
-        return jsonify({"status":"Not Ok","error": "Invalid token","error":str(e)}), 400
 
-    # return jsonify({"error":errorJsons})
+        result = googleAuth.update_one({"email": user_email}, {"$set": {"history": history}})
+
+        if result.matched_count:
+            return jsonify({"status": "Ok", "message": "User updated", "history": history, "guide": newGuide})
+        else:
+            return jsonify({"error": "Failed to update user history"}), 500
+
+    except Exception as e:
+        if 'file_path' in locals() and os.path.exists(file_path):
+            os.remove(file_path)
+        return jsonify({"status": "Not Ok", "error": str(e)}), 400
 
 @app.route('/google-login', methods=['POST'])
 def google_login():
