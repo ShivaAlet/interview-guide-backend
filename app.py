@@ -6,12 +6,15 @@ from flask_cors import CORS
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from pymongo import MongoClient
+import uuid
 from dotenv import load_dotenv
 import os
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
+
+ACCESS_KEY = os.getenv("accessKey")
 
 YOUR_GOOGLE_CLIENT_ID=os.getenv("YOUR_GOOGLE_CLIENT_ID")
 client = MongoClient(os.getenv("MONGO_URI"))
@@ -20,6 +23,11 @@ googleAuth = db["googleAuth"]
 
 @app.route('/generate_guidee', methods=['POST'])
 def ask_questionss():
+    access_key = request.headers.get('x-api-key')
+
+    if access_key!=ACCESS_KEY:
+        return jsonify({"status":"Not Ok","error": "missing or invalid access key"}), 400
+
     required_keys = ["company_name","company_website", "job_role", "job_description","resume","company_location"]
     data = request.json
     if all(key in data for key in required_keys):
@@ -47,6 +55,11 @@ def ask_questionss():
 
 @app.route('/generate_guide', methods=['POST'])
 def ask_questions():
+    access_key = request.headers.get('x-api-key')
+
+    if access_key!=ACCESS_KEY:
+        return jsonify({"status":"Not Ok","error": "missing or invalid access key"}), 400
+    
     try:
         required_keys = ["company_name","company_website", "job_role", "job_description","resume","company_location","token"]
         data = request.json
@@ -83,12 +96,15 @@ def ask_questions():
         errorJsons = list(errorJsons)
         results = list(results)
 
+        idd=str(uuid.uuid4())
+        newGuide = utils.structureGuide(results,data,idd)
+
         history = user["history"]
-        history.append(utils.structureGuide(results,data))
+        history.append(newGuide)
         
         result = googleAuth.update_one({"email": user_email}, {"$set": {"history":history}})
         if result.matched_count:
-            return jsonify({"status":"Ok","message": "User updated","history":history,"guide":utils.structureGuide(results,data)})
+            return jsonify({"status":"Ok","message": "User updated","history":history,"guide":newGuide})
     except Exception as e:
         return jsonify({"status":"Not Ok","error": "Invalid token","error":str(e)}), 400
 
@@ -96,6 +112,11 @@ def ask_questions():
 
 @app.route('/google-login', methods=['POST'])
 def google_login():
+    access_key = request.headers.get('x-api-key')
+
+    if access_key!=ACCESS_KEY:
+        return jsonify({"status":"Not Ok","error": "missing or invalid access key"}), 400
+
     token = request.json.get('token')
     try:
         idinfo = id_token.verify_oauth2_token(token, requests.Request(),YOUR_GOOGLE_CLIENT_ID )
@@ -111,6 +132,10 @@ def google_login():
 
 @app.route("/guide/<id>",methods=['GET'])
 def get_guide(id):
+    access_key = request.headers.get('x-api-key')
+
+    if access_key!=ACCESS_KEY:
+        return jsonify({"status":"Not Ok","error": "missing or invalid access key"}), 400
     try:        
         auth_header = request.headers.get('Authorization')
         if auth_header:

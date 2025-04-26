@@ -49,9 +49,9 @@ def get_response(question, results,errorJsons, index):
             errorJsons[index] = response.json()["choices"][0]["message"]["content"][8:-4]
             print(f"Error occurred: {e}. Retrying in 2 seconds...")
 
-def structureGuide(results,companyData):
+def structureGuide(results,companyData,id):
     return {
-        "id":str(uuid.uuid4()),
+        "id":id,
         "datetime":datetime.now(),
         "companyData":companyData,
         "result":{
