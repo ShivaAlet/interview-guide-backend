@@ -67,6 +67,7 @@ def ask_questions():
         # Use request.form to get 'token'
         token = data.get('token')
         idinfo = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        idinfo = idinfo["idinfo"]
         user_email = idinfo['email']
 
         user = googleAuth.find_one({"email": user_email})
@@ -175,7 +176,8 @@ def get_guide(id):
         auth_header = request.headers.get('Authorization')
         if auth_header:
             token = auth_header.split(" ")[1] 
-            idinfo = id_token.verify_oauth2_token(token, requests.Request(),YOUR_GOOGLE_CLIENT_ID )
+            idinfo = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+            idinfo = idinfo["idinfo"]
             user_email = idinfo['email']
             user = googleAuth.find_one({"email": user_email})
             if user is None:
@@ -188,6 +190,10 @@ def get_guide(id):
                 return jsonify({"status":"Not Ok",'error': 'Guide not found with this id'}), 401
         else:
             return jsonify({"status":"Not Ok",'error': 'Authorization header missing'}), 401
+    except ExpiredSignatureError:
+        return jsonify({"status":"Not Ok",'error': 'Token has expired'}), 401
+    except InvalidTokenError:
+        return jsonify({"status":"Not Ok",'error': 'Invalid token'}), 401
     except Exception as e:
         return jsonify({"status":"Not Ok","error": "Invalid token","error":str(e)}), 400
     
