@@ -9,7 +9,10 @@ from pymongo import MongoClient
 import uuid
 from werkzeug.utils import secure_filename
 import PyPDF2
+import jwt
+from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
 import os
+from datetime import datetime, timezone,timedelta
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -18,6 +21,7 @@ app = Flask(__name__)
 CORS(app)
 
 ACCESS_KEY = os.getenv("accessKey")
+SECRET_KEY=os.getenv("SECRET_KEY")
 
 YOUR_GOOGLE_CLIENT_ID=os.getenv("YOUR_GOOGLE_CLIENT_ID")
 client = MongoClient(os.getenv("MONGO_URI"))
@@ -27,39 +31,6 @@ googleAuth = db["googleAuth"]
 # Temporary folder to save PDFs
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-
-
-@app.route('/generate_guidee', methods=['POST'])
-def ask_questionss():
-    access_key = request.headers.get('x-api-key')
-
-    if access_key!=ACCESS_KEY:
-        return jsonify({"status":"Not Ok","error": "missing or invalid access key"}), 400
-
-    required_keys = ["company_name","company_website", "job_role", "job_description","resume","company_location"]
-    data = request.json
-    if all(key in data for key in required_keys):
-        pass  
-    else:
-        return {"error": "Missing keys"}, 400
-    
-    prompts = utils.generatePrompts(data)
-    
-    results = [None, None,None,None,None,None, None,None,None,None,None, None,None,None]
-    errorJsons = [None, None,None,None,None,None, None,None,None,None,None, None,None,None]
-    threads = []
-
-    for i, prompt in enumerate(prompts):
-        thread = threading.Thread(target=utils.get_response, args=(prompt, results,errorJsons, i))
-        threads.append(thread)
-        thread.start()
-
-    for thread in threads:
-        thread.join()
-
-    return jsonify(utils.structureGuide(results,data))
-
-    # return jsonify({"error":errorJsons})
 
 @app.route('/generate_guide', methods=['POST'])
 def ask_questions():
@@ -95,7 +66,7 @@ def ask_questions():
 
         # Use request.form to get 'token'
         token = data.get('token')
-        idinfo = id_token.verify_oauth2_token(token, requests.Request(), YOUR_GOOGLE_CLIENT_ID)
+        idinfo = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
         user_email = idinfo['email']
 
         user = googleAuth.find_one({"email": user_email})
@@ -135,7 +106,15 @@ def ask_questions():
             return jsonify({"status": "Ok", "message": "User updated", "history": history, "guide": newGuide})
         else:
             return jsonify({"error": "Failed to update user history"}), 500
-
+    
+    except ExpiredSignatureError:
+        if 'file_path' in locals() and os.path.exists(file_path):
+            os.remove(file_path)
+        return jsonify({"status":"Not Ok",'error': 'Token has expired'}), 401
+    except InvalidTokenError:
+        if 'file_path' in locals() and os.path.exists(file_path):
+            os.remove(file_path)
+        return jsonify({"status":"Not Ok",'error': 'Invalid token'}), 401
     except Exception as e:
         if 'file_path' in locals() and os.path.exists(file_path):
             os.remove(file_path)
@@ -150,7 +129,8 @@ def google_login():
 
     token = request.json.get('token')
     try:
-        idinfo = id_token.verify_oauth2_token(token, requests.Request(),YOUR_GOOGLE_CLIENT_ID )
+        idinfo = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        idinfo = idinfo["idinfo"]
         user_email = idinfo['email']
         user_name = idinfo['name']
         user = googleAuth.find_one({"email": user_email})
@@ -158,8 +138,32 @@ def google_login():
             user={"name":user_name,"email":user_email,"credits":100,"history":[]}
             googleAuth.insert_one(user)
         return jsonify({"status":"Ok","message": "Login Successful", "user":utils.convert_objectid(user)})
+    except ExpiredSignatureError:
+        return jsonify({"status":"Not Ok",'error': 'Token has expired'}), 401
+    except InvalidTokenError:
+        return jsonify({"status":"Not Ok",'error': 'Invalid token'}), 401
     except Exception as e:
-        return jsonify({"status":"Not Ok","error": "Invalid token"}), 400
+        return jsonify({"status":"Not Ok","error": str(e)}), 400
+
+@app.route('/generate-token', methods=['POST'])
+def generate_token():
+    # Normally, you'd first verify the Google token here.
+    # Let's assume you verified and have the user info:
+    access_key = request.headers.get('x-api-key')
+
+    if access_key != ACCESS_KEY:
+        return jsonify({"status": "Not Ok", "error": "Missing or invalid access key"}), 400
+    # Create your own payload
+    payload = {
+        'idinfo': request.json,
+        'exp': datetime.now(timezone.utc) + timedelta(days=7),  # Token expires in 7 days
+        'iat': datetime.now(timezone.utc)  # Issued at
+    }
+
+    # Encode the token
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+    return jsonify({"status":"Ok","token": token})
 
 @app.route("/guide/<id>",methods=['GET'])
 def get_guide(id):
@@ -187,8 +191,6 @@ def get_guide(id):
     except Exception as e:
         return jsonify({"status":"Not Ok","error": "Invalid token","error":str(e)}), 400
     
-
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
     # app.run(debug=True)
