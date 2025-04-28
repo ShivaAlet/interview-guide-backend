@@ -197,6 +197,44 @@ def get_guide(id):
     except Exception as e:
         return jsonify({"status":"Not Ok","error": "Invalid token","error":str(e)}), 400
     
+@app.route("/guide/<id>", methods=["DELETE"])
+def delete_guide(id):
+    access_key = request.headers.get('x-api-key')
+
+    if access_key != ACCESS_KEY:
+        return jsonify({"status": "Not Ok", "error": "missing or invalid access key"}), 400
+    try:
+        auth_header = request.headers.get('Authorization')
+        if auth_header:
+            token = auth_header.split(" ")[1]
+            idinfo = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+            idinfo = idinfo["idinfo"]
+            user_email = idinfo['email']
+            user = googleAuth.find_one({"email": user_email})
+            if user is None:
+                return jsonify({"error": "User not found"}), 404
+            history = user.get("history", [])
+            guide_index = next((index for index, g in enumerate(history) if g["id"] == id), None)
+            if guide_index is not None:
+                # Remove the guide from history
+                history.pop(guide_index)
+                # Update the user's history in database
+                googleAuth.update_one(
+                    {"email": user_email},
+                    {"$set": {"history": history}}
+                )
+                return jsonify({"status": "Ok", "message": "Guide deleted successfully"}), 200
+            else:
+                return jsonify({"status": "Not Ok", "error": "Guide not found with this id"}), 401
+        else:
+            return jsonify({"status": "Not Ok", "error": "Authorization header missing"}), 401
+    except ExpiredSignatureError:
+        return jsonify({"status": "Not Ok", "error": "Token has expired"}), 401
+    except InvalidTokenError:
+        return jsonify({"status": "Not Ok", "error": "Invalid token"}), 401
+    except Exception as e:
+        return jsonify({"status": "Not Ok", "error": str(e)}), 400
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-    # app.run(debug=True)
+    # app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)
