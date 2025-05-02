@@ -1,196 +1,205 @@
 
 def company_research_fun(data):
+    # Consider adding role description here if available:
+    # role_context = "The target role is a Product Manager focused on ML platforms."
+    # Add role_context to the initial instruction if used.
+
     company_research = '''
-    Analyse this entire
+    Analyze the provided company data:
     '''+data+'''
     ----
-    # Module 1 - **Know the Company**
+    *Goal:* Generate concise yet insightful information specifically relevant for someone preparing for an interview at this company. Focus on strategy, market position, challenges, recent developments, and potential talking points. Populate the requested JSON structure below accurately and thoughtfully. Ensure the subPoints provide specific details and insights where possible, not just vague statements.
 
-    **1. Quick Summary (New Feature):**
+    # Module 1 - Know the Company
 
-    - **Purpose:** A ~2-minute overview hitting the absolute must-knows.
-    - **Content:**
-        - Company's 1-line description.
-        - Core product/service category & primary value proposition.
-        - Primary target customer type (B2B/B2C, key industry).
-        - Top 1-2 competitors.
-        - One major recent development (e.g., major launch, acquisition, funding).
-    - **UI Implementation:** A prominent button/section at the top of Module 1, perhaps labeled "**View Quick Summary**" or "Key Highlights".
+    1. Quick Summary (Interview Angle):
 
-    **Revised Card Structure:**
+    - Purpose: A ~2-minute, high-impact overview hitting key interview talking points.
+    - Content (Populate the 'quick_summary' field in the JSON):
+        - Company's core mission/vision (in impactful terms).
+        - Primary product/service and its main differentiator or value proposition.
+        - Key target customer segment and the main problem solved for them.
+        - Top 1-2 strategic competitors and the company's primary competitive advantage against them.
+        - One significant recent development (funding, launch, acquisition) and its implication (e.g., signals growth, shift in strategy).
 
-    - **Card 1: Core Business & Strategy** (Combines Overview aspects + Mission)
-        - **title**: "Core Business & Strategy"
-        - **summary**: "Understand the company's main offerings, business model, market position, and driving mission."
-        - **details**:
-            - point: "Company Snapshot", value: [1-line summary]
-            - point: "Main Products/Services", value: [List of key offerings]
-            - point: "Core Business Model & Value Prop", value: [How they make money, what makes them valuable]
-            - point: "Mission Statement", value: [Official mission]
-            - point: "Current Market Position", value: [e.g., Leader, Challenger, Niche player in X market]
-            - point: "Key Milestones", value: [Brief! e.g., Founded Year, 1-2 major historical points if relevant]
-        
-    - **Card 2: Target Market & Customers**
-        - **title**: "Target Market & Customers"
-        - **summary**: "Identify who the company serves and the industries it operates in."
-        - **details**:
-            - point: "Primary Customers", value: [B2B/B2C, specific segments/personas if known]
-            - point: "Industries Served", value: [Key verticals]
-            - point: "Notable Clients/Partners", value: [Examples if public, shows validation]
-        
-    - **Card 3: Competitive Landscape**
-        - **title**: "Competitive Landscape"
-        - **summary**: "Analyze key competitors and the company's unique positioning."
-        - **details**:
-            - point: "Main Competitors", value: [List top 3-5 rivals]
-            - point: "USP / Key Differentiators", value: [What makes them stand out]
-            - point: "Competitive Advantages", value: [e.g., Network effects, tech, brand]
+    Revised Card Structure Guidance (for populating 'sub_modules' in JSON):
 
-    - **Card 4: Company Vitals**
-        - **title**: "Company Vitals"
-        - **summary**: "Key facts about the company's size, status, leadership, and financial health."
-        - **details**:
-            - point: "Size & Status", value: ["Approx X employees", "Public/Private", "HQ: Location"]
-            - point: "Structure Notes", value: ["Parent: [Name]" or "Key Subsidiaries: [List]" if relevant, else "Standalone"]
-            - point: "Key Leadership", value: ["CEO: [Name]", "Head of Product/CPO: [Name]"]
-            - point: "Financial Snapshot", value: ["Recent Funding: [Round/Amount/Date]" or "General health indication"]
-    - **Card 5: Recent News & Developments**
-        - **title**: "Recent News & Developments"
-        - **summary**: "Stay updated on major announcements, product updates, and strategic moves."
-        - **details**:
-            - point: "Key Recent Events (6-12 mo)", value: [Bullet list: Major product launches, M&A, partnerships, significant news]
-        
-    - **Card 6: Industry Context**
-        - **title**: "Industry Context"
-        - **summary**: "Understand the broader market trends affecting the company."
-        - **details**:
-            - point: "Key Industry Trends", value: [List 2-3 major trends impacting their sector]
-            - point: "Opportunities/Threats", value: [How these trends might represent chances or risks for the company]
+    - Card 1: Core Business & Strategy
+        - title: "Core Business & Strategy"
+        - summary: "Understand the company's strategic direction, core offerings, business model, and market positioning."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Company Mission & Vision Analysis", subPoints: ["Explain the stated mission/vision", "Identify 1-2 potential implications for company culture or strategy based on it."]
+            - main: "Main Products/Services & Value", subPoints: ["[List key offering 1 and its core value/problem solved]", "[List key offering 2 and its core value/problem solved]", "..."]
+            - main: "Core Business Model", subPoints: ["Primary revenue stream(s) (e.g., SaaS subscription, transaction fees)", "Note any recent shifts or diversification if apparent."]
+            - main: "Strategic Priorities (if evident)", subPoints: ["Identify 1-2 key strategic goals apparent from the data (e.g., 'Expand into enterprise market')", "'Increase focus on AI integration'"]
+            - main: "Current Market Position & Trajectory", subPoints: ["Describe position (e.g., 'Leader in X', 'Challenger in Y')", "Note indicators of growth or market share trend (e.g., 'Rapidly growing user base', 'Facing increased competition')."]
+
+    - Card 2: Target Market & Customers
+        - title: "Target Market & Customers"
+        - summary: "Identify who the company serves, the key problems solved, and how they reach their customers."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Primary Customer Segments", subPoints: ["Describe key B2B/B2C segments", "Note defining characteristics or needs."]
+            - main: "Key Customer Pain Points Addressed", subPoints: ["List the specific problems the company solves for its target customers."]
+            - main: "Industries Focused On", subPoints: ["List key verticals/industries served."]
+            - main: "Notable Clients/Partnerships (Significance)", subPoints: ["[List Example Client/Partner 1]", "Briefly note its significance (e.g., 'Validates enterprise readiness')", "[List Example Client/Partner 2]", "Briefly note its significance (e.g., 'Key distribution channel')"]
+
+    - Card 3: Competitive Landscape
+        - title: "Competitive Landscape"
+        - summary: "Analyze key competitors, the company's unique positioning, and its core advantages/disadvantages."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Main Competitors", subPoints: ["[List top 3-5 rivals]", "Note their primary focus area if different."]
+            - main: "Key Differentiators (USPs)", subPoints: ["What makes the company stand out from competitors in the eyes of customers? (List 1-3 points)"]
+            - main: "Competitive Strengths", subPoints: ["Identify 1-3 core advantages (e.g., 'Proprietary technology in X', 'Strong network effects', 'Established brand trust')."]
+            - main: "Potential Weaknesses/Challenges", subPoints: ["Identify 1-3 potential vulnerabilities relative to competitors (e.g., 'Smaller R&D budget', 'Dependency on single product line', 'Navigating regulatory hurdles')."]
+
+    - Card 4: Company Vitals & Culture Indicators
+        - title: "Company Vitals & Culture Indicators"
+        - summary: "Key operational facts, leadership insights, and indicators of company culture."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Size, Status & Location", subPoints: ["Approx Employee Count", "Public/Private Status", "HQ Location", "Other Key Office Locations (if relevant)."]
+            - main: "Organizational Structure Notes", subPoints: ["Parent Company (if any)", "Key Subsidiaries/Divisions (if any)", "Note recent restructuring if known."]
+            - main: "Key Leadership (Interview Relevant)", subPoints: ["CEO: [Name]", "CPO/Head of Product: [Name]", "CTO/Head of Engineering: [Name]", "Other VPs/Heads relevant to data/role."]
+            - main: "Financial Health & Funding", subPoints: ["Recent Funding: [Round/Amount/Date/Key Investors]", "Mention Profitability/Revenue trends if stated", "Note other growth signals."]
+            - main: "Culture Clues (from data)", subPoints: ["Infer potential cultural aspects from mission, values, quotes, news", "Example: 'Emphasis on innovation suggested by recent product launches'", "Example: 'Data points to a collaborative environment'", "State if information is scarce."] # NEW
+
+    - Card 5: Recent News & Developments (Impact Focus)
+        - title: "Recent News & Developments (Impact Focus)"
+        - summary: "Highlight major recent events (last 6-12 months) and analyze their potential impact."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Key Recent Events & Significance", subPoints: ["[Event 1: e.g., 'Launched Product X']", "Significance: [e.g., 'Opens up new market segment']", "[Event 2: e.g., 'Acquired Company Y']", "Significance: [e.g., 'Adds crucial AI talent/technology']", "[Event 3: e.g., 'Secured Series C Funding']", "Significance: [e.g., 'Provides capital for international expansion']", "..."] # Enhanced Structure
+
+    - Card 6: Industry Context & Company Fit
+        - title: "Industry Context & Company Fit"
+        - summary: "Understand key industry trends and how the company is positioned within the broader market."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Key Industry Trends Impacting the Company", subPoints: ["[Trend 1]", "How it specifically affects this company", "[Trend 2]", "How it specifically affects this company"] # Enhanced
+            - main: "Strategic Opportunities", subPoints: ["Based on trends and company strengths, identify 1-2 key growth opportunities."] # Refined
+            - main: "Potential Headwinds/Risks", subPoints: ["Based on trends and company weaknesses/market dynamics, identify 1-2 key risks or challenges."] # Refined
     ----
-    Give me response in this JSON format only:
+    Give me response in this JSON format only. Adhere strictly to the structure provided:
     {
     "quick_summary": "",
     "sub_modules": [
         {
         "title": "Core Business & Strategy",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
         },
         {
         "title": "Target Market & Customers",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
         },
         {
         "title": "Competitive Landscape",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
         },
         {
         "title": "Company Vitals",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
         },
         {
         "title": "Recent News & Developments",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
         },
         {
         "title": "Industry Context",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
@@ -266,96 +275,96 @@ def product_research_fun(data):
     "sub_modules": [
         {
         "title": "Core Offering",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
         },
         {
         "title": "Market Position",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
         },
         {
         "title": "Product Strategy & Tech",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
         },
         {
         "title": "Key Trends",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
@@ -440,96 +449,96 @@ def job_description_analysis_fun(data):
     "sub_modules": [
         {
         "title": "Core Responsibility",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
         },
         {
         "title": "Skills & Experience Needed",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
         },
         {
         "title": "How Your Impact Will Be Measured",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
         },
         {
         "title": "Team Structure",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
@@ -580,72 +589,72 @@ stand out as a strong fit.
     "sub_modules": [
         {
         "title": "Key Strengths & Alignment",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
         },
         {
         "title": "Potential Gaps & How to Address",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
         },
         {
         "title": "Standout Experiences to Highlight",
-        "summary": "some summary text",
-        "content": "some long information text",
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
         "points": [
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
             "main": "some main title",
-            "subPoints": ["information text 1", "information text 2", "..."]
+            "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
