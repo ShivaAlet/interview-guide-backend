@@ -1,0 +1,7 @@
+{
+    "accessibility.verbosity.terminal": true,
+    "terminal.integrated.automationProfile.linux": {},
+    "terminal.integrated.automationProfile.windows": {},
+    "editor.fontFamily": "'Fira Code', Consolas, 'Courier New', monospace",
+    "editor.fontLigatures": true
+}

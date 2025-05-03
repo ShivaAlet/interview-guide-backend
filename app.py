@@ -8,10 +8,14 @@ from google.auth.transport import requests
 from pymongo import MongoClient
 import uuid
 from werkzeug.utils import secure_filename
+from datetime import datetime
 import PyPDF2
 import jwt
+import json
+from bson.json_util import dumps
 from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
 import os
+from bson import ObjectId
 from datetime import datetime, timezone,timedelta
 from dotenv import load_dotenv
 import os
@@ -136,7 +140,7 @@ def google_login():
         user_name = idinfo['name']
         user = googleAuth.find_one({"email": user_email})
         if user is None:
-            user={"name":user_name,"email":user_email,"credits":100,"history":[]}
+            user={"name":user_name,"email":user_email,"credits":100,"history":[],"createdAt":datetime.now()}
             googleAuth.insert_one(user)
         return jsonify({"status":"Ok","message": "Login Successful", "user":utils.convert_objectid(user)})
     except ExpiredSignatureError:
@@ -235,8 +239,47 @@ def delete_guide(id):
     except Exception as e:
         return jsonify({"status": "Not Ok", "error": str(e)}), 400
 
+@app.route("/markcomplete/<guideId>/<mainModule>/<subModuleInd>",methods=["PUT"])
+def mark_as_complete(guideId,mainModule,subModuleInd):
+    access_key = request.headers.get('x-api-key')
+
+    if access_key != ACCESS_KEY:
+        return jsonify({"status": "Not Ok", "error": "missing or invalid access key"}), 400
+    try:
+        auth_header = request.headers.get('Authorization')
+        if auth_header:
+            token = auth_header.split(" ")[1]
+            idinfo = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+            idinfo = idinfo["idinfo"]
+            user_email = idinfo['email']
+            user = googleAuth.find_one({"email": user_email})
+            if user is None:
+                return jsonify({"error": "User not found"}), 404
+            history = user.get("history", [])
+            guide=next((g for g in history if g["id"] == guideId), None)
+            if guide:
+                if mainModule not in guide["result"]:
+                    return jsonify({"status":"Not Ok",'error': 'Module not found with this id'}), 401
+                if int(subModuleInd) >= len(guide["result"][mainModule]["sub_modules"]):
+                    return jsonify({"status":"Not Ok",'error': 'index overlaps'}), 401
+                for myGuide in history:
+                    if myGuide["id"]==guide["id"]:
+                        myGuide["result"][mainModule]["sub_modules"][int(subModuleInd)]["completed"]=True
+                        break
+                googleAuth.update_one({"email":user_email},{"$set":{"history":history}})
+                return jsonify({"status": "Ok","message": "Sub Module marked successfully"}), 200
+            else:
+                return jsonify({"status":"Not Ok",'error': 'Guide not found with this id'}), 401
+        else:
+            return jsonify({"status": "Not Ok", "error": "Authorization header missing"}), 401
+    except ExpiredSignatureError:
+        return jsonify({"status": "Not Ok", "error": "Token has expired"}), 401
+    except InvalidTokenError:
+        return jsonify({"status": "Not Ok", "error": "Invalid token"}), 401
+    except Exception as e:
+        return jsonify({"status": "Not Ok", "error": str(e)}), 400
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-    # app.run(debug=True)
+    # app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)

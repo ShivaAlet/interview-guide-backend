@@ -78,10 +78,11 @@ def company_research_fun(data):
     ----
     Give me response in this JSON format only. Adhere strictly to the structure provided:
     {
-    "quick_summary": "",
+    "quick_summary": "Very long information description that summarizes all of these cards or sub modules",
     "sub_modules": [
         {
         "title": "Core Business & Strategy",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -114,6 +115,7 @@ def company_research_fun(data):
         },
         {
         "title": "Target Market & Customers",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -134,6 +136,7 @@ def company_research_fun(data):
         },
         {
         "title": "Competitive Landscape",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -154,6 +157,7 @@ def company_research_fun(data):
         },
         {
         "title": "Company Vitals",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -178,6 +182,7 @@ def company_research_fun(data):
         },
         {
         "title": "Recent News & Developments",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -190,6 +195,7 @@ def company_research_fun(data):
         },
         {
         "title": "Industry Context",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -215,66 +221,127 @@ def product_research_fun(data):
     Analyse this entire
     '''+data+'''
     ----
-   # Product Research —> Know The Product
+   *Primary Goal:* Generate a deep analysis of the product ecosystem most relevant to the this role described, tailored for a PM interview perspective, consolidated into 6 insightful cards. The key is to intelligently determine the most likely product focus.
 
-**Updated Plain Text Breakdown of Sections and Content:**
+    *Step 1: Identify Mentioned Products:*
+    - Carefully read the *Job Description* (and Resume) to identify *ALL* specific products, product lines, platforms, or teams mentioned (e.g., "Search", "Maps", "Assistant", "Cloud Platform"). List them internally.
 
-**Module Title:** Analyze the Key Offering
+    *Step 2: Determine Primary Focus Product & Contextual Products (PM Role Context):*
+    - *Analyze the JD for PM Responsibility Signals:* Look specifically within the "Responsibilities", "What You'll Do", or similar sections for keywords indicating direct ownership or primary focus for the PM role. Prioritize products associated with phrases like:
+        - "own the roadmap for [Product X]"
+        - "define the strategy for [Product X]"
+        - "responsible for the success of [Product X]"
+        - "drive the development of [Product X]"
+        - "manage the lifecycle of [Product X]"
+        - "gather requirements for [Product X]"
+    - *Identify Primary Focus based on Signals:*
+        - *If* one product is clearly associated with these PM responsibility keywords/phrases, designate it as the *Primary Focus Product. List any other mentioned products as **Contextual Products*.
+    - *If No Clear Ownership Signal, Analyze JD Emphasis & Resume Alignment:*
+        - *If* multiple products are mentioned without clear ownership keywords:
+            - Assess which product receives the most emphasis or detailed description within the core responsibilities section of the JD.
+            - *If* a resume is provided, assess if the candidate's experience (e.g., industry, technology, past product types) aligns more strongly with one mentioned product over the others.
+            - *Prioritize based on this hierarchy:* (1st) Strong emphasis in JD Responsibilities, (2nd) Clear alignment with Resume Experience. Designate the product identified via this analysis as the *Primary Focus Product. List others as **Contextual Products*.
+    - *Handle Single Mention:*
+        - *If* only one product is mentioned throughout the JD, it is the *Primary Focus Product*.
+    - *Fallback Logic (If No Specific Product Identified Above):*
+        - *If* no specific product is mentioned OR the JD remains vague despite the analysis above:
+            - Attempt to identify the company's single *main/flagship/core product* from General Company Info. Designate it as the *Primary Focus Product (Fallback)*.
+            - If no single flagship is clear, identify the relevant *product category/business line* (e.g., "Cloud Data Services"). Designate this category as the *Primary Focus (Category Fallback)*.
 
-**Top-Level Identifiers:** (Remain the same)
+    *Step 3: Generate Analysis (Primary Focus + Comparative Mentions):*
+    - Populate the requested 6-card JSON structure below.
+    - The deep analysis in each card should center on the *Primary Focus Product/Category* determined in Step 2.
+    - *Crucially:* Where relevant within the subPoints for the Primary Focus Product, *briefly mention the Contextual Products* (identified in Step 2) to provide comparison or show interplay (e.g., "integrates with [Contextual Product]", "unlike [Contextual Product] which focuses on X"). Do not dedicate separate points just for contextual products.
 
-- Researched Product: [Name of prioritized product/service OR Fallback description]
-- Other Relevant Products: [List of other mentioned products OR empty list]
+    # Module 2 - Know the Product (Analyze the Key Offering & Ecosystem)
 
-**Quick Summary:** (Remains the same - focused on the researched product/fallback)
+    1. Quick Summary (Executive Overview & Context):
 
----
+    - Purpose: Provide a concise summary of the analysis below, explicitly stating the context and the reasoning for the product identification strategy used.
+    - Content (Populate the 'quick_summary' field in the JSON):
+        - *Start with the identification statement:* Clearly state the *Primary Focus Product/Category* and specifically explain the reasoning based on Step 2 (e.g., "The JD emphasizes PM ownership ('owning the roadmap') for *Search, designating it as the primary focus...", "Multiple products (Search, Maps) were mentioned; **Search* is selected as the primary focus due to greater emphasis in the role's responsibilities...", "Based on the candidate's AI background in the resume aligning with mentions of AI features, *Search AI initiatives* are inferred as the primary focus...", "As no specific product was clearly defined for PM ownership, this analysis focuses on the flagship *[Fallback Product Name]...", "JD vague, focusing analysis on the *[Category Fallback]** category...").
+        - *If Contextual Products exist, list them:* (e.g., "...while acknowledging the role interacts with *Maps* and *Assistant*.").
+        - *Summarize Key Findings:* Briefly cover the Primary Focus Product's core function & problem solved, target user, key differentiator/USP, market position, latest news/release, and monetization, synthesizing info from the 6 cards.
 
-**Card 1: Core Offering**
+    6-Card Structure Guidance (Primary Focus + Comparative Mentions):
 
-- **Title:** Core Offering
-- **Summary Preview:** Understand the offering's primary function, pain points solved, and value proposition.
-- **Expanded Details:** (Content points as before)
-- **Sources:** [List of URLs/references.]
+    # (Cards 1 through 6 remain exactly the same as the previous version,
+    # including titles "Product Identity & Value" and "Strategy, News & Outlook",
+    # and instructions to focus on [Primary Focus Product] while mentioning
+    # [Contextual Products] where relevant in subPoints.
+    # No changes needed to the card definitions themselves here.)
 
----
+    - Card 1: Product Identity & Value
+        - title: "Product Identity & Value"
+        - summary: "Understand the core purpose, problems solved, and unique value of the primary product focus."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+             # (Instructions as before: Core Function, Problems Solved, UVP, Differentiators - focused on Primary, mention Contextual)
+            - main: "Primary Focus: Core Function", subPoints: ["Describe precisely what the [Primary Focus Product] does.", "What capability does it primarily enable?"]
+            - main: "Primary Focus: Problems Solved", subPoints: ["List the top 2-3 specific pain points the [Primary Focus Product] addresses."]
+            - main: "Primary Focus: Unique Value Proposition (UVP)", subPoints: ["What is the main reason customers choose the [Primary Focus Product]?", "Quantify value if possible."]
+            - main: "Primary Focus: Key Differentiators", subPoints: ["List 2-3 specific aspects differentiating the [Primary Focus Product].", "(Mention relevant comparisons to *Contextual Products* here if applicable, e.g., '...differentiates from *[Contextual Product]* by focusing on X')."]
 
-**Card 2: Market** Position
+    - Card 2: Target Audience & Key Use Cases
+         # (Instructions as before)
+        - title: "Target Audience & Key Use Cases"
+        - summary: "Define the ideal users for the primary product focus and how they interact with it and potentially related products."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Primary Focus: Target User Personas", subPoints: ["Describe the main user segment(s) for the [Primary Focus Product]."]
+            - main: "Primary Focus: Key Use Cases / Workflows", subPoints: ["Describe the top 2-3 common tasks/workflows using the [Primary Focus Product].", "(Note if these workflows often involve *Contextual Products, e.g., '...often followed by using *[Contextual Product]** for Y')."]
+            - main: "Primary Focus: Jobs-To-Be-Done (JTBD)", subPoints: ["What 'job' are users hiring the [Primary Focus Product] to do?"]
 
-- **Title:** Market Position
-- **Summary Preview:** Explore the offering's target users, competitors, and unique differentiators.
-- **Expanded Details:** (Content points as before)
-- **Sources:** [List of URLs/references.]
 
----
+    - Card 3: Market Landscape & Positioning
+         # (Instructions as before)
+        - title: "Market Landscape & Positioning"
+        - summary: "Analyze the competitive environment for the primary product focus and its place within the market."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Primary Focus: Direct Competitors", subPoints: ["[Competitor 1 Name]: Key strength/focus, How [Primary Focus Product] differentiates.", "[Competitor 2 Name]: ..."]
+            - main: "Primary Focus: Indirect Competitors / Alternatives", subPoints: ["What other solutions might users employ instead?", "(Mention if *Contextual Products* sometimes serve as alternatives for specific tasks)."]
+            - main: "Primary Focus: Market Segment & Position", subPoints: ["Describe the specific market segment targeted by the [Primary Focus Product].", "Its perceived position (Leader, Challenger, etc.)."]
+            - main: "Market Trends Impacting Ecosystem", subPoints: ["List 1-2 key industry trends affecting the [Primary Focus Product] and potentially the *Contextual Products*."]
 
-**Card 3: Product Strategy & Tech**
 
-- **Title:** Product Strategy & Tech
-- **Summary Preview:** Review the offering's monetization, tech basis, recent updates, and future direction.
-- **Expanded Details:** (Content points as before)
-- **Sources:** [List of URLs/references.]
+    - Card 4: Strategy, News & Outlook
+         # (Instructions as before)
+        - title: "Strategy, News & Outlook"
+        - summary: "Understand the strategic direction, recent developments, and future outlook for the primary product focus."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Latest News (Primary Focus or Relevant)", subPoints: ["Identify the most recent relevant public announcement about the [Primary Focus Product] OR highly relevant company news impacting it.", "Summarize its key message.", "*If none found, state explicitly:* 'No specific recent public announcements found directly relating to [Primary Focus Product].'"]
+            - main: "Inferred Vision/Goal (Primary Focus)", subPoints: ["Based on available info, what seems to be the long-term aspiration for the [Primary Focus Product]?"]
+            - main: "Recent Strategic Shifts (Primary Focus)", subPoints: ["Have there been noticeable changes in focus for the [Primary Focus Product] in the last 6-12 months?"]
+            - main: "Potential Future Directions (Ecosystem)", subPoints: ["Based on trends, what are plausible next steps for the [Primary Focus Product]?", "(Mention potential interplay or impact on *Contextual Products* if relevant)."]
 
----
 
-**Card 4: Key Trends**
+    - Card 5: Key Features, Technology & Monetization
+         # (Instructions as before)
+        - title: "Key Features, Technology & Monetization"
+        - summary: "Highlight defining features, relevant tech, integrations, and the business model for the primary product focus."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Primary Focus: Defining Features & Value", subPoints: ["[Feature 1 Name]: Describe & explain its contribution to UVP.", "[Feature 2 Name]: ..."]
+            - main: "Primary Focus: Relevant Technology", subPoints: ["Mention tech only if strategically important (scalability, differentiation e.g., 'Proprietary AI')."]
+            - main: "Integration Ecosystem", subPoints: ["Note key integrations, especially mentioning *Contextual Products* if they integrate tightly (e.g., 'Integrates natively with *[Contextual Product]* for Z')."]
+            - main: "Primary Focus: Monetization Strategy", subPoints: ["How is value captured for the [Primary Focus Product]?"]
+            - main: "Primary Focus: Pricing Structure (if known)", subPoints: ["Describe key tiers/structure for the [Primary Focus Product]."]
 
-- **Title:** Key Trends
-- **Summary Preview:** Analyze key market, tech, and environmental trends impacting the offering.
-- **Expanded Details:**
-    - Market Trends: [Key trends in the offering's specific market.]
-    - Technology Trends: [Relevant tech advancements impacting the space.]
-    - Regulatory Environment: [Key regulations or compliance factors OR "No major specific factors noted".]
-    - Cultural/Societal Shifts: [Relevant changes in user behavior or societal expectations OR "No major specific factors noted".]
-    - Economic Environment: [Relevant macroeconomic factors OR "No major specific factors noted".]
-- **Sources:** [List of URLs/references - likely broader sources
+
+    - Card 6: SWOT Analysis (Primary Focus)
+         # (Instructions as before)
+        - title: "SWOT Analysis (Primary Focus)"
+        - summary: "A strategic summary of the primary product's internal strengths/weaknesses and external opportunities/threats."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Strengths (Primary Focus)", subPoints: ["List 2-3 internal advantages of the [Primary Focus Product]."]
+            - main: "Weaknesses (Primary Focus)", subPoints: ["List 2-3 internal disadvantages of the [Primary Focus Product]."]
+            - main: "Opportunities (Ecosystem Context)", subPoints: ["List 1-2 external opportunities for the [Primary Focus Product], (consider synergies with *Contextual Products*)."]
+            - main: "Threats (Ecosystem Context)", subPoints: ["List 1-2 key external threats to the [Primary Focus Product], (consider competitive moves involving *Contextual Products*)."]
     ----
     Give me response in this JSON format only:
     {
-    "quick_summary": "",
+    "quick_summary": "Very long information description that summarizes all of these cards or sub modules",
     "sub_modules": [
         {
-        "title": "Core Offering",
+        "title": "Product Identity & Value",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -306,7 +373,8 @@ def product_research_fun(data):
         ]
         },
         {
-        "title": "Market Position",
+        "title": "Target Audience & Key Use Cases",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -326,7 +394,8 @@ def product_research_fun(data):
         ]
         },
         {
-        "title": "Product Strategy & Tech",
+        "title": "Market Landscape & Positioning",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -346,7 +415,8 @@ def product_research_fun(data):
         ]
         },
         {
-        "title": "Key Trends",
+        "title": "Strategy, News & Outlook",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -366,7 +436,50 @@ def product_research_fun(data):
             "main": "some main title",
             "subPoints": ["information description 1", "information description 2", "..."]
             },
-            "..."
+            {
+        "title": "Key Features, Technology & Monetization",
+"completed":false,
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
+        "points": [
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+        "title": "SWOT Analysis (Primary Focus)",
+"completed":false,
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
+        "points": [
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            }
         ]
         }
     ]
@@ -445,10 +558,11 @@ def job_description_analysis_fun(data):
     ----
     Give me response in this JSON format only:
     {
-    "quick_summary": "",
+    "quick_summary": "Very long information description that summarizes all of these cards or sub modules",
     "sub_modules": [
         {
         "title": "Core Responsibility",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -481,6 +595,7 @@ def job_description_analysis_fun(data):
         },
         {
         "title": "Skills & Experience Needed",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -501,6 +616,7 @@ def job_description_analysis_fun(data):
         },
         {
         "title": "How Your Impact Will Be Measured",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -521,6 +637,7 @@ def job_description_analysis_fun(data):
         },
         {
         "title": "Team Structure",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -585,10 +702,11 @@ stand out as a strong fit.
     ----
     Give me response in this JSON format only:
     {
-    "quick_summary": "",
+    "quick_summary": "Very long information description that summarizes all of these cards or sub modules",
     "sub_modules": [
         {
         "title": "Key Strengths & Alignment",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -621,6 +739,7 @@ stand out as a strong fit.
         },
         {
         "title": "Potential Gaps & How to Address",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
@@ -641,6 +760,7 @@ stand out as a strong fit.
         },
         {
         "title": "Standout Experiences to Highlight",
+"completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
