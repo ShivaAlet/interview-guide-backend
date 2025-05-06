@@ -25,6 +25,7 @@ app = Flask(__name__)
 CORS(app)
 
 ACCESS_KEY = os.getenv("accessKey")
+UPDATE_CSV_KEY = os.getenv("UPDATE_CSV_KEY")
 SECRET_KEY=os.getenv("SECRET_KEY")
 
 YOUR_GOOGLE_CLIENT_ID=os.getenv("YOUR_GOOGLE_CLIENT_ID")
@@ -281,6 +282,13 @@ def mark_as_complete(guideId,mainModule,subModuleInd):
 
 @app.route('/update-csv', methods=['GET'])
 def update_csv():
+    updatecsvkey = request.args.get('updatecsvkey')
+    if not updatecsvkey:
+        return jsonify({'error': 'Missing required parameter: updatecsvkey'}), 400
+    
+    if updatecsvkey!=UPDATE_CSV_KEY:
+        return jsonify({'error': 'incorrect csv key'}), 400
+
     file_path = utils.fetch_data_and_convert_to_csv(googleAuth)
     utils.upload_csv_to_drive(file_path)
     return {"message": "CSV updated in Google Drive successfully!"}, 200
