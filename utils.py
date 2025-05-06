@@ -124,7 +124,7 @@ def save_service_account_file():
 
 def fetch_data_and_convert_to_csv(collection):
         # Fetch only the required fields
-    cursor = collection.find({}, {'_id': 0, 'username': 1, 'useremail': 1, 'createdAt': 1})
+    cursor = collection.find({}, {'_id': 0, 'name': 1, 'email': 1, 'createdAt': 1})
     data = list(cursor)
 
     # Convert each document's 'createdAt' to the desired format
