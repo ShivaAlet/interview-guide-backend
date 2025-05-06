@@ -3,6 +3,11 @@ import json
 from datetime import datetime
 from dotenv import load_dotenv
 import myPrompts
+import pandas as pd
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaFileUpload
+import base64
 import os
 load_dotenv()
 
@@ -102,3 +107,66 @@ def convert_objectid(obj):
     if "_id" in obj:
         obj["_id"] = str(obj["_id"])
     return obj
+
+
+def save_service_account_file():
+    b64_creds = os.environ.get("GOOGLE_CREDENTIALS_BASE64")
+    if not b64_creds:
+        raise Exception("Missing GOOGLE_CREDENTIALS_BASE64 environment variable")
+
+    decoded = base64.b64decode(b64_creds)
+    file_path = "service_account.json"
+
+    with open(file_path, "wb") as f:
+        f.write(decoded)
+
+    return file_path
+
+def fetch_data_and_convert_to_csv(collection):
+        # Fetch only the required fields
+    cursor = collection.find({}, {'_id': 0, 'username': 1, 'useremail': 1, 'createdAt': 1})
+    data = list(cursor)
+
+    # Convert each document's 'createdAt' to the desired format
+    for doc in data:
+        if 'createdAt' in doc and isinstance(doc['createdAt'], datetime):
+            doc['createdAt'] = doc['createdAt'].strftime('%d %b, %Y %H:%M:%S')
+        elif 'createdAt' in doc:
+            # In case it's a string from MongoDB, parse it first
+            try:
+                doc['createdAt'] = datetime.fromisoformat(str(doc['createdAt']).replace('Z', '+00:00')).strftime('%d %b, %Y %H:%M:%S')
+            except:
+                doc['createdAt'] = ''
+    df = pd.DataFrame(data)
+
+    csv_path = "data.csv"
+    df.to_csv(csv_path, index=False)
+    return csv_path
+
+SCOPES = [os.getenv("GOOGLEAPIDRIVE")]
+SERVICE_ACCOUNT_FILE = save_service_account_file()
+FOLDER_ID = os.getenv("FOLDER_ID")
+CSV_FILE_ID = os.getenv("CSV_FILE_ID")
+
+def upload_csv_to_drive(file_path):
+    creds = service_account.Credentials.from_service_account_file(
+        SERVICE_ACCOUNT_FILE, scopes=SCOPES
+    )
+    service = build('drive', 'v3', credentials=creds)
+
+    file_metadata = {
+        'name': 'data.csv',
+        'mimeType': 'application/vnd.google-apps.spreadsheet',
+        'parents': [FOLDER_ID],
+    }
+
+    media = MediaFileUpload(file_path, mimetype='text/csv')
+
+    # If file exists, update it
+    if CSV_FILE_ID:
+        service.files().update(fileId=CSV_FILE_ID, media_body=media).execute()
+    else:
+        file = service.files().create(
+            body=file_metadata, media_body=media, fields='id'
+        ).execute()
+        print(f"Uploaded CSV File ID: {file.get('id')}")

@@ -279,7 +279,12 @@ def mark_as_complete(guideId,mainModule,subModuleInd):
     except Exception as e:
         return jsonify({"status": "Not Ok", "error": str(e)}), 400
 
+@app.route('/update-csv', methods=['GET'])
+def update_csv():
+    file_path = utils.fetch_data_and_convert_to_csv(googleAuth)
+    utils.upload_csv_to_drive(file_path)
+    return {"message": "CSV updated in Google Drive successfully!"}, 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-    # app.run(debug=True)
+    # app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)
