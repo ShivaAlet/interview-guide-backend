@@ -44,7 +44,7 @@ def ask_questions():
         return jsonify({"status": "Not Ok", "error": "Missing or invalid access key"}), 400
 
     try:
-        required_keys = ["company_name", "company_website", "job_role", "job_description", "token"]
+        required_keys = ["company_name", "job_role", "job_description", "token"]
         data = request.form
 
         if not all(key in data for key in required_keys) or "resume" not in request.files:
