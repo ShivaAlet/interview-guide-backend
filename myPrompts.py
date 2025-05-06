@@ -829,7 +829,6 @@ Card 6: Key Themes & Interview Angles
     '''
     return job_description_analysis
 
-
 def resume_experience_to_highlight_to_stand_out_fun(data):
     resume_experience_to_highlight_to_stand_out = '''
     Analyse this entire
@@ -949,3 +948,811 @@ stand out as a strong fit.
 
     '''
     return resume_experience_to_highlight_to_stand_out
+
+def recruiter_screen_preparation_fun(data):
+    recruiter_screen_preparation = '''
+    Analyse this entire
+    '''+data+'''
+    ----
+   Act as an expert career coach specializing in early-stage interview 
+preparation. Analyze the provided Job Description (JD) and typical 
+recruiter screen objectives to generate a comprehensive guide for this
+role candidate's first call with a recruiter. Focus on 
+interpreting the JD in the context of this screening stage, predicting 
+likely questions tailored to the JD, suggesting effective ways to 
+approach answers, and providing insightful questions for the candidate 
+to ask, all within a 4-card JSON structure.
+
+**Constraints for JSON Output:**
+
+- Generate **exactly 4** sub_modules (cards) as detailed below.
+- Keep the content field empty ("") for all sub_modules.
+- Use the provided JD text as a key source for tailoring typical recruiter
+screen topics, predicting questions, and extracting quick facts. If
+Resume is also provided as input, use it *only* for guidance in crafting the "Tell me about yourself" pitch (Card 2), *not* for tailoring other questions or facts derived *from the JD*.
+- Maintain a clear Product Management candidate's perspective.
+- For subPoints, include specific examples of *predicted questions*, *suggested strategies/talking points*, and *insightful questions to ask*.
+- Clearly state when information for a specific quick fact (like salary range or location/remote status) is *not found* or is ambiguous in the provided JD.
+- Ensure the complexity of questions and suggested answers is appropriate for an initial recruiter screening call (generally higher level than
+technical/panel interviews).
+
+*Module Title:* Recruiter Screen Prep
+
+*Key Interview Prep Snapshot (Quick Summary)*
+
+- **Instruction:** Generate a concise (3-4 sentence) quick summary for the quick_summary JSON field.
+- **Content:** Briefly state the purpose of the recruiter screen (basic fit,
+qualifications check, logistics) and how this module helps (call
+objectives, quick facts, predicted questions, questions to ask).
+Explicitly state that this preparation is tailored based on the provided JD (and Resume, if used).
+
+*Card 1: Call Rubric & Quick Facts*
+
+- **Instruction:** Generate the JSON object for the first sub_module.
+- *Title:* Call Rubric & Quick Facts
+- *Summary Preview:* What the recruiter is screening for in this round and key logistical details from the JD.
+- *Expanded Details:* (These become the mainPoints in the JSON points array)
+    - Purpose of the Recruiter Screen: [Explain the main objectives from the
+    recruiter's perspective (e.g., verify basic qualifications match JD,
+    assess communication skills, gauge enthusiasm/fit signals, confirm
+    logistics). Interpret *how* the recruiter will likely evaluate the candidate at this stage based on typical practices.]
+    - Key Evaluation Areas: [Summarize the core things the recruiter will likely
+    be listening for (e.g., clarity in communication, relevant experience
+    keywords aligning with JD, demonstrated interest, alignment on key
+    requirements like location/salary, basic cultural fit signals).]
+    - Salary Information from JD: [State explicitly if a salary range or specific
+    salary information was provided in the JD. If yes, state the
+    information. If no, state "Salary information not provided in the JD."]
+    - Location & Remote Status from JD: [State explicitly what the JD says about
+    location requirements or remote work options. If it's ambiguous or not
+    mentioned, state this clearly ("Location/remote status unclear from JD"
+    or "Not specified in JD").]
+    - Other Logistical Details in JD: [Mention any other logistical requirements
+    explicitly stated (e.g., travel requirement, specific certification
+    needed for legal/compliance reasons mentioned in JD). State if none
+    specified.]
+
+---
+
+*Card 2: Craft Your Introduction*
+
+- **Instruction:** Generate the JSON object for the second sub_module.
+- *Title:* Craft Your Introduction
+- *Summary Preview:* Guidance on creating a compelling "Tell me about yourself" pitch tailored to this specific role.
+- *Expanded Details:* (These become the mainPoints)
+    - Strategy for Tailoring Your Pitch: [Explain the importance of tailoring the
+    "Tell me about yourself" answer to the specific JD. Advise connecting
+    past experience directly to the required skills and responsibilities
+    mentioned in the JD (reference key areas from JD analysis if available,
+    otherwise infer from typical PM responsibilities). Explain the
+    'Past-Present-Future' framework commonly used.]
+    - Key Elements to Highlight (Based on JD): [Suggest specific types of
+    experiences or skills from a typical PM background (or the candidate's
+    resume if provided) that are most relevant to *this specific role* based on keywords, responsibilities, and required qualifications in the JD. Provide examples like "Highlight experience managing [type of
+    project from JD]," "Emphasize your skills in [specific required skill
+    from JD]."]
+    - Connecting Your Experience to the Role's Needs: [Advise using language from the
+    JD. For instance, if the JD emphasizes "cross-functional collaboration," suggest framing experiences using similar terms. If it mentions
+    "driving impact," suggest concluding points by summarizing the positive
+    outcomes of past work.]
+    - Practice and Timing: [Advise practicing the pitch to be concise, ideally 2-3
+    minutes long, focusing on clarity and enthusiasm, not rushing through
+    details.]
+
+---
+
+*Card 3: Predicted Recruiter Questions*
+
+- **Instruction:** Generate the JSON object for the third sub_module.
+- *Title:* Predicted Recruiter Questions
+- *Summary Preview:* Likely questions you'll be asked, tailored based on the JD and common screening topics.
+- *Expanded Details:* (These become the mainPoints, each containing tailored question examples as subPoints)
+    - Background and Experience Questions: [Generate 5-6 questions. Tailor these
+    questions to probe the candidate's relevant past roles, industry
+    experience (if specified or preferred in JD), and how their overall
+    background aligns with the basic qualifications listed in the JD.]
+    - Role-Specific & Foundational PM Questions: [Generate 4-5 questions. Tailor these
+    questions to touch upon the key responsibilities, specific required
+    skills/tools/methodologies, and domain expertise mentioned in the JD
+    (linking to key areas from JD analysis if available). Keep these at a
+    recruiter-level (higher level) check, not deep technical dives.]
+    - Teamwork & Collaboration Questions: [Generate 4-5 questions. Tailor these
+    questions based on the team structure, reporting lines, and implied
+    collaboration style described in the JD (linking to key areas from JD
+    analysis if available). Focus on how the candidate interacts with
+    others.]
+    - Motivation & Company/Product Interest Questions: [Generate 4-5 questions.
+    Tailor these questions to ask about the candidate's specific interest in this role, the company, its products, and how their career goals align
+    (linking to key areas from JD analysis if available).]
+    - General & Logistical Questions: [Generate 3-5 questions. Include standard
+    logistical questions not covered in Card 1 (e.g., "What are you looking
+    for in terms of company culture?") and wrap up any other general
+    questions relevant for screening.]
+
+---
+
+*Card 4: Insightful Questions to Ask*
+
+- **Instruction:** Generate the JSON object for the fourth sub_module.
+- *Title:* Insightful Questions to Ask
+- *Summary Preview:* Recommended questions to ask the recruiter, tailored to the JD, to show engagement and gather information.
+- *Expanded Details:* (These become the mainPoints, each containing tailored question examples as subPoints)
+    - Questions About the Role & Team: [Generate 3-4 thoughtful questions about the day-to-day of the role, immediate priorities, team dynamics, or
+    specific responsibilities mentioned in the JD that could use
+    clarification. Frame these as questions a recruiter *can* likely answer and that show the candidate has thought about the role.]
+    - Questions About the Interview Process: [Generate 2-3 essential questions about
+    the next steps, number of rounds, timeline, and what the candidate
+    should expect in subsequent interviews.]
+    - Questions About Company/Team Culture from Recruiter's View: [Generate 2-3
+    questions that leverage the recruiter's perspective on the company or
+    product team culture, work environment, or values. Tailor if the JD
+    hints at a specific culture or way of working (e.g., asking about
+    collaboration style if the JD emphasizes it).]
+    - Clarifying JD Details or Strategic Context: [Generate 1-2 questions specifically
+    designed to clarify something potentially ambiguous or strategic
+    mentioned in the JD (linking to key areas from JD analysis if
+    available). Frame these as questions stemming from the candidate's
+    analysis of the role.]
+
+    ----
+    Give me response in this JSON format only:
+    {
+    "quick_summary": "Very long information description that summarizes all of these cards or sub modules",
+    "sub_modules": [
+        {
+        "title": "Call Rubric & Quick Facts",
+"completed":false,
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
+        "points": [
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            "..."
+        ]
+        },
+        {
+        "title": "Craft Your Introduction",
+"completed":false,
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
+        "points": [
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            "..."
+        ]
+        },
+        {
+        "title": "Predicted Recruiter Questions",
+"completed":false,
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
+        "points": [
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            
+            "..."
+        ]
+        },
+         {
+        "title": "Insightful Questions to Ask",
+"completed":false,
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
+        "points": [
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            
+            "..."
+        ]
+        }
+        ]
+        }
+    ]
+    }
+
+    '''
+    return recruiter_screen_preparation
+
+def favorite_product_question_fun(data):
+    favorite_product_question = '''
+    Analyse this entire
+    '''+data+'''
+    ----
+   ## 🧠 Overview: “What’s Your Favorite Product?” Interview Question
+
+### ✅ Summary
+
+This is one of the most common product management interview questions. It seems casual, but it's designed to assess how you think about products, empathize with users, and communicate clearly.
+
+In this module, you’ll learn:
+- Why interviewers ask this question
+- What to expect during the interview
+- Common variations of the question
+- Tips for choosing a great product
+- An example of how to suggest an improvement
+
+---
+
+### 🤔 Why Do Interviewers Ask This?
+
+This question acts as a **low-pressure warm-up** to help the interviewer evaluate:
+- Your product thinking and user empathy
+- Your ability to analyze strengths, weaknesses, and tradeoffs
+- Your communication skills and enthusiasm for product work
+
+It’s also a fun way for them to get to know your interests and how you see the world.
+
+---
+
+### 📋 What to Expect
+
+- This is often the **first real question** in a PM interview.
+- The conversation usually lasts **5–10 minutes**.
+- Expect a **casual tone**, but be ready for deeper follow-ups.
+
+**Common follow-up questions include:**
+- “How would you improve it?”
+- “What’s a product you dislike?”
+- “How would you measure its success?”
+- “What if you were the CEO — what would you change?”
+
+---
+
+### 🔁 Common Variants
+
+Interviewers may tweak the question to test your flexibility. Examples include:
+- “What’s your favorite Google product?”
+- “What’s your favorite non-tech product?”
+- “What are your top 3 favorite products?”
+- “What’s a product you hate that others love?”
+- “What’s a product with untapped potential?”
+
+---
+
+### 💡 How to Choose a Good Product
+
+Pick something that reflects your:
+- **Passion** — You enjoy using it and have real opinions about it.
+- **Perspective** — You understand its strengths and limitations.
+- **Personality** — It gives insight into how you think and work.
+
+**Tips:**
+- ✅ You can choose something popular — just add depth to your take.
+- ✅ Obscure products are fine — explain them clearly.
+- ❌ Avoid direct competitors of the company you’re interviewing with.
+- ❌ Avoid products that are too simple to discuss for 5–10 minutes.
+
+---
+
+### ✏️ Example Product Improvement
+
+> “One thing I’d improve about Notion is its search experience. Right now, it’s hard to retrieve notes across pages. I’d introduce a lightweight tagging system, like #econ or #design, that automatically groups tagged content into a dynamic dashboard for easier synthesis.”
+
+Card 2:
+This card should teach users the framework for answering the interview question: “What is your favorite product and how would you improve it?”
+
+Audience: Early to mid-career professionals preparing for PM interviews at top tech firms (Google, Meta, Amazon, OpenAI, etc.).
+
+Goal: Help the user internalize a repeatable, 5-step framework to structure their answer clearly, confidently, and concisely.
+
+Format:
+
+- Title:   Framework to answer “Favorite Product” Interview Question
+- Subtitle: Use this 5-step framework to stand out with confidence
+- Body:
+    1. ✅ Pick the Right Product – Choose 3 digital and 1 physical product. Avoid culturally niche or overused answers.
+    2. 🧭 Intro in One Sentence – Clearly explain the product’s function (e.g., “Waze helps users navigate from A to B efficiently.”).
+    3. 👥 Define Customer Segments – List 3–4 segments and highlight which one you belong to.
+    4. 💢 Pain-Driven Features  – For 3 pain points, explain:
+        - Pain → App Feature → Impact
+    5. 🔧 Suggest Improvements – Use one of four angles:
+        - Align with mission
+        - Solve unmet needs
+        - Leverage new tech (e.g., AI)
+        - Fix broken user journeys
+
+Tone: Friendly, professional, sharp, clear. Use emojis or icons to improve readability.
+## 📘 Title: Answering the “Favorite Product” Interview Question  
+**🧠 Subtitle:** Use this 5-step framework to stand out with confidence  
+
+---
+## 🧩 Summary
+
+Learn a proven 5-step framework to confidently answer the PM interview question:  
+**“What is your favorite product and how would you improve it?”**  
+
+You’ll learn how to:
+- Select the right product (and what to avoid)
+- Give a sharp one-sentence intro
+- Identify and personalize customer segments
+- Tie features to pain points using the PAINO method
+- Suggest thoughtful, strategic improvements
+
+---
+
+### ✅ 1. Pick the Right Product  
+- Choose **3 digital** and **1 physical** product in advance  
+- Avoid:
+  - **Culturally niche** tools (e.g., WeChat, rice cookers)
+  - **Overused answers** (e.g., Spotify, Netflix)
+- Select products your **interviewer likely uses or knows**
+
+---
+
+### 🧭 2. Intro in One Sentence  
+Briefly describe what the product does.  
+**Example:**  
+> “Waze helps users navigate from point A to B using real-time traffic data.”
+
+---
+
+### 👥 3. Define Customer Segments  
+List **3–4 user types** and highlight **which one you identify with**.  
+**Example:**  
+> “As a new parent, I use Waze to avoid long drives with a crying baby.”
+
+---
+
+### 💢 4. Pain-Driven Features
+For each of **3 pain points**, follow this formula:  
+**Pain → App Feature → Outcome**  
+- Tie real, emotional user needs to key features  
+**Example:**  
+> “Pain: Traffic stresses me out with kids in the car  
+> → Feature: Waze reroutes in real time  
+> → Outcome: I stay calm and get there faster.”
+
+---
+
+### 🔧 5. Suggest Improvements  
+Use **one or more** of these 4 angles:
+1. 🎯 Align with the company’s **mission**
+2. 🚫 Address **unmet user needs**
+3. 🤖 Add **tech-based value** (e.g., AI-powered suggestions)
+4. 🎧 Improve the **end-to-end journey** (e.g., music/podcast integrations)
+
+    ----
+    Give me response in this JSON format only:
+    {
+    "quick_summary": "Very long information description that summarizes all of these cards or sub modules",
+    "sub_modules": [
+        {
+        "title": "What’s Your Favorite Product?",
+"completed":false,
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
+        "points": [
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            "..."
+        ]
+        },
+        {
+        "title": "Answering the “Favorite Product” Interview Question",
+"completed":false,
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
+        "points": [
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            "..."
+        ]
+        },
+        {
+        "title": "Predicted Recruiter Questions",
+"completed":false,
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
+        "points": [
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            
+            "..."
+        ]
+        },
+         {
+        "title": "Insightful Questions to Ask",
+"completed":false,
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
+        "points": [
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            
+            "..."
+        ]
+        }
+        ]
+        }
+    ]
+    }
+
+    '''
+    return favorite_product_question
+
+def product_design_fun(data):
+    product_design = '''
+    Analyse this entire
+    '''+data+'''
+    ----
+   **Quick Summary**
+
+Please provide a summary of the key learnings from [card 1] [card 2]
+
+---
+
+**Card 1: Overview of Product Design Questions**
+
+**Summary**
+
+Please provide a quick summary of the key learnings from the product design overview.
+
+*Key Points* 
+
+**What to Expect:**
+*Describe the typical format of a product design question (e.g., open-ended, problem-solving).
+*   List common types of product design questions (e.g., "Design X for Y," "Improve Z," "How would you measure success for W?").
+*   Explain the general flow you should follow when answering (mentioning a process like the one we discussed previously, e.g., Clarify, User, Pain Points, Solution, Metrics).
+
+**What Interviewers are Looking For:**
+
+- Explain the core skills and mindsets that interviewers assess through these questions (e.g., Product Sense, User Empathy, Structured Thinking, Problem Solving, Creativity, Communication, Prioritization, Technical Feasibility awareness).
+- Describe *how* they look for these qualities during your answer (e.g., through your clarifying questions, your user analysis, the structure of your response, the range of solutions considered, how you justify your choices).
+
+**Sample Answers: "Good" vs. "Great":**
+
+- Choose a single, representative sample product design question (e.g., "Design a product to help people find a hiking trail").
+- Provide a "Good" answer to this question. This answer should follow a basic structure but might lack depth, strong rationale, or clear prioritization.
+- Provide a "Great" answer to the *same* question. This answer should follow a structured framework rigorously, demonstrate deeper user understanding, stronger rationale for choices, consideration of trade-offs, clearer prioritization, and better communication.
+- *Crucially*, provide a clear explanation highlighting the specific differences between the "Good" and the "Great" answer, pointing out *why* the "Great" answer is superior based on the criteria mentioned in the "What Interviewers are Looking For" section.
+
+**Why do companies ask Product Design questions:**
+
+- Explain the purpose of these questions from the company's perspective. Why is this a necessary part of the interview process? (e.g., To simulate real-world problem-solving, assess how candidates think under pressure, see their structured approach, evaluate communication skills, gauge passion for product).Provide any short historical context for such interview question.
+
+**Evaluation Rubric:**
+
+- Outline a hypothetical rubric that interviewers might use to evaluate candidates' answers.
+- Break down the evaluation into key criteria (similar to the skills mentioned in section 2, e.g., Problem Framing, User Focus, Solutioning, Communication, Structure).
+- For each criterion, briefly describe what different performance levels might look like (e.g., Poor, Good, Great, or similar levels). Provide tangible examples of what demonstrates "Good" vs. "Great" performance for each criterion *within the context of answering a product design question*.
+
+---
+
+**Card 2: How to Answer Product Design Questions**
+
+- Sample LLM response
+    
+    ![Screen Shot 2025-05-05 at 2.31.44 AM.png](attachment:b212eadf-ffb9-44c1-a3fe-980e47889b5a:Screen_Shot_2025-05-05_at_2.31.44_AM.png)
+    
+
+**Summary**
+
+Please provide a summary of the key learnings from the product design framework for answering product design questions
+
+**Optional Instructions**
+
+Act as an instructor explaining "Card 2: How to Answer Product Design Questions".
+
+Teach me the step-by-step framework provided below. For EACH step in the framework, please include the specific examples, advice, rationale, frameworks, and sound bites mentioned in the list under that step.
+
+Explain each step clearly before moving to the next, providing the requested details for each.
+
+**Key points** 
+
+Framework:
+
+- Clarify and get context
+    - (Include sample clarifying questions)
+- Mission/Vision
+    - (Include advice for known company mission)
+    - (Include advice for unknown company mission)
+- Define Personas (user groups)
+    - (Include an example of user groups)
+    - (Include advice on identifying groups)
+    - (Include an example of prioritization rationale)
+    - (Include advice on prioritizing groups)
+- User Journey
+    - (Include an example of a user journey)
+    - (Include advice on articulating the journey)
+- Identify User Pain Points and Opportunity Areas
+    - (Include example/advice on finding pain points from journey)
+    - (Include advice on prioritizing pain points for MVP)
+- Brainstorm possible solutions
+    - (Include advice on brainstorming a spectrum)
+    - (Include advice on evaluating/prioritizing solutions for MVP)
+- Define a product vision
+    - (Include an example of a product/new feature vision)
+- Prioritize features
+    - (Include framework/advice on prioritizing features)
+- Success Metrics
+    - (Include sound bites/advice on defining success metrics)
+- draft
+    
+    Summary
+    
+    Provide a summary of main takeaways for the product design questions framework below
+    
+    *Key Points* 
+    
+    Framework
+    
+    - Clarify and get context
+        - provide sample clarifying questions
+    - Mission/Vision
+        - provide users advice on how to define the mission of the company if they know the company
+        - provide users advice on how to define the mission of the company if they don’t know much about the company
+    - Define Personas (user groups)
+        - provide an example of defining user groups
+        - provide advice on how to think through identifying the user groups
+        - provide example of rationale on how to prioritize/choose a user group
+        - provide advice on how to prioritize/choose a user group
+    - User Journey
+        - Provide an example of a user journey
+        - Provide advice how to articulate user journey
+    - Identify User Pain Points and Opportunity Areas
+        - Provide example/advice on how to identify user pain points from the user journey
+        - Provide advice on how prioritize pain points for the MVP
+    - Brainstorm possible solutions
+        - Provide advice on how to brainstorm a spectrum of solutions for the problem
+        - Provide advice on how to evaluate prioritize solution (e.g., mission/vision, impact metrics)for the MVP
+    - Define a product vision
+        - Provide an example of a product/new feature vision
+    - Prioritize features
+        - Provide framework/advice on how to priortize features (e.g., pros/cons)
+    - Success Metrics
+        - Provide sound bites on how to define success metric for this new feature/product design
+        
+
+---
+
+**Card 3: Sample product design question for [company]**
+
+Based on the [job description] create a mock product design interview question that would be suitable for a candidate applying for this role.
+
+**Card 4: Sample product design question for [company]**
+
+Create a mock product design interview question that would be suitable for a candidate applying for this role focused on the industry based on the [company].
+
+or 
+
+Generate ONE open-ended product design question that:
+
+1. Is highly relevant to the **[Industry Name] industry**.
+2. Connects meaningfully to **[Company]** context (even if not directly about their most famous product feature).
+3. Aligns with the **focus area, key responsibilities, and target user group** mentioned in the job description context.
+4. Requires the candidate to think through a standard product design process (understanding users/problems, brainstorming solutions, considering trade-offs/feasibility, defining success metrics).
+
+    ----
+    Give me response in this JSON format only:
+    {
+    "quick_summary": "Very long information description that summarizes all of these cards or sub modules",
+    "sub_modules": [
+        {
+        "title": "Overview of Product Design Questions",
+"completed":false,
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
+        "points": [
+            {
+            "main": "What to Expect",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "What Interviewers are Looking For",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "Sample Answers: "Good" vs. "Great"",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "Why do companies ask Product Design questions",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "Evaluation Rubric",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            "..."
+        ]
+        },
+        {
+        "title": "How to Answer Product Design Questions",
+"completed":false,
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
+        "points": [
+            {
+            "main": "Clarify and get context",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "Mission/Vision",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "Define Personas (user groups)",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "User Journey",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "Identify User Pain Points and Opportunity Areas",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "Brainstorm possible solutions",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "Define a product vision",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "Prioritize features",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "Success Metrics",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            }
+            "..."
+        ]
+        },
+        {
+        "title": "Sample product design question for [company]",
+"completed":false,
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
+        "points": [
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            
+            "..."
+        ]
+        },
+         {
+        "title": "..",
+"completed":false,
+        "summary": "a full summary text of some long length that summarizes all these modules",
+        "content": "some full long information text",
+        "points": [
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            
+            "..."
+        ]
+        }
+        ]
+        }
+    ]
+    }
+
+    '''
+    return product_design
