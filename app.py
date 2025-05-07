@@ -81,6 +81,16 @@ def ask_questions():
         if user is None:
             return jsonify({"error": "User not found"}), 404
 
+        if "resume" not in request.files or request.files["resume"].filename == '':
+            userHistory=json.loads(dumps(user))["history"]
+            existsResumes = []
+            for history in userHistory:
+                if "companyData" in history and "resume" in history["companyData"] and history["companyData"]["resume"]!="":
+                    existsResumes.append(history["companyData"]["resume"])
+            if len(existsResumes)==0:
+                return jsonify({"status":"Not Ok","error":"Existing resume not found"}),200
+            resume_text = existsResumes[-1]
+
         # Add extracted resume text to data
         updated_data = dict(data)
         updated_data["resume"] = resume_text
@@ -126,6 +136,51 @@ def ask_questions():
         if 'file_path' in locals() and os.path.exists(file_path):
             os.remove(file_path)
         return jsonify({"status": "Not Ok", "error": str(e)}), 400
+    
+@app.route('/check_resume', methods=['POST'])
+def check_resume():
+    access_key = request.headers.get('x-api-key')
+
+    if access_key != ACCESS_KEY:
+        return jsonify({"status": "Not Ok", "error": "Missing or invalid access key"}), 400
+
+    try:
+        required_keys = ["token"]
+        data = request.form
+
+        if not all(key in data for key in required_keys):
+            return jsonify({"error": "Missing keys"}), 400
+        
+        resume_text = ''
+        
+        # Use request.form to get 'token'
+        token = data.get('token')
+        idinfo = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        idinfo = idinfo["idinfo"]
+        user_email = idinfo['email']
+
+        user = googleAuth.find_one({"email": user_email})
+
+        if user is None:
+            return jsonify({"error": "User not found"}), 404
+
+        if "resume" not in request.files or request.files["resume"].filename == '':
+            userHistory=json.loads(dumps(user))["history"]
+            existsResumes = []
+            for history in userHistory:
+                if "companyData" in history and "resume" in history["companyData"] and history["companyData"]["resume"]!="":
+                    existsResumes.append(history["companyData"]["resume"])
+            if len(existsResumes)==0:
+                return jsonify({"status":"Not Ok","message":"Existing resume not found"}),200
+        return jsonify({"status":"Ok","message":"Resume exists"}),200
+
+    except ExpiredSignatureError:
+        return jsonify({"status":"Not Ok",'error': 'Token has expired'}), 401
+    except InvalidTokenError:
+        return jsonify({"status":"Not Ok",'error': 'Invalid token'}), 401
+    except Exception as e:
+        return jsonify({"status": "Not Ok", "error": str(e)}), 400
+ 
 
 @app.route('/google-login', methods=['POST'])
 def google_login():
