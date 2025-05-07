@@ -48,26 +48,27 @@ def ask_questions():
         required_keys = ["company_name", "job_role", "job_description", "token"]
         data = request.form
 
-        if not all(key in data for key in required_keys) or "resume" not in request.files:
-            return jsonify({"error": "Missing keys or resume file"}), 400
-
-        resume_file = request.files["resume"]
-        if resume_file.filename == '':
-            return jsonify({"error": "No selected PDF file"}), 400
-
-        # Save the file
-        filename = secure_filename(resume_file.filename)
-        file_path = os.path.join(UPLOAD_FOLDER, filename)
-        resume_file.save(file_path)
-
-        # Extract text from the resume
-        reader = PyPDF2.PdfReader(file_path)
+        if not all(key in data for key in required_keys):
+            return jsonify({"error": "Missing keys"}), 400
+        
         resume_text = ''
-        for page in reader.pages:
-            resume_text += page.extract_text()
+        
 
-        # Delete the uploaded file after processing
-        os.remove(file_path)
+        if "resume" in request.files and request.files["resume"].filename != '':
+            resume_file = request.files["resume"]
+
+            # Save the file
+            filename = secure_filename(resume_file.filename)
+            file_path = os.path.join(UPLOAD_FOLDER, filename)
+            resume_file.save(file_path)
+
+            # Extract text from the resume
+            reader = PyPDF2.PdfReader(file_path)
+            for page in reader.pages:
+                resume_text += page.extract_text()
+
+            # Delete the uploaded file after processing
+            os.remove(file_path)
 
         # Use request.form to get 'token'
         token = data.get('token')
@@ -294,5 +295,5 @@ def update_csv():
     return {"message": "CSV updated in Google Drive successfully!"}, 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-    # app.run(debug=True)
+    # app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)
