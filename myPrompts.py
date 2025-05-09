@@ -1210,158 +1210,109 @@ def favorite_product_question_fun(data):
     Analyse this entire
     '''+data+'''
     ----
-   ## 🧠 Overview: “What’s Your Favorite Product?” Interview Question
-
-### ✅ Summary
-
-This is one of the most common product management interview questions. It seems casual, but it's designed to assess how you think about products, empathize with users, and communicate clearly.
-
-In this module, you’ll learn:
-- Why interviewers ask this question
-- What to expect during the interview
-- Common variations of the question
-- Tips for choosing a great product
-- An example of how to suggest an improvement
-
+   Card 1: What’s Your Favorite Product?
+    - title: "🧠 Overview: “What’s Your Favorite Product?” Interview Question"
+    - summary: "A breakdown of one of the most common product management interview questions, why it’s asked, what to expect, variations, and how to answer effectively."
+    - details (Map to 'points' array using 'main'/'subPoints'):
+        - main: "✅ Summary", subPoints: [
+            "This is one of the most common product management interview questions. It seems casual, but it's designed to assess how you think about products, empathize with users, and communicate clearly.",
+            "In this module, you’ll learn:",
+            "- Why interviewers ask this question",
+            "- What to expect during the interview",
+            "- Common variations of the question",
+            "- Tips for choosing a great product",
+            "- An example of how to suggest an improvement"
+        ]
+        - main: "🤔 Why Do Interviewers Ask This?", subPoints: [
+            "This question acts as a low-pressure warm-up to help the interviewer evaluate:",
+            "- Your product thinking and user empathy",
+            "- Your ability to analyze strengths, weaknesses, and tradeoffs",
+            "- Your communication skills and enthusiasm for product work",
+            "It’s also a fun way for them to get to know your interests and how you see the world."
+        ]
+        - main: "📋 What to Expect", subPoints: [
+            "- This is often the first real question in a PM interview.",
+            "- The conversation usually lasts 5–10 minutes.",
+            "- Expect a casual tone, but be ready for deeper follow-ups.",
+            "Common follow-up questions include:",
+            "- “How would you improve it?”",
+            "- “What’s a product you dislike?”",
+            "- “How would you measure its success?”",
+            "- “What if you were the CEO — what would you change?”"
+        ]
+        - main: "🔁 Common Variants", subPoints: [
+            "Interviewers may tweak the question to test your flexibility. Examples include:",
+            "- “What’s your favorite Google product?”",
+            "- “What’s your favorite non-tech product?”",
+            "- “What are your top 3 favorite products?”",
+            "- “What’s a product you hate that others love?”",
+            "- “What’s a product with untapped potential?”"
+        ]
+        - main: "💡 How to Choose a Good Product", subPoints: [
+            "Pick something that reflects your:",
+            "- Passion — You enjoy using it and have real opinions about it.",
+            "- Perspective — You understand its strengths and limitations.",
+            "- Personality — It gives insight into how you think and work.",
+            "Tips:",
+            "✅ You can choose something popular — just add depth to your take.",
+            "✅ Obscure products are fine — explain them clearly.",
+            "❌ Avoid direct competitors of the company you’re interviewing with.",
+            "❌ Avoid products that are too simple to discuss for 5–10 minutes."
+        ]
+        - main: "✏️ Example Product Improvement", subPoints: [
+            "> “One thing I’d improve about Notion is its search experience. Right now, it’s hard to retrieve notes across pages. I’d introduce a lightweight tagging system, like #econ or #design, that automatically groups tagged content into a dynamic dashboard for easier synthesis.”"
+        ]
 ---
+Card 2: Favorite Product Answer Framework
+    - title: "📘 Title: Answering the “Favorite Product” Interview Question"
+    - summary: "Learn a proven 5-step framework to confidently answer the PM interview question: 'What is your favorite product and how would you improve it?'"
+    - details (Map to 'points' array using 'main'/'subPoints'):
+        - main: "🧠 Subtitle", subPoints: [
+            "Use this 5-step framework to stand out with confidence"
+        ]
+        - main: "🧩 Summary", subPoints: [
+            "You’ll learn how to:",
+            "- Select the right product (and what to avoid)",
+            "- Give a sharp one-sentence intro",
+            "- Identify and personalize customer segments",
+            "- Tie features to pain points using the PAINO method",
+            "- Suggest thoughtful, strategic improvements"
+        ]
+        - main: "✅ 1. Pick the Right Product", subPoints: [
+            "- Choose 3 digital and 1 physical product in advance",
+            "- Avoid:",
+            "  - Culturally niche tools (e.g., WeChat, rice cookers)",
+            "  - Overused answers (e.g., Spotify, Netflix)",
+            "- Select products your interviewer likely uses or knows"
+        ]
+        - main: "🧭 2. Intro in One Sentence", subPoints: [
+            "Briefly describe what the product does.",
+            "Example:",
+            "> “Waze helps users navigate from point A to B using real-time traffic data.”"
+        ]
+        - main: "👥 3. Define Customer Segments", subPoints: [
+            "List 3–4 user types and highlight which one you identify with.",
+            "Example:",
+            "> “As a new parent, I use Waze to avoid long drives with a crying baby.”"
+        ]
+        - main: "💢 4. Pain-Driven Features", subPoints: [
+            "For each of 3 pain points, follow this formula:",
+            "Pain → App Feature → Outcome",
+            "- Tie real, emotional user needs to key features",
+            "Example:",
+            "> “Pain: Traffic stresses me out with kids in the car",
+            "> → Feature: Waze reroutes in real time",
+            "> → Outcome: I stay calm and get there faster.”"
+        ]
+        - main: "🔧 5. Suggest Improvements", subPoints: [
+            "Use one or more of these 4 angles:",
+            "1. 🎯 Align with the company’s mission",
+            "2. 🚫 Address unmet user needs",
+            "3. 🤖 Add tech-based value (e.g., AI-powered suggestions)",
+            "4. 🎧 Improve the end-to-end journey (e.g., music/podcast integrations)"
+        ]
 
-### 🤔 Why Do Interviewers Ask This?
 
-This question acts as a **low-pressure warm-up** to help the interviewer evaluate:
-- Your product thinking and user empathy
-- Your ability to analyze strengths, weaknesses, and tradeoffs
-- Your communication skills and enthusiasm for product work
-
-It’s also a fun way for them to get to know your interests and how you see the world.
-
----
-
-### 📋 What to Expect
-
-- This is often the **first real question** in a PM interview.
-- The conversation usually lasts **5–10 minutes**.
-- Expect a **casual tone**, but be ready for deeper follow-ups.
-
-**Common follow-up questions include:**
-- “How would you improve it?”
-- “What’s a product you dislike?”
-- “How would you measure its success?”
-- “What if you were the CEO — what would you change?”
-
----
-
-### 🔁 Common Variants
-
-Interviewers may tweak the question to test your flexibility. Examples include:
-- “What’s your favorite Google product?”
-- “What’s your favorite non-tech product?”
-- “What are your top 3 favorite products?”
-- “What’s a product you hate that others love?”
-- “What’s a product with untapped potential?”
-
----
-
-### 💡 How to Choose a Good Product
-
-Pick something that reflects your:
-- **Passion** — You enjoy using it and have real opinions about it.
-- **Perspective** — You understand its strengths and limitations.
-- **Personality** — It gives insight into how you think and work.
-
-**Tips:**
-- ✅ You can choose something popular — just add depth to your take.
-- ✅ Obscure products are fine — explain them clearly.
-- ❌ Avoid direct competitors of the company you’re interviewing with.
-- ❌ Avoid products that are too simple to discuss for 5–10 minutes.
-
----
-
-### ✏️ Example Product Improvement
-
-> “One thing I’d improve about Notion is its search experience. Right now, it’s hard to retrieve notes across pages. I’d introduce a lightweight tagging system, like #econ or #design, that automatically groups tagged content into a dynamic dashboard for easier synthesis.”
-
-Card 2:
-This card should teach users the framework for answering the interview question: “What is your favorite product and how would you improve it?”
-
-Audience: Early to mid-career professionals preparing for PM interviews at top tech firms (Google, Meta, Amazon, OpenAI, etc.).
-
-Goal: Help the user internalize a repeatable, 5-step framework to structure their answer clearly, confidently, and concisely.
-
-Format:
-
-- Title:   Framework to answer “Favorite Product” Interview Question
-- Subtitle: Use this 5-step framework to stand out with confidence
-- Body:
-    1. ✅ Pick the Right Product – Choose 3 digital and 1 physical product. Avoid culturally niche or overused answers.
-    2. 🧭 Intro in One Sentence – Clearly explain the product’s function (e.g., “Waze helps users navigate from A to B efficiently.”).
-    3. 👥 Define Customer Segments – List 3–4 segments and highlight which one you belong to.
-    4. 💢 Pain-Driven Features  – For 3 pain points, explain:
-        - Pain → App Feature → Impact
-    5. 🔧 Suggest Improvements – Use one of four angles:
-        - Align with mission
-        - Solve unmet needs
-        - Leverage new tech (e.g., AI)
-        - Fix broken user journeys
-
-Tone: Friendly, professional, sharp, clear. Use emojis or icons to improve readability.
-## 📘 Title: Answering the “Favorite Product” Interview Question  
-**🧠 Subtitle:** Use this 5-step framework to stand out with confidence  
-
----
-## 🧩 Summary
-
-Learn a proven 5-step framework to confidently answer the PM interview question:  
-**“What is your favorite product and how would you improve it?”**  
-
-You’ll learn how to:
-- Select the right product (and what to avoid)
-- Give a sharp one-sentence intro
-- Identify and personalize customer segments
-- Tie features to pain points using the PAINO method
-- Suggest thoughtful, strategic improvements
-
----
-
-### ✅ 1. Pick the Right Product  
-- Choose **3 digital** and **1 physical** product in advance  
-- Avoid:
-  - **Culturally niche** tools (e.g., WeChat, rice cookers)
-  - **Overused answers** (e.g., Spotify, Netflix)
-- Select products your **interviewer likely uses or knows**
-
----
-
-### 🧭 2. Intro in One Sentence  
-Briefly describe what the product does.  
-**Example:**  
-> “Waze helps users navigate from point A to B using real-time traffic data.”
-
----
-
-### 👥 3. Define Customer Segments  
-List **3–4 user types** and highlight **which one you identify with**.  
-**Example:**  
-> “As a new parent, I use Waze to avoid long drives with a crying baby.”
-
----
-
-### 💢 4. Pain-Driven Features
-For each of **3 pain points**, follow this formula:  
-**Pain → App Feature → Outcome**  
-- Tie real, emotional user needs to key features  
-**Example:**  
-> “Pain: Traffic stresses me out with kids in the car  
-> → Feature: Waze reroutes in real time  
-> → Outcome: I stay calm and get there faster.”
-
----
-
-### 🔧 5. Suggest Improvements  
-Use **one or more** of these 4 angles:
-1. 🎯 Align with the company’s **mission**
-2. 🚫 Address **unmet user needs**
-3. 🤖 Add **tech-based value** (e.g., AI-powered suggestions)
-4. 🎧 Improve the **end-to-end journey** (e.g., music/podcast integrations)
 
     ----
     Give me response in this JSON format only:
@@ -1375,97 +1326,63 @@ Use **one or more** of these 4 angles:
         "content": "some full long information text",
         "points": [
             {
-            "main": "some main title",
+            "main": "Summary",
             "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
-            "main": "some main title",
+            "main": "Why Do Interviewers Ask This?",
             "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
-            "main": "some main title",
+            "main": "What to Expect",
             "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
-            "main": "some main title",
+            "main": "Common Variants",
             "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
-            "main": "some main title",
+            "main": "How to Choose a Good Product",
             "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
-            "main": "some main title",
+            "main": "Example Product Improvement",
             "subPoints": ["information description 1", "information description 2", "..."]
             },
             "..."
         ]
         },
         {
-        "title": "Answering the “Favorite Product” Interview Question",
+        "title": "Answering the 'Favorite Product' Interview Question",
 "completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
         "points": [
             {
-            "main": "some main title",
+            "main": "Summary",
             "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
-            "main": "some main title",
+            "main": "1. Pick the Right Product",
             "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
-            "main": "some main title",
+            "main": "2. Intro in One Sentence",
             "subPoints": ["information description 1", "information description 2", "..."]
             },
+            {
+            "main": "3. Define Customer Segments",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "4. Pain-Driven Features",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            },
+            {
+            "main": "5. Suggest Improvements",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            }
             "..."
-        ]
-        },
-        {
-        "title": "Predicted Recruiter Questions",
-"completed":false,
-        "summary": "a full summary text of some long length that summarizes all these modules",
-        "content": "some full long information text",
-        "points": [
-            {
-            "main": "some main title",
-            "subPoints": ["information description 1", "information description 2", "..."]
-            },
-            {
-            "main": "some main title",
-            "subPoints": ["information description 1", "information description 2", "..."]
-            },
-            {
-            "main": "some main title",
-            "subPoints": ["information description 1", "information description 2", "..."]
-            },
-            
-            "..."
-        ]
-        },
-         {
-        "title": "Insightful Questions to Ask",
-"completed":false,
-        "summary": "a full summary text of some long length that summarizes all these modules",
-        "content": "some full long information text",
-        "points": [
-            {
-            "main": "some main title",
-            "subPoints": ["information description 1", "information description 2", "..."]
-            },
-            {
-            "main": "some main title",
-            "subPoints": ["information description 1", "information description 2", "..."]
-            },
-            {
-            "main": "some main title",
-            "subPoints": ["information description 1", "information description 2", "..."]
-            },
-            
-            "..."
-        ]
-        }
         ]
         }
     ]
