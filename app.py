@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import threading
 from multiprocessing import Process, Manager
 import utils
+from datetime import datetime
 from flask_cors import CORS
 from google.oauth2 import id_token
 from google.auth.transport import requests
@@ -38,7 +39,7 @@ UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route('/generate_guide', methods=['POST'])
-def ask_questions():
+def all_modules():
     access_key = request.headers.get('x-api-key')
 
     if access_key != ACCESS_KEY:
@@ -136,7 +137,156 @@ def ask_questions():
         if 'file_path' in locals() and os.path.exists(file_path):
             os.remove(file_path)
         return jsonify({"status": "Not Ok", "error": str(e)}), 400
+
+@app.route('/save_guide', methods=['POST'])
+def save_guide():
+    access_key = request.headers.get('x-api-key')
+
+    if access_key != ACCESS_KEY:
+        return jsonify({"status": "Not Ok", "error": "Missing or invalid access key"}), 400
+
+    try:
+        required_keys = ["company_name", "job_role", "job_description", "token","guideId"]
+        data = request.form
+
+        if not all(key in data for key in required_keys):
+            return jsonify({"error": "Missing keys"}), 400
+        
+        resume_text = ''
+        
+
+        if "resume" in request.files and request.files["resume"].filename != '':
+            resume_file = request.files["resume"]
+
+            # Save the file
+            filename = secure_filename(resume_file.filename)
+            file_path = os.path.join(UPLOAD_FOLDER, filename)
+            resume_file.save(file_path)
+
+            # Extract text from the resume
+            reader = PyPDF2.PdfReader(file_path)
+            for page in reader.pages:
+                resume_text += page.extract_text()
+
+            # Delete the uploaded file after processing
+            os.remove(file_path)
+
+        # Use request.form to get 'token'
+        token = data.get('token')
+        idinfo = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        idinfo = idinfo["idinfo"]
+        user_email = idinfo['email']
+
+        user = googleAuth.find_one({"email": user_email})
+
+        if user is None:
+            return jsonify({"error": "User not found"}), 404
+
+        if "resume" not in request.files or request.files["resume"].filename == '':
+            userHistory=json.loads(dumps(user))["history"]
+            existsResumes = []
+            for history in userHistory:
+                if "companyData" in history and "resume" in history["companyData"] and history["companyData"]["resume"]!="":
+                    existsResumes.append(history["companyData"]["resume"])
+            if len(existsResumes)==0:
+                return jsonify({"status":"Not Ok","error":"Existing resume not found"}),200
+            resume_text = existsResumes[-1]
+
+        # Add extracted resume text to data
+        guide = {"id":data["guideId"],"datetime":datetime.now(),"result":{}}
+        guide["companyData"] = dict(data)
+        del guide["companyData"]["token"]
+        del guide["companyData"]["guideId"]
+        guide["companyData"]["resume"] = resume_text
+
+        history = user.get("history", [])
+        history.append(guide)
+
+        googleAuth.update_one({"email": user_email}, {"$set": {"history": history}})
+
+        return jsonify({"status":"Ok","message":"Guide Saved Successfully"})
     
+    except ExpiredSignatureError:
+        if 'file_path' in locals() and os.path.exists(file_path):
+            os.remove(file_path)
+        return jsonify({"status":"Not Ok",'error': 'Token has expired'}), 401
+    except InvalidTokenError:
+        if 'file_path' in locals() and os.path.exists(file_path):
+            os.remove(file_path)
+        return jsonify({"status":"Not Ok",'error': 'Invalid token'}), 401
+    except Exception as e:
+        if 'file_path' in locals() and os.path.exists(file_path):
+            os.remove(file_path)
+        return jsonify({"status": "Not Ok", "error": str(e)}), 400
+
+@app.route('/generate_guide/<module_name>', methods=['POST'])
+def single_module(module_name):
+    access_key = request.headers.get('x-api-key')
+
+    if access_key != ACCESS_KEY:
+        return jsonify({"status": "Not Ok", "error": "Missing or invalid access key"}), 400
+
+    try:
+        required_keys = ["token","guideId"]
+        data = request.form
+
+        if not all(key in data for key in required_keys):
+            return jsonify({"error": "Missing keys"}), 400
+        
+        module_names = ["company_research","product_research","job_description_analysis","resume_experience_to_highlight_to_stand_out","hiring_manager_round","behavioral_interview","recruiter_screen_preparation","favorite_product_question","product_design","product_sense","product_strategy","analytical_estimation","technical","leadership"]
+        
+        if module_name not in module_names:
+            return jsonify({"status": "Not Ok", "error": "incorrect module name"})
+            
+
+        # Use request.form to get 'token'
+        token = data.get('token')
+        idinfo = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        idinfo = idinfo["idinfo"]
+        user_email = idinfo['email']
+
+        user = googleAuth.find_one({"email": user_email})
+
+        if user is None:
+            return jsonify({"error": "User not found"}), 404
+
+        history = user.get("history", [])
+        guide = {}
+        for historyObj in history:
+            if "id" in historyObj and historyObj["id"]==data["guideId"]:
+                guide = historyObj
+                break
+            elif history[-1]==historyObj:
+                return jsonify({"status":"Not Ok","error":"guide not found with this id"})
+
+
+        prompt = utils.generateCompanyResearchPrompt(guide["companyData"],module_name)
+
+        guide["result"][f'{module_name}']=utils.get_single_response(prompt)
+
+        history = user.get("history", [])
+        updatedHistory = []
+        for historyObj in history:
+            if historyObj["id"]==guide["id"]:
+                updatedHistory.append(guide)
+            else:   
+                updatedHistory.append(historyObj)
+
+        result = googleAuth.update_one({"email": user_email}, {"$set": {"history": updatedHistory}})
+
+        if result.matched_count:
+            return jsonify({"status": "Ok", "message": "User updated", "history": history, f"{module_name}": guide["result"][f'{module_name}']})
+        else:
+            return jsonify({"error": "Failed to update user history"}), 500
+    
+    except ExpiredSignatureError:
+        return jsonify({"status":"Not Ok",'error': 'Token has expired'}), 401
+    except InvalidTokenError:
+        return jsonify({"status":"Not Ok",'error': 'Invalid token'}), 401
+    except Exception as e:
+        return jsonify({"status": "Not Ok", "error": str(e)}), 400
+
+
 @app.route('/check_resume', methods=['POST'])
 def check_resume():
     access_key = request.headers.get('x-api-key')
@@ -350,5 +500,5 @@ def update_csv():
     return {"message": "CSV updated in Google Drive successfully!"}, 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-    # app.run(debug=True)
+    # app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)
