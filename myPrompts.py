@@ -5,15 +5,15 @@ def company_research_fun(data):
     # Add role_context to the initial instruction if used.
 
     company_research = '''
-    You will be provided with a Job Description (JD) below. Your primary task is to help a user prepare for an interview for the role detailed in this JD.
+     You will be provided with a Job Description (JD) below. Your primary task is to help a user prepare for an interview for the role detailed in this JD.
 
-    1.  *Identify Company:* First, accurately identify the name of the company from the Job Description.
-    2.  *Research Company:* Using the identified company name, leverage your knowledge base and search capabilities (if available) to gather comprehensive information about this company.
-    3.  *Generate Interview Prep Content:* Populate the JSON structure below with information specifically tailored to help the user prepare for their interview. Focus on strategy, market position, challenges, recent developments, and potential talking points relevant to both the company and the specific role mentioned in the JD.
+    1.  Identify Company: First, accurately identify the name of the company from the Job Description.
+    2.  Research Company: Using the identified company name, leverage your knowledge base and search capabilities (if available) to gather comprehensive information about this company.
+    3.  Generate Interview Prep Content: Populate the JSON structure below with information specifically tailored to help the user prepare for their interview. Focus on strategy, market position, challenges, recent developments, and potential talking points relevant to both the company and the specific role mentioned in the JD.
 
     '''+data+'''
     ----
-    Revised Goal: For the company identified from the JD, generate concise yet insightful information specifically relevant for someone preparing for an interview for the role described in the JD. Focus on its strategy, market position, challenges, recent developments, and potential talking points. Populate the requested JSON structure accurately and thoughtfully. Ensure the subPoints provide specific details and insights where possible, not just vague statements. If, after your research, information for a specific point cannot be found, explicitly state 'Information not found' or 'Publicly available information is scarce for this point.'
+   Revised Goal: For the company identified from the JD, generate concise yet insightful information specifically relevant for someone preparing for an interview for the role described in the JD. Focus on its strategy, market position, challenges, recent developments, and potential talking points. Populate the requested JSON structure accurately and thoughtfully. Ensure the subPoints provide specific details and insights where possible, not just vague statements. If, after your research, information for a specific point cannot be found, explicitly state 'Information not found' or 'Publicly available information is scarce for this point.'
 
     # Module 1 - Know the Company
 
@@ -31,7 +31,7 @@ def company_research_fun(data):
 
     - Card 1: Company Overview
         - title: "Company Overview"
-        - summary: "Provides a comprehensive overview including the company's core identity and mission (based on your research of the identified company), its founding story, its complete range of products/services, and its revenue generation model."
+        - summary: "[Generate a 2-3 sentence summary of this card's key findings regarding the Company Overview, based on the 'points' and 'subPoints' populated below.]" # MODIFIED
         - details (Map to 'points' array using 'main'/'subPoints'):
             - main: "Company Snapshot", subPoints: ["Based on your research, provide a concise description of the identified company."]
             - main: "Origins & Founders", subPoints: ["Based on your research, detail when and where the company was founded.", "List the key founder(s).", "Explain the inspiration or vision behind its creation."]
@@ -40,7 +40,7 @@ def company_research_fun(data):
 
     - Card 2: Target Market & Customers
         - title: "Target Market & Customers"
-        - summary: "Based on your research of the identified company, understand its primary customer base, the core problems it solves, why customers prefer its offerings, the key industries it targets, and examples of notable clients."
+        - summary: "[Generate a 2-3 sentence summary of this card's key findings regarding the Target Market & Customers, based on the 'points' and 'subPoints' populated below.]" # MODIFIED
         - details (Map to 'points' array using 'main'/'subPoints'):
             - main: "Primary Customer Segments", subPoints: ["Describe the primary B2B and/or B2C customer segments of the identified company.", "Highlight defining characteristics, demographics, or firmographics of these segments (e.g., size of business, user persona)."]
             - main: "Key Customer Challenges Solved", subPoints: ["List the specific problems, unmet needs, or challenges the identified company's products/services directly solve for its target customers.", "Focus on the core value proposition from the customer's perspective."]
@@ -50,7 +50,7 @@ def company_research_fun(data):
 
     - Card 3: Competitive Landscape
         - title: "Competitive Landscape"
-        - summary: "Based on your research of the identified company, analyze its key competitors, unique positioning, and core advantages/disadvantages."
+        - summary: "[Generate a 2-3 sentence summary of this card's key findings regarding the Competitive Landscape, based on the 'points' and 'subPoints' populated below.]" # MODIFIED
         - details (Map to 'points' array using 'main'/'subPoints'):
             - main: "Main Competitors", subPoints: ["List 5-7 significant or well-known competitors of the identified company, or as many as publicly available from your research if not that many.", "Note their primary focus area if different."]
             - main: "Key Differentiators (USPs)", subPoints: ["What makes the identified company stand out from competitors in the eyes of customers? (List 1-3 points based on your research)"]
@@ -59,7 +59,7 @@ def company_research_fun(data):
 
     - Card 4: Org Structure, Leadership & Culture
         - title: "Org Structure, Leadership & Culture"
-        - summary: "Based on your research of the identified company, detail its organizational framework, key leadership figures, cultural indicators, and relevant vitals like size and financial health."
+        - summary: "[Generate a 2-3 sentence summary of this card's key findings regarding Org Structure, Leadership & Culture, based on the 'points' and 'subPoints' populated below.]" # MODIFIED
         - details (Map to 'points' array using 'main'/'subPoints'):
             - main: "Size, Status & Location", subPoints: ["Approx Employee Count", "Public/Private Status", "HQ Location", "Other Key Office Locations (if relevant)."]
             - main: "Organizational Structure", subPoints: ["Parent Company (if any)", "Key Subsidiaries/Divisions (if any)", "Note recent restructuring if known."]
@@ -69,13 +69,19 @@ def company_research_fun(data):
 
     - Card 5: Recent News & Key Developments
         - title: "Recent News & Key Developments"
-        - summary: "Highlight significant news and developments related to the identified company from the past 2 years. List key factual details for each event, drawing from your research of publicly available news, press releases, and official company announcements. Avoid impact analysis."
+        - summary: "[Generate a 1-2 sentence summary highlighting the most significant recent news or developments from the 'points' populated below. Focus on the nature of the events without analyzing impact.]" # MODIFIED
         - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Key Recent Events & Factual Details", subPoints: ["Event: [Name of Event 1, e.g., 'Launched Product X']", "Factual Details: [Provide purely factual details of Event 1 from your research, e.g., 'Product X, a new AI-powered analytics tool, was released on YYYY-MM-DD.' Do NOT analyze impact or strategic importance.]", "Event: [Name of Event 2, e.g., 'Acquired Company Y']", "Factual Details: [Provide purely factual details of Event 2 from your research, e.g., 'Acquisition of Company Y, specializing in Z technology, completed on YYYY-MM-DD for $X amount (if public).' Do NOT analyze impact or strategic importance.]", "Event: [Name of Event 3, e.g., 'Secured Series C Funding']", "Factual Details: [Provide purely factual details of Event 3 from your research, e.g., 'Secured $X million in Series C funding on YYYY-MM-DD, led by Investor A.' Do NOT analyze impact or strategic importance.]", "...List up to 3-5 key events from the last 2 years based on information found from your research about the company. Ensure details are factual and avoid interpretation of impact."]
+            - main: "Key Recent Events", # Previously MODIFIED: Changed "Key Recent Events & Factual Details" to "Key Recent Events"
+              subPoints: [ # Previously MODIFIED: Instructions for one-line summaries
+                  "For Event 1, provide a concise one-line summary incorporating key factual details. Example: 'Raised over $500 million from strategic investors like Sequoia, Google Ventures, Kleiner Perkins, and OpenAI.'",
+                  "For Event 2, provide a concise one-line summary incorporating key factual details. Example: 'Launched Product X, an AI-powered analytics tool, on YYYY-MM-DD.'",
+                  "For Event 3, provide a concise one-line summary incorporating key factual details. Example: 'Acquired Company Y, specializing in Z technology, for an undisclosed amount.'",
+                  "List up to 3-5 key recent events from the last 2 years. Each event should be a single, concise line summarizing the event and its most important factual details (like funding amounts, key partners, product names, dates if significant). Focus on factual reporting without impact analysis."
+              ]
 
     - Card 6: Industry Context & Company Fit
         - title: "Industry Context & Company Fit"
-        - summary: "Based on your research, understand key industry trends and how the identified company is positioned within the broader market."
+        - summary: "[Generate a 2-3 sentence summary of this card's key findings regarding Industry Context & Company Fit, based on the 'points' and 'subPoints' populated below.]" # MODIFIED
         - details (Map to 'points' array using 'main'/'subPoints'):
             - main: "Key Industry Trends Impacting the Company", subPoints: ["[Trend 1 affecting the industry/company]", "How it specifically affects the identified company", "[Trend 2 affecting the industry/company]", "How it specifically affects the identified company"]
             - main: "Strategic Opportunities", subPoints: ["Based on industry trends and the identified company's strengths, identify 1-2 key growth opportunities."]
@@ -88,7 +94,7 @@ def company_research_fun(data):
         {
         "title": "Company Overview",
 "completed":false,
-        "summary": "A comprehensive overview of the identified company, including its core identity and mission, its founding story, its complete range of products/services, and its revenue generation model, based on research.",
+        "summary": "[A generated 2-3 sentence summary of the Company Overview based on its populated points will appear here.]", # MODIFIED
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the company's overview.",
         "points": [
             {
@@ -112,7 +118,7 @@ def company_research_fun(data):
         {
         "title": "Target Market & Customers",
 "completed":false,
-        "summary": "An understanding of the identified company's primary customer base, the core problems it solves, why customers prefer its offerings, the key industries it targets, and examples of notable clients, based on research.",
+        "summary": "[A generated 2-3 sentence summary of the Target Market & Customers based on its populated points will appear here.]", # MODIFIED
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the company's target market and customers.",
         "points": [
             {
@@ -140,7 +146,7 @@ def company_research_fun(data):
         {
         "title": "Competitive Landscape",
 "completed":false,
-        "summary": "Analysis of the identified company's key competitors, its unique positioning, and its core advantages/disadvantages, based on research.",
+        "summary": "[A generated 2-3 sentence summary of the Competitive Landscape based on its populated points will appear here.]", # MODIFIED
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the company's competitive landscape.",
         "points": [
             {
@@ -164,7 +170,7 @@ def company_research_fun(data):
         {
         "title": "Org Structure, Leadership & Culture",
 "completed":false,
-        "summary": "Details on the identified company's organizational framework, key leaders, cultural aspects, financial health, and size/status, based on research.",
+        "summary": "[A generated 2-3 sentence summary of the Org Structure, Leadership & Culture based on its populated points will appear here.]", # MODIFIED
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the company's org structure, leadership, and culture.",
         "points": [
             {
@@ -192,19 +198,24 @@ def company_research_fun(data):
         {
         "title": "Recent News & Key Developments",
 "completed":false,
-        "summary": "Significant news and developments related to the identified company from the past 2 years, with key factual details for each event, based on research. No impact analysis.",
+        "summary": "[A generated 1-2 sentence summary of the key recent events (e.g., funding, launches) based on its populated points will appear here.]", # MODIFIED
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about recent news and developments.",
         "points": [
             {
-            "main": "Key Recent Events & Factual Details",
-            "subPoints": ["Event: [Event 1 Name/Title]", "Factual Details: [Factual details of Event 1. No impact analysis. Sourced from research.]", "Event: [Event 2 Name/Title]", "Factual Details: [Factual details of Event 2. No impact analysis. Sourced from research.]", "Up to 3-5 key events..."]
+            "main": "Key Recent Events", # Previously MODIFIED
+            "subPoints": [ # Previously MODIFIED
+                "Raised over $500 million from strategic investors like Sequoia, Google Ventures, Kleiner Perkins, and OpenAI.",
+                "Launched Product X, an AI-powered analytics tool, on YYYY-MM-DD.",
+                "Acquired Company Y, specializing in Z technology, for an undisclosed amount.",
+                "Up to 3-5 key recent events, each summarized in a single line with key factual details."
+                ]
             }
         ]
         },
         {
         "title": "Industry Context & Company Fit",
 "completed":false,
-        "summary": "Understanding of key industry trends and how the identified company is positioned within the broader market, based on research.",
+        "summary": "[A generated 2-3 sentence summary of the Industry Context & Company Fit based on its populated points will appear here.]", # MODIFIED
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the industry context and company fit.",
         "points": [
             {
@@ -223,7 +234,6 @@ def company_research_fun(data):
         }
     ]
     }
-
     '''
     return company_research
 
