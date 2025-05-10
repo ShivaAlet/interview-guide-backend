@@ -242,37 +242,43 @@ def product_research_fun(data):
     Analyse this entire
     '''+data+'''
     ----
-   *Primary Goal:* Generate a deep analysis of the product ecosystem most relevant to the this role described, tailored for a PM interview perspective, consolidated into 6 insightful cards. The key is to intelligently determine the most likely product focus.
+   Primary Goal: Generate a deep analysis of the product ecosystem most relevant to the this role described, tailored for a PM interview perspective, consolidated into 6 insightful cards. The key is to intelligently determine the most likely product focus.
 
-    *Step 1: Identify Mentioned Products:*
-    - Carefully read the *Job Description* (and Resume) to identify *ALL* specific products, product lines, platforms, or teams mentioned (e.g., "Search", "Maps", "Assistant", "Cloud Platform"). List them internally.
+    Step 1: Identify Mentioned Products:
+    - Carefully read the Job Description (and Resume) to identify ALL specific products, product lines, platforms, or teams mentioned (e.g., "Search", "Maps", "Assistant", "Cloud Platform"). List them internally.
 
-    *Step 2: Determine Primary Focus Product & Contextual Products (PM Role Context):*
-    - *Analyze the JD for PM Responsibility Signals:* Look specifically within the "Responsibilities", "What You'll Do", or similar sections for keywords indicating direct ownership or primary focus for the PM role. Prioritize products associated with phrases like:
+    Step 2: Determine Primary Focus Product & Contextual Products (PM Role Context):
+    - Analyze the JD for PM Responsibility Signals: Look specifically within the "Responsibilities", "What You'll Do", or similar sections for keywords indicating direct ownership or primary focus for the PM role. Prioritize products associated with phrases like:
         - "own the roadmap for [Product X]"
         - "define the strategy for [Product X]"
         - "responsible for the success of [Product X]"
         - "drive the development of [Product X]"
         - "manage the lifecycle of [Product X]"
         - "gather requirements for [Product X]"
-    - *Identify Primary Focus based on Signals:*
-        - *If* one product is clearly associated with these PM responsibility keywords/phrases, designate it as the *Primary Focus Product. List any other mentioned products as **Contextual Products*.
-    - *If No Clear Ownership Signal, Analyze JD Emphasis & Resume Alignment:*
-        - *If* multiple products are mentioned without clear ownership keywords:
+    - Identify Primary Focus based on Signals:
+        - If one product is clearly associated with these PM responsibility keywords/phrases, designate it as the Primary Focus Product. List any other mentioned products as **Contextual Products.
+    - If No Clear Ownership Signal, Analyze JD Emphasis & Resume Alignment:
+        - If multiple products are mentioned without clear ownership keywords:
             - Assess which product receives the most emphasis or detailed description within the core responsibilities section of the JD.
-            - *If* a resume is provided, assess if the candidate's experience (e.g., industry, technology, past product types) aligns more strongly with one mentioned product over the others.
-            - *Prioritize based on this hierarchy:* (1st) Strong emphasis in JD Responsibilities, (2nd) Clear alignment with Resume Experience. Designate the product identified via this analysis as the *Primary Focus Product. List others as **Contextual Products*.
-    - *Handle Single Mention:*
-        - *If* only one product is mentioned throughout the JD, it is the *Primary Focus Product*.
-    - *Fallback Logic (If No Specific Product Identified Above):*
-        - *If* no specific product is mentioned OR the JD remains vague despite the analysis above:
-            - Attempt to identify the company's single *main/flagship/core product* from General Company Info. Designate it as the *Primary Focus Product (Fallback)*.
-            - If no single flagship is clear, identify the relevant *product category/business line* (e.g., "Cloud Data Services"). Designate this category as the *Primary Focus (Category Fallback)*.
+            - If a resume is provided, assess if the candidate's experience (e.g., industry, technology, past product types) aligns more strongly with one mentioned product over the others.
+            - Prioritize based on this hierarchy: (1st) Strong emphasis in JD Responsibilities, (2nd) Clear alignment with Resume Experience. Designate the product identified via this analysis as the Primary Focus Product. List others as **Contextual Products.
+    - Handle Single Mention:
+        - If only one product is mentioned throughout the JD, it is the Primary Focus Product.
+    - Fallback Logic (If No Specific Product Identified Above):
+        - If no specific product is mentioned OR the JD remains vague despite the analysis above:
+            - Attempt to identify the company's single main/flagship/core product from General Company Info. Designate it as the Primary Focus Product (Fallback).
+            - If no single flagship is clear, identify the relevant product category/business line (e.g., "Cloud Data Services"). Designate this category as the Primary Focus (Category Fallback).
 
-    *Step 3: Generate Analysis (Primary Focus + Comparative Mentions):*
+    Step 3: Generate Analysis (Primary Focus + Comparative Mentions):
     - Populate the requested 6-card JSON structure below.
-    - The deep analysis in each card should center on the *Primary Focus Product/Category* determined in Step 2.
-    - *Crucially:* Where relevant within the subPoints for the Primary Focus Product, *briefly mention the Contextual Products* (identified in Step 2) to provide comparison or show interplay (e.g., "integrates with [Contextual Product]", "unlike [Contextual Product] which focuses on X"). Do not dedicate separate points just for contextual products.
+    - The deep analysis in each card should center on the Primary Focus Product/Category determined in Step 2.
+    - Crucially: Where relevant within the subPoints for the Primary Focus Product, briefly mention the Contextual Products (identified in Step 2) to provide comparison or show interplay (e.g., "integrates with [Contextual Product]", "unlike [Contextual Product] which focuses on X"). Do not dedicate separate points just for contextual products.
+    - *Writing Style Guidance:*
+        - *Clarity and Professionalism:* Ensure all output is written in clear, concise, and professional business language.
+        - *Descriptive Language:* Instead of very terse points, aim for descriptive phrasing that elaborates slightly to provide better understanding. Use strong verbs and precise terminology.
+        - *Complete Thoughts:* Even within bullet points (subPoints), aim for complete thoughts or sentences where appropriate, rather than just keywords, to enhance readability.
+        - *Engaging Tone:* While maintaining professionalism, strive for a tone that is informative and engaging for someone preparing for an interview.
+        - *Impact-Oriented:* When describing features, benefits, or differentiators, try to convey the impact or "so what?" for the user or customer.
 
     # Module 2 - Know the Product (Analyze the Key Offering & Ecosystem)
 
@@ -280,81 +286,65 @@ def product_research_fun(data):
 
     - Purpose: Provide a concise summary of the analysis below, explicitly stating the context and the reasoning for the product identification strategy used.
     - Content (Populate the 'quick_summary' field in the JSON):
-        - *Start with the identification statement:* Clearly state the *Primary Focus Product/Category* and specifically explain the reasoning based on Step 2 (e.g., "The JD emphasizes PM ownership ('owning the roadmap') for *Search, designating it as the primary focus...", "Multiple products (Search, Maps) were mentioned; **Search* is selected as the primary focus due to greater emphasis in the role's responsibilities...", "Based on the candidate's AI background in the resume aligning with mentions of AI features, *Search AI initiatives* are inferred as the primary focus...", "As no specific product was clearly defined for PM ownership, this analysis focuses on the flagship *[Fallback Product Name]...", "JD vague, focusing analysis on the *[Category Fallback]** category...").
-        - *If Contextual Products exist, list them:* (e.g., "...while acknowledging the role interacts with *Maps* and *Assistant*.").
-        - *Summarize Key Findings:* Briefly cover the Primary Focus Product's core function & problem solved, target user, key differentiator/USP, market position, latest news/release, and monetization, synthesizing info from the 6 cards.
+        - Start with the identification statement: Clearly state the Primary Focus Product/Category and specifically explain the reasoning based on Step 2 (e.g., "The JD emphasizes PM ownership ('owning the roadmap') for Search, designating it as the primary focus...", "Multiple products (Search, Maps) were mentioned; **Search is selected as the primary focus due to greater emphasis in the role's responsibilities...", "Based on the candidate's AI background in the resume aligning with mentions of AI features, Search AI initiatives are inferred as the primary focus...", "As no specific product was clearly defined for PM ownership, this analysis focuses on the flagship [Fallback Product Name]...", "JD vague, focusing analysis on the *[Category Fallback]* category...").
+        - If Contextual Products exist, list them: (e.g., "...while acknowledging the role interacts with Maps and Assistant.").
+        - Summarize Key Findings: Briefly cover the Primary Focus Product's core function & problem solved, target user, key differentiator/USP, market position, latest news/release, and monetization, synthesizing info from the 6 cards.
 
     6-Card Structure Guidance (Primary Focus + Comparative Mentions):
+    For each card below, the 'summary' field should be a dynamically generated 3-5 sentence paragraph. This paragraph must summarize the key findings and main takeaways detailed within that specific card's 'points' (main points and their subPoints) for the [Primary Focus Product].
 
-    # (Cards 1 through 6 remain exactly the same as the previous version,
-    # including titles "Product Identity & Value" and "Strategy, News & Outlook",
-    # and instructions to focus on [Primary Focus Product] while mentioning
-    # [Contextual Products] where relevant in subPoints.
-    # No changes needed to the card definitions themselves here.)
+    - Card 1: Product Identity & Value
+        - title: "Product Identity & Value"
+        - summary: "Generate a 3-5 sentence summary of this card's key findings regarding the [Primary Focus Product]'s core function, the problems it solves, its unique value proposition, and key differentiators, based on the details provided in the 'points' section of this card."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Core Function", subPoints: ["Clearly articulate the primary purpose and functionality of the [Primary Focus Product].", "Elaborate on the core capability it delivers to users."]
+            - main: "Problems Solved", subPoints: ["Detail the top 2-3 specific user pain points or business challenges the [Primary Focus Product] effectively addresses.", "Explain how it alleviates these issues."]
+            - main: "Unique Value Proposition (UVP)", subPoints: ["Concisely explain the most compelling reason customers choose the [Primary Focus Product] over alternatives.", "If possible, highlight quantifiable benefits or unique outcomes that underscore its value."]
+            - main: "Key Differentiators", subPoints: ["Identify and describe 2-3 distinct aspects or features that clearly differentiate the [Primary Focus Product] in the market.", "Where relevant, briefly illustrate its advantages by comparing with Contextual Products or key competitors (e.g., '...unlike [Contextual Product] which serves X, [Primary Focus Product] excels in Y due to...')."]
 
-   - Card 1: Product Identity & Value
-        - title: "Product Identity & Value"
-        - summary: "Understand the core purpose, problems solved, and unique value of the primary product."
-        - details (Map to 'points' array using 'main'/'subPoints'):
-             # (Instructions as before: Core Function, Problems Solved, UVP, Differentiators - focused on Primary, mention Contextual)
-            - main: "Core Function", subPoints: ["Describe precisely what the [Primary Focus Product] does.", "What capability does it primarily enable?"]
-            - main: "Problems Solved", subPoints: ["List the top 2-3 specific pain points the [Primary Focus Product] addresses."]
-            - main: "Unique Value Proposition (UVP)", subPoints: ["What is the main reason customers choose the [Primary Focus Product]?", "Quantify value if possible."]
-            - main: "Key Differentiators", subPoints: ["List 2-3 specific aspects differentiating the [Primary Focus Product].", "(Mention relevant comparisons to *Contextual Products* here if applicable, e.g., '...differentiates from *[Contextual Product]* by focusing on X')."]
+    - Card 2: Target Audience & Key Use Cases
+        - title: "Target Audience & Key Use Cases"
+        - summary: "Generate a 3-5 sentence summary of this card's key findings regarding the [Primary Focus Product]'s target user personas, primary use cases or workflows, and the core 'jobs-to-be-done', based on the details provided in the 'points' section of this card."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Target User Personas", subPoints: ["Provide a clear description of the primary user segment(s) or ideal customer profile for the [Primary Focus Product].", "Include key characteristics or needs relevant to the product."]
+            - main: "Key Use Cases / Workflows", subPoints: ["Illustrate the top 2-3 common tasks or workflows where users engage with the [Primary Focus Product].", "Explain how the product facilitates these processes, and note any common integrations or handoffs with Contextual Products (e.g., '...users typically leverage [Primary Focus Product] for initial analysis, then transition to [Contextual Product] for advanced reporting.')."]
+            - main: "Jobs-To-Be-Done (JTBD)", subPoints: ["Articulate the fundamental 'job' or underlying need that users are 'hiring' the [Primary Focus Product] to fulfill from their perspective."]
 
-    - Card 2: Target Audience & Key Use Cases
-         # (Instructions as before)
-        - title: "Target Audience & Key Use Cases"
-        - summary: "Define the ideal users for the primary product and how they interact with it and potentially related products."
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Target User Personas", subPoints: ["Describe the main user segment(s) for the [Primary Focus Product]."]
-            - main: "Key Use Cases / Workflows", subPoints: ["Describe the top 2-3 common tasks/workflows using the [Primary Focus Product].", "(Note if these workflows often involve *Contextual Products, e.g., '...often followed by using *[Contextual Product]** for Y')."]
-            - main: "Jobs-To-Be-Done (JTBD)", subPoints: ["What 'job' are users hiring the [Primary Focus Product] to do?"]
+    - Card 3: Market Landscape & Positioning
+        - title: "Market Landscape & Positioning"
+        - summary: "Generate a 3-5 sentence summary of this card's key findings regarding the [Primary Focus Product]'s direct and indirect competitors, its target market segment and perceived position, and key market trends impacting its ecosystem, based on the details provided in the 'points' section of this card."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Direct Competitors", subPoints: ["For 2-3 key direct competitors: State their name, briefly outline their primary strength or market focus, and explain how the [Primary Focus Product] differentiates itself.", "Example format: '[Competitor Name]: Known for [strength/focus]. [Primary Focus Product] differentiates by [key difference].'"]
+            - main: "Indirect Competitors / Alternatives", subPoints: ["Identify other types of solutions or alternative approaches users might consider instead of the [Primary Focus Product].", "Note if Contextual Products might serve as partial alternatives for specific niches or functionalities."]
+            - main: "Market Segment & Position", subPoints: ["Clearly define the specific market segment the [Primary Focus Product] targets.", "Describe its perceived market position (e.g., Leader, Challenger, Niche Specialist), citing any supporting evidence if readily available."]
+            - main: "Market Trends Impacting Ecosystem", subPoints: ["Discuss 1-2 significant industry or technological trends and explain how they are influencing the [Primary Focus Product] and potentially its related Contextual Products."]
 
+    - Card 4: Strategy, News & Outlook
+        - title: "Strategy, News & Outlook"
+        - summary: "Generate a 3-5 sentence summary of this card's key findings regarding recent significant news or developments for the [Primary Focus Product], its inferred vision/goal, recent strategic shifts, and potential future directions, based on the details provided in the 'points' section of this card."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Recent Significant News & Developments", subPoints: ["Highlight the most significant recent (last 6-12 months) public announcement, product launch, or impactful company news related to the [Primary Focus Product].", "Summarize its key message and potential implications. If no major specific news, state this clearly."]
+            - main: "Inferred Vision/Goal", subPoints: ["Based on public statements, product evolution, and market positioning, articulate what appears to be the long-term strategic vision or aspiration for the [Primary Focus Product]."]
+            - main: "Recent Strategic Shifts", subPoints: ["Describe any discernible changes in the [Primary Focus Product]'s strategic direction, target market, or feature development priorities observed in the past 6-12 months."]
+            - main: "Potential Future Directions (Ecosystem)", subPoints: ["Speculate on 1-2 plausible future developments or strategic moves for the [Primary Focus Product], considering market trends.", "Explain how these might involve or impact Contextual Products within the ecosystem."]
 
-    - Card 3: Market Landscape & Positioning
-         # (Instructions as before)
-        - title: "Market Landscape & Positioning"
-        - summary: "Analyze the competitive environment for the primary product and its place within the market."
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Direct Competitors", subPoints: ["[Competitor 1 Name]: Key strength/focus, How [Primary Focus Product] differentiates.", "[Competitor 2 Name]: ..."]
-            - main: "Indirect Competitors / Alternatives", subPoints: ["What other solutions might users employ instead?", "(Mention if *Contextual Products* sometimes serve as alternatives for specific tasks)."]
-            - main: "Market Segment & Position", subPoints: ["Describe the specific market segment targeted by the [Primary Focus Product].", "Its perceived position (Leader, Challenger, etc.)."]
-            - main: "Market Trends Impacting Ecosystem", subPoints: ["List 1-2 key industry trends affecting the [Primary Focus Product] and potentially the *Contextual Products*."]
+    - Card 5: Key Features, Technology & Monetization
+        - title: "Key Features, Technology & Monetization"
+        - summary: "Generate a 3-5 sentence summary of this card's key findings regarding the [Primary Focus Product]'s defining features and their value, strategically important technology, integration ecosystem, and its monetization and pricing strategy, based on the details provided in the 'points' section of this card."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Defining Features & Value", subPoints: ["Showcase 2-3 standout or 'hero' features of the [Primary Focus Product]. For each, briefly describe the feature and clearly explain its contribution to the product's UVP or how it solves a critical user problem."]
+            - main: "Relevant Technology", subPoints: ["Discuss any underlying technology that is a core differentiator or strategic asset for the [Primary Focus Product] (e.g., 'Leverages a proprietary AI engine for predictive analytics,' 'Built on a highly scalable serverless architecture enabling global reach'). Avoid generic mentions."]
+            - main: "Integration Ecosystem", subPoints: ["Identify key third-party integrations crucial for the [Primary Focus Product]'s functionality or market appeal.", "Emphasize any tight integrations with Contextual Products and the value this provides (e.g., '[Primary Focus Product] offers seamless data synchronization with [Contextual Product], enabling a unified workflow for X and Y.')."]
+            - main: "Monetization & Pricing Strategy", subPoints: ["Clearly explain the primary way(s) the [Primary Focus Product] generates revenue (e.g., tiered subscriptions, usage-based billing).", "Provide a brief overview of its pricing model or common tiers."]
 
-
-    - Card 4: Strategy, News & Outlook
-         # (Instructions as before)
-        - title: "Strategy, News & Outlook"
-        - summary: "Understand the strategic direction, recent developments, and future outlook for the primary product."
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Latest News (Primary or Relevant)", subPoints: ["Identify the most recent relevant public announcement about the [Primary Focus Product] OR highly relevant company news impacting it.", "Summarize its key message.", "*If none found, state explicitly:* 'No specific recent public announcements found directly relating to [Primary Focus Product].'"]
-            - main: "Inferred Vision/Goal", subPoints: ["Based on available info, what seems to be the long-term aspiration for the [Primary Focus Product]?"]
-            - main: "Recent Strategic Shifts", subPoints: ["Have there been noticeable changes in focus for the [Primary Focus Product] in the last 6-12 months?"]
-            - main: "Potential Future Directions (Ecosystem)", subPoints: ["Based on trends, what are plausible next steps for the [Primary Focus Product]?", "(Mention potential interplay or impact on *Contextual Products* if relevant)."]
-
-
-    - Card 5: Key Features, Technology & Monetization
-         # (Instructions as before)
-        - title: "Key Features, Technology & Monetization"
-        - summary: "Highlight defining features, relevant tech, integrations, and the business model for the primary product."
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Defining Features & Value", subPoints: ["[Feature 1 Name]: Describe & explain its contribution to UVP.", "[Feature 2 Name]: ..."]
-            - main: "Relevant Technology", subPoints: ["Mention tech only if strategically important (scalability, differentiation e.g., 'Proprietary AI')."]
-            - main: "Integration Ecosystem", subPoints: ["Note key integrations, especially mentioning *Contextual Products* if they integrate tightly (e.g., 'Integrates natively with *[Contextual Product]* for Z')."]
-            - main: "Monetization Strategy", subPoints: ["How is value captured for the [Primary Focus Product]?"]
-            - main: "Pricing Structure (if known)", subPoints: ["Describe key tiers/structure for the [Primary Focus Product]."]
-
-
-    - Card 6: SWOT Analysis (Primary Focus)
-         # (Instructions as before)
-        - title: "SWOT Analysis"
-        - summary: "A strategic summary of the primary product's internal strengths/weaknesses and external opportunities/threats."
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Strengths", subPoints: ["List 2-3 internal advantages of the [Primary Focus Product]."]
-            - main: "Weaknesses", subPoints: ["List 2-3 internal disadvantages of the [Primary Focus Product]."]
-            - main: "Opportunities (Ecosystem Context)", subPoints: ["List 1-2 external opportunities for the [Primary Focus Product], (consider synergies with *Contextual Products*)."]
-            - main: "Threats (Ecosystem Context)", subPoints: ["List 1-2 key external threats to the [Primary Focus Product], (consider competitive moves involving *Contextual Products*)."]
+    - Card 6: SWOT Analysis (Primary Focus)
+        - title: "SWOT Analysis"
+        - summary: "Generate a 3-5 sentence summary of this card's key findings regarding the [Primary Focus Product]'s internal strengths, weaknesses, external opportunities, and threats, based on the details provided in the 'points' section of this card."
+        - details (Map to 'points' array using 'main'/'subPoints'):
+            - main: "Strengths", subPoints: ["Identify and briefly explain 2-3 key internal advantages or core competencies of the [Primary Focus Product] (e.g., 'Strong brand equity and customer loyalty,' 'Proprietary technology offering a significant performance edge')."]
+            - main: "Weaknesses", subPoints: ["Identify and briefly explain 2-3 internal limitations or areas for improvement for the [Primary Focus Product] (e.g., 'Perceived high price point compared to emerging competitors,' 'Reliance on a complex legacy system for certain functionalities')."]
+            - main: "Opportunities", subPoints: ["Outline 1-2 significant external market opportunities that the [Primary Focus Product] is well-positioned to capitalize on.", "(Consider potential synergies with Contextual Products or emerging market needs)."]
+            - main: "Threats", subPoints: ["Describe 1-2 key external threats or challenges that could negatively impact the [Primary Focus Product]'s market position or growth.", "(Consider competitive pressures, including those involving Contextual Products, or shifting technological landscapes)."]
     ----
     Give me response in this JSON format only:
     {
@@ -363,7 +353,7 @@ def product_research_fun(data):
         {
         "title": "Product Identity & Value",
 "completed":false,
-        "summary": "a full summary text of some long length that summarizes all these modules",
+        "summary": "A 3-5 sentence summary of the key findings detailed within this card's 'points' concerning the [Primary Focus Product]. For example: InnovateX Platform primarily serves as a B2B SaaS for project management, solving issues of fragmented data. Its UVP lies in AI-driven analytics, differentiating it through predictive capabilities and a highly customizable workflow unlike basic task managers.",
         "content": "some full long information text",
         "points": [
             {
@@ -381,22 +371,13 @@ def product_research_fun(data):
             {
             "main": "some main title",
             "subPoints": ["information description 1", "information description 2", "..."]
-            },
-            {
-            "main": "some main title",
-            "subPoints": ["information description 1", "information description 2", "..."]
-            },
-            {
-            "main": "some main title",
-            "subPoints": ["information description 1", "information description 2", "..."]
-            },
-            "..."
+            }
         ]
         },
         {
         "title": "Target Audience & Key Use Cases",
 "completed":false,
-        "summary": "a full summary text of some long length that summarizes all these modules",
+        "summary": "A 3-5 sentence summary of this card's key findings related to its target users, common workflows, and the core problems it solves for them.",
         "content": "some full long information text",
         "points": [
             {
@@ -410,14 +391,13 @@ def product_research_fun(data):
             {
             "main": "some main title",
             "subPoints": ["information description 1", "information description 2", "..."]
-            },
-            "..."
+            }
         ]
         },
         {
         "title": "Market Landscape & Positioning",
 "completed":false,
-        "summary": "a full summary text of some long length that summarizes all these modules",
+        "summary": "A 3-5 sentence summary of this card's analysis on the competitive environment, market segment, and relevant trends.",
         "content": "some full long information text",
         "points": [
             {
@@ -432,13 +412,16 @@ def product_research_fun(data):
             "main": "some main title",
             "subPoints": ["information description 1", "information description 2", "..."]
             },
-            "..."
+            {
+            "main": "some main title",
+            "subPoints": ["information description 1", "information description 2", "..."]
+            }
         ]
         },
         {
         "title": "Strategy, News & Outlook",
 "completed":false,
-        "summary": "a full summary text of some long length that summarizes all these modules",
+        "summary": "A 3-5 sentence summary of this card's insights into recent developments, strategic goals, and future potential.",
         "content": "some full long information text",
         "points": [
             {
@@ -456,11 +439,13 @@ def product_research_fun(data):
             {
             "main": "some main title",
             "subPoints": ["information description 1", "information description 2", "..."]
-            },
-            {
+            }
+        ]
+        },
+        {
         "title": "Key Features, Technology & Monetization",
 "completed":false,
-        "summary": "a full summary text of some long length that summarizes all these modules",
+        "summary": "A 3-5 sentence summary of this card's details on defining features, core technology, and business model.",
         "content": "some full long information text",
         "points": [
             {
@@ -478,11 +463,13 @@ def product_research_fun(data):
             {
             "main": "some main title",
             "subPoints": ["information description 1", "information description 2", "..."]
-            },
-            {
-        "title": "SWOT Analysis (Primary Focus)",
+            }
+        ]
+        },
+        {
+        "title": "SWOT Analysis",
 "completed":false,
-        "summary": "a full summary text of some long length that summarizes all these modules",
+        "summary": "A 3-5 sentence summary of this card's SWOT analysis (strengths, weaknesses, opportunities, threats).",
         "content": "some full long information text",
         "points": [
             {
