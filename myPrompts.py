@@ -5,7 +5,7 @@ def company_research_fun(data):
     # Add role_context to the initial instruction if used.
 
     company_research = '''
-     You will be provided with a Job Description (JD) below. Your primary task is to help a user prepare for an interview for the role detailed in this JD.
+   You will be provided with a Job Description (JD) below. Your primary task is to help a user prepare for an interview for the role detailed in this JD.
 
     1.  Identify Company: First, accurately identify the name of the company from the Job Description.
     2.  Research Company: Using the identified company name, leverage your knowledge base and search capabilities (if available) to gather comprehensive information about this company.
@@ -71,19 +71,27 @@ def company_research_fun(data):
         - title: "Recent News & Key Developments"
         - summary: "[Generate a 1-2 sentence summary highlighting the most significant recent news or developments from the 'points' populated below. Focus on the nature of the events without analyzing impact.]" # MODIFIED
         - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Key Recent Events", # Previously MODIFIED: Changed "Key Recent Events & Factual Details" to "Key Recent Events"
-              subPoints: [ # Previously MODIFIED: Instructions for one-line summaries
-                  "For Event 1, provide a concise one-line summary incorporating key factual details. Example: 'Raised over $500 million from strategic investors like Sequoia, Google Ventures, Kleiner Perkins, and OpenAI.'",
-                  "For Event 2, provide a concise one-line summary incorporating key factual details. Example: 'Launched Product X, an AI-powered analytics tool, on YYYY-MM-DD.'",
-                  "For Event 3, provide a concise one-line summary incorporating key factual details. Example: 'Acquired Company Y, specializing in Z technology, for an undisclosed amount.'",
-                  "List up to 3-5 key recent events from the last 2 years. Each event should be a single, concise line summarizing the event and its most important factual details (like funding amounts, key partners, product names, dates if significant). Focus on factual reporting without impact analysis."
+            - main: "Key Events", # MODIFIED: Name changed from "Key Recent Events".
+              subPoints: [
+                  "Each subPoint should be a single, concise sentence summarizing a key recent event and its most important factual details (like funding amounts, key partners, product names, dates if significant). Do NOT use prefixes like 'Event:' or 'Factual Details:'.",
+                  "Example for a funding event: 'Raised $500M from investors like Tiger Global and Sequoia Capital in a Series C round.'",
+                  "Example for an award/recognition: 'Was named one of Inc. Magazine’s Best Workplaces, reflecting its consistent recognition as a top workplace.'",
+                  "Example for a product launch: 'Launched Product Y, a new AI-powered analytics tool, on YYYY-MM-DD.'",
+                  "List up to 3-5 such key recent events from the last 2 years. Focus on factual reporting without impact analysis."
               ]
 
     - Card 6: Industry Context & Company Fit
         - title: "Industry Context & Company Fit"
         - summary: "[Generate a 2-3 sentence summary of this card's key findings regarding Industry Context & Company Fit, based on the 'points' and 'subPoints' populated below.]" # MODIFIED
         - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Key Industry Trends Impacting the Company", subPoints: ["[Trend 1 affecting the industry/company]", "How it specifically affects the identified company", "[Trend 2 affecting the industry/company]", "How it specifically affects the identified company"]
+            - main: "Key Industry Trends Impacting the Company",
+              subPoints: [
+                  "For each key industry trend (identify 2-3), provide a single, complete 1-2 sentence statement. This statement must describe the trend AND its specific impact on the company.",
+                  "Each such combined statement should be a separate string in this list.",
+                  "Example 1: 'Increasingly stringent KYC/AML regulations require the company to continuously update its compliance tools and processes.'",
+                  "Example 2: 'The rising sophistication of fraud tactics necessitates that the company invest heavily in advanced fraud detection and prevention technologies.'",
+                  "Ensure each string entry in the subPoints array is a self-contained statement covering one trend and its impact."
+              ]
             - main: "Strategic Opportunities", subPoints: ["Based on industry trends and the identified company's strengths, identify 1-2 key growth opportunities."]
             - main: "Potential Headwinds/Risks", subPoints: ["Based on industry trends and the identified company's weaknesses/market dynamics, identify 1-2 key risks or challenges."]
     ----
@@ -94,7 +102,7 @@ def company_research_fun(data):
         {
         "title": "Company Overview",
 "completed":false,
-        "summary": "[A generated 2-3 sentence summary of the Company Overview based on its populated points will appear here.]", # MODIFIED
+        "summary": "[A generated 2-3 sentence summary of the Company Overview based on its populated points will appear here.]",
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the company's overview.",
         "points": [
             {
@@ -118,7 +126,7 @@ def company_research_fun(data):
         {
         "title": "Target Market & Customers",
 "completed":false,
-        "summary": "[A generated 2-3 sentence summary of the Target Market & Customers based on its populated points will appear here.]", # MODIFIED
+        "summary": "[A generated 2-3 sentence summary of the Target Market & Customers based on its populated points will appear here.]",
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the company's target market and customers.",
         "points": [
             {
@@ -146,7 +154,7 @@ def company_research_fun(data):
         {
         "title": "Competitive Landscape",
 "completed":false,
-        "summary": "[A generated 2-3 sentence summary of the Competitive Landscape based on its populated points will appear here.]", # MODIFIED
+        "summary": "[A generated 2-3 sentence summary of the Competitive Landscape based on its populated points will appear here.]",
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the company's competitive landscape.",
         "points": [
             {
@@ -170,7 +178,7 @@ def company_research_fun(data):
         {
         "title": "Org Structure, Leadership & Culture",
 "completed":false,
-        "summary": "[A generated 2-3 sentence summary of the Org Structure, Leadership & Culture based on its populated points will appear here.]", # MODIFIED
+        "summary": "[A generated 2-3 sentence summary of the Org Structure, Leadership & Culture based on its populated points will appear here.]",
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the company's org structure, leadership, and culture.",
         "points": [
             {
@@ -198,16 +206,15 @@ def company_research_fun(data):
         {
         "title": "Recent News & Key Developments",
 "completed":false,
-        "summary": "[A generated 1-2 sentence summary of the key recent events (e.g., funding, launches) based on its populated points will appear here.]", # MODIFIED
+        "summary": "[A generated 1-2 sentence summary of the key recent events (e.g., funding, launches) based on its populated points will appear here.]",
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about recent news and developments.",
         "points": [
             {
-            "main": "Key Recent Events", # Previously MODIFIED
-            "subPoints": [ # Previously MODIFIED
-                "Raised over $500 million from strategic investors like Sequoia, Google Ventures, Kleiner Perkins, and OpenAI.",
-                "Launched Product X, an AI-powered analytics tool, on YYYY-MM-DD.",
-                "Acquired Company Y, specializing in Z technology, for an undisclosed amount.",
-                "Up to 3-5 key recent events, each summarized in a single line with key factual details."
+            "main": "Key Events",
+            "subPoints": [
+                "Raised $500M from investors like Tiger Global and Sequoia Capital in a Series C round.",
+                "Was named one of Inc. Magazine’s Best Workplaces, reflecting its consistent recognition as a top workplace.",
+                "Launched Product Y, a new AI-powered analytics tool, on 2023-05-15."
                 ]
             }
         ]
@@ -215,12 +222,15 @@ def company_research_fun(data):
         {
         "title": "Industry Context & Company Fit",
 "completed":false,
-        "summary": "[A generated 2-3 sentence summary of the Industry Context & Company Fit based on its populated points will appear here.]", # MODIFIED
+        "summary": "[A generated 2-3 sentence summary of the Industry Context & Company Fit based on its populated points will appear here.]",
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the industry context and company fit.",
         "points": [
             {
             "main": "Key Industry Trends Impacting the Company",
-            "subPoints": ["Trend 1 and its specific effect on the company", "Trend 2 and its specific effect on the company"]
+            "subPoints": [
+                "Increasingly stringent KYC/AML regulations require the company to continuously update its compliance tools and processes.",
+                "The rising sophistication of fraud tactics necessitates heavy investment in advanced fraud detection and prevention technologies by the company."
+                ]
             },
             {
             "main": "Strategic Opportunities",

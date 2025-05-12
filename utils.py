@@ -7,6 +7,7 @@ import pandas as pd
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
+import re
 import base64
 import os
 load_dotenv()
@@ -86,6 +87,8 @@ def generateCompanyResearchPrompt(data,module):
 
 
 def get_response(question, results,errorJsons, index):
+    model="perplexity/sonar" if(index==0 or index==1) else "google/gemini-2.0-flash-001"
+    print(index,model)
     while True:
         try:
             response = requests.post(
@@ -94,17 +97,23 @@ def get_response(question, results,errorJsons, index):
                     "Authorization": "Bearer " + api_key,
                 },
                 data=json.dumps({
-                    "model": "google/gemini-2.0-flash-001",
+                    "model": model,
                     "messages": [
                         {"role": "user", "content": question}
                     ]
                 })
             )
-            
-            results[index] = json.loads(response.json()["choices"][0]["message"]["content"][8:-4])
+            result=response.json()["choices"][0]["message"]["content"]
+            if result.startswith("```"):
+        # Extract the content between triple backticks
+                match = re.search(r"```(?:json)?\s*(.*?)\s*```", result, re.DOTALL)
+                if match:
+                    result = match.group(1).strip()
+            # return json.loads(result)
+            results[index] = json.loads(result)
             break  # success, exit loop
         except Exception as e:
-            errorJsons[index] = response.json()["choices"][0]["message"]["content"][8:-4]
+            # errorJsons[index] = response.json()["choices"][0]["message"]["content"][8:-4]
             print(f"Error occurred: {e}. Retrying in 2 seconds...")
 
 def get_single_response(question):
