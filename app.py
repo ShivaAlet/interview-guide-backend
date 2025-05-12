@@ -5,7 +5,8 @@ import utils
 from datetime import datetime
 from flask_cors import CORS
 from google.oauth2 import id_token
-from google.auth.transport import requests
+# from google.auth.transport import requests
+import requests
 from pymongo import MongoClient
 import uuid
 from werkzeug.utils import secure_filename
@@ -28,6 +29,7 @@ CORS(app)
 ACCESS_KEY = os.getenv("accessKey")
 UPDATE_CSV_KEY = os.getenv("UPDATE_CSV_KEY")
 SECRET_KEY=os.getenv("SECRET_KEY")
+api_key = os.getenv("API_KEY")
 
 YOUR_GOOGLE_CLIENT_ID=os.getenv("YOUR_GOOGLE_CLIENT_ID")
 client = MongoClient(os.getenv("MONGO_URI"))
@@ -499,6 +501,25 @@ def update_csv():
     utils.upload_csv_to_drive(file_path)
     return {"message": "CSV updated in Google Drive successfully!"}, 200
 
+# @app.route("/test_response",methods=['POST'])
+# def test_response():
+#     try:
+#         response = requests.post(
+#                     url="https://openrouter.ai/api/v1/chat/completions",
+#                     headers={
+#                         "Authorization": "Bearer " + api_key,
+#                     },
+#                     data=json.dumps({
+#                         "model": "perplexity/sonar",
+#                         "messages": [
+#                             {"role": "user", "content": "Who is the founder of Alloy company"}
+#                         ]
+#                     })
+#                 )
+#         return jsonify({"ans":response.json()["choices"][0]["message"]["content"]})
+#     except Exception as e:
+#         return jsonify({"error":str(e)})
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
     # app.run(debug=True)

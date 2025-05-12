@@ -5,99 +5,58 @@ def company_research_fun(data):
     # Add role_context to the initial instruction if used.
 
     company_research = '''
-   You will be provided with a Job Description (JD) below. Your primary task is to help a user prepare for an interview for the role detailed in this JD.
-
-    1.  Identify Company: First, accurately identify the name of the company from the Job Description.
-    2.  Research Company: Using the identified company name, leverage your knowledge base and search capabilities (if available) to gather comprehensive information about this company.
-    3.  Generate Interview Prep Content: Populate the JSON structure below with information specifically tailored to help the user prepare for their interview. Focus on strategy, market position, challenges, recent developments, and potential talking points relevant to both the company and the specific role mentioned in the JD.
+ You are an expert research assistant helping a user prepare for a job interview.
+Your task is to analyze the provided Job Description (JD), identify the company, research it thoroughly, and generate a detailed JSON output containing key information relevant for interview preparation.
 
     '''+data+'''
     ----
-   Revised Goal: For the company identified from the JD, generate concise yet insightful information specifically relevant for someone preparing for an interview for the role described in the JD. Focus on its strategy, market position, challenges, recent developments, and potential talking points. Populate the requested JSON structure accurately and thoughtfully. Ensure the subPoints provide specific details and insights where possible, not just vague statements. If, after your research, information for a specific point cannot be found, explicitly state 'Information not found' or 'Publicly available information is scarce for this point.'
+  1.  *Identify Company:* Accurately extract the company name from the JD.
+2.  *Research:* Using the identified company name, leverage your knowledge base and search capabilities to gather comprehensive information on the points listed below under "Required Information Categories." Pay special attention to finding the company's founders.
+3.  *Output Style:*
+    *   Generate the response *exclusively* in the JSON format specified at the end. Do not include any text before or after the JSON object.
+    *   Populate the quick_summary field with a concise, high-impact overview suitable for an interview opening.
+    *   For each sub_module, first populate the subPoints within the points array.
+    *   *Crucially:* Write the content for each item in the subPoints arrays as *complete, informative sentences* or concise bullet points where a list format is natural (e.g., listing names, competitors, features). *Do not* write instructions or descriptions like "List the founders" within the subPoints values; instead, provide the actual information (e.g., "The company was founded by Jane Doe and John Smith.").
+    *   If specific information for a point cannot be found after searching (especially for founders, specific financials, etc.), *explicitly state* "Information not found" or "Specific details not publicly available" for that subPoint.
+    *   After populating the points, generate a concise 2-3 sentence summary for each sub_module that synthesizes the key findings from its points.
+    *   Ensure the completed flag remains false in the output JSON structure.
 
-    # Module 1 - Know the Company
+*REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):*
 
-    1. Quick Summary (Interview Angle):
+*   *Quick Summary:* High-impact overview (~2 mins) covering: Core mission/vision, primary product/service & differentiator, key customer segment & problem solved, top 1-2 competitors & company's advantage, one significant recent development & its implication.
+*   *Company Overview:*
+    *   Company Snapshot: Concise description of the company.
+    *   Origins & Founders: Founding date, location, key founder(s), original vision/inspiration. (Emphasize finding founders).
+    *   Product & Services Portfolio: Range of products, services, solutions; key offerings; innovation areas.
+    *   Revenue Model: How revenue is generated, known pricing structure, monetization strategy, primary income streams.
+*   *Target Market & Customers:*
+    *   Primary Customer Segments: B2B/B2C segments, defining characteristics.
+    *   Key Customer Challenges Solved: Problems/needs addressed by products/services.
+    *   Key Reasons Customers Choose: Top 2-3 USPs/differentiators.
+    *   Key Industries Served: Primary verticals, areas of strategic focus.
+    *   Notable Clients: 5-7 significant clients (publicly known), brief interview relevance (e.g., 'Validates enterprise readiness').
+*   *Competitive Landscape:*
+    *   Main Competitors: 5-7 significant competitors (or fewer if appropriate), their focus.
+    *   Key Differentiators (USPs): 1-3 points making the company stand out.
+    *   Competitive Strengths: 1-3 core advantages (e.g., technology, brand).
+    *   Potential Weaknesses/Challenges: 1-3 potential vulnerabilities relative to competitors.
+*   *Org Structure, Leadership & Culture:*
+    *   Size, Status & Location: Approx Employee Count, Public/Private, HQ, Key Offices.
+    *   Organizational Structure: Parent Company, Key Subsidiaries/Divisions, recent restructuring.
+    *   Key Leadership: CEO, CPO/Product Head, CTO/Engineering Head, other relevant VPs/Heads (provide names).
+    *   Financial Health & Funding: Recent Funding (Round/Amount/Date/Investors), Profitability/Revenue trends (if public), growth signals.
+    *   Company Culture: 2-3 inferred aspects based on mission, values, reviews, news (provide justification or state if speculative).
+*   *Recent News & Key Developments:*
+    *   Key Recent Events: 3-5 significant events from the last ~2 years (funding, launches, acquisitions, partnerships). Summarize each factually in one sentence (e.g., "Acquired Company Y, specializing in Z technology, in Q3 2023.").
+*   *Industry Context & Company Fit:*
+    *   Key Industry Trends Impacting: 1-2 major trends and their specific effect on this company.
+    *   Strategic Opportunities: 1-2 growth opportunities based on trends/strengths.
+    *   Potential Headwinds/Risks: 1-2 key risks/challenges based on trends/weaknesses.
 
-    - Purpose: A ~2-minute, high-impact overview hitting key interview talking points.
-    - Content (Populate the 'quick_summary' field in the JSON based on your research of the identified company):
-        - Company's core mission/vision (in impactful terms).
-        - Primary product/service and its main differentiator or value proposition.
-        - Key target customer segment and the main problem solved for them.
-        - Top 1-2 strategic competitors and the company's primary competitive advantage against them.
-        - One significant recent development (funding, launch, acquisition) and its implication (e.g., signals growth, shift in strategy) – for this point only, analyze implication.
-
-    Revised Card Structure Guidance (for populating 'sub_modules' in JSON):
-
-    - Card 1: Company Overview
-        - title: "Company Overview"
-        - summary: "[Generate a 2-3 sentence summary of this card's key findings regarding the Company Overview, based on the 'points' and 'subPoints' populated below.]" # MODIFIED
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Company Snapshot", subPoints: ["Based on your research, provide a concise description of the identified company."]
-            - main: "Origins & Founders", subPoints: ["Based on your research, detail when and where the company was founded.", "List the key founder(s).", "Explain the inspiration or vision behind its creation."]
-            - main: "Product & Services Portfolio", subPoints: ["Based on your research, breakdown the company’s full range of products.", "List its services and solutions.", "Highlight key offerings.", "Mention significant innovation areas."]
-            - main: "Revenue Model", subPoints: ["Based on your research, explain how the company generates revenue.", "Describe its pricing structure if known.", "Outline its core monetization strategy.", "Identify primary income streams."]
-
-    - Card 2: Target Market & Customers
-        - title: "Target Market & Customers"
-        - summary: "[Generate a 2-3 sentence summary of this card's key findings regarding the Target Market & Customers, based on the 'points' and 'subPoints' populated below.]" # MODIFIED
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Primary Customer Segments", subPoints: ["Describe the primary B2B and/or B2C customer segments of the identified company.", "Highlight defining characteristics, demographics, or firmographics of these segments (e.g., size of business, user persona)."]
-            - main: "Key Customer Challenges Solved", subPoints: ["List the specific problems, unmet needs, or challenges the identified company's products/services directly solve for its target customers.", "Focus on the core value proposition from the customer's perspective."]
-            - main: "Key Reasons Customers Choose the Company", subPoints: ["Identify the top 2-3 compelling reasons, differentiators, or unique selling propositions (USPs) that make customers select the identified company over competitors.", "Examples: superior technology, better user experience, cost-effectiveness, specific features, strong customer support, brand reputation."]
-            - main: "Key Industries Served", subPoints: ["List the primary industries or verticals that the identified company's products/services cater to.", "Note if any industry represents a particular strategic focus or significant market share."]
-            - main: "Notable Clients", subPoints: ["From your research of publicly available information about the identified company, list 5-7 significant or well-known clients.", "Briefly state the potential interview-relevant significance of these clients (e.g., 'Validates enterprise readiness', 'Represents major market penetration in X industry').", "If fewer than 5-7 are prominent from your research, list those found."]
-
-    - Card 3: Competitive Landscape
-        - title: "Competitive Landscape"
-        - summary: "[Generate a 2-3 sentence summary of this card's key findings regarding the Competitive Landscape, based on the 'points' and 'subPoints' populated below.]" # MODIFIED
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Main Competitors", subPoints: ["List 5-7 significant or well-known competitors of the identified company, or as many as publicly available from your research if not that many.", "Note their primary focus area if different."]
-            - main: "Key Differentiators (USPs)", subPoints: ["What makes the identified company stand out from competitors in the eyes of customers? (List 1-3 points based on your research)"]
-            - main: "Competitive Strengths", subPoints: ["Based on your research, identify 1-3 core advantages of the identified company (e.g., 'Proprietary technology in X', 'Strong network effects', 'Established brand trust')."]
-            - main: "Potential Weaknesses/Challenges", subPoints: ["Based on your research, identify 1-3 potential vulnerabilities of the identified company relative to competitors (e.g., 'Smaller R&D budget', 'Dependency on single product line', 'Navigating regulatory hurdles')."]
-
-    - Card 4: Org Structure, Leadership & Culture
-        - title: "Org Structure, Leadership & Culture"
-        - summary: "[Generate a 2-3 sentence summary of this card's key findings regarding Org Structure, Leadership & Culture, based on the 'points' and 'subPoints' populated below.]" # MODIFIED
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Size, Status & Location", subPoints: ["Approx Employee Count", "Public/Private Status", "HQ Location", "Other Key Office Locations (if relevant)."]
-            - main: "Organizational Structure", subPoints: ["Parent Company (if any)", "Key Subsidiaries/Divisions (if any)", "Note recent restructuring if known."]
-            - main: "Key Leadership", subPoints: ["CEO: [Name]", "CPO/Head of Product: [Name]", "CTO/Head of Engineering: [Name]", "Other VPs/Heads relevant to the role in the JD or company data functions."]
-            - main: "Financial Health & Funding", subPoints: ["Recent Funding: [Round/Amount/Date/Key Investors]", "Mention Profitability/Revenue trends if stated", "Note other growth signals."]
-            - main: "Company Culture", subPoints: ["Based on your research (e.g., the identified company's stated mission/values, reputable employee review aggregators, news reports), infer 2-3 potential cultural aspects.", "Example: 'Emphasis on innovation suggested by recent product launches.'", "Example: 'Data points to a collaborative environment.'", "If information is scarce or highly speculative, state so."]
-
-    - Card 5: Recent News & Key Developments
-        - title: "Recent News & Key Developments"
-        - summary: "[Generate a 1-2 sentence summary highlighting the most significant recent news or developments from the 'points' populated below. Focus on the nature of the events without analyzing impact.]" # MODIFIED
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Key Events", # MODIFIED: Name changed from "Key Recent Events".
-              subPoints: [
-                  "Each subPoint should be a single, concise sentence summarizing a key recent event and its most important factual details (like funding amounts, key partners, product names, dates if significant). Do NOT use prefixes like 'Event:' or 'Factual Details:'.",
-                  "Example for a funding event: 'Raised $500M from investors like Tiger Global and Sequoia Capital in a Series C round.'",
-                  "Example for an award/recognition: 'Was named one of Inc. Magazine’s Best Workplaces, reflecting its consistent recognition as a top workplace.'",
-                  "Example for a product launch: 'Launched Product Y, a new AI-powered analytics tool, on YYYY-MM-DD.'",
-                  "List up to 3-5 such key recent events from the last 2 years. Focus on factual reporting without impact analysis."
-              ]
-
-    - Card 6: Industry Context & Company Fit
-        - title: "Industry Context & Company Fit"
-        - summary: "[Generate a 2-3 sentence summary of this card's key findings regarding Industry Context & Company Fit, based on the 'points' and 'subPoints' populated below.]" # MODIFIED
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Key Industry Trends Impacting the Company",
-              subPoints: [
-                  "For each key industry trend (identify 2-3), provide a single, complete 1-2 sentence statement. This statement must describe the trend AND its specific impact on the company.",
-                  "Each such combined statement should be a separate string in this list.",
-                  "Example 1: 'Increasingly stringent KYC/AML regulations require the company to continuously update its compliance tools and processes.'",
-                  "Example 2: 'The rising sophistication of fraud tactics necessitates that the company invest heavily in advanced fraud detection and prevention technologies.'",
-                  "Ensure each string entry in the subPoints array is a self-contained statement covering one trend and its impact."
-              ]
-            - main: "Strategic Opportunities", subPoints: ["Based on industry trends and the identified company's strengths, identify 1-2 key growth opportunities."]
-            - main: "Potential Headwinds/Risks", subPoints: ["Based on industry trends and the identified company's weaknesses/market dynamics, identify 1-2 key risks or challenges."]
     ----
     Give me response in this JSON format only. Adhere strictly to the structure provided:
     {
-    "quick_summary": "A 2-minute, high-impact overview of the identified company, hitting key interview talking points such as its mission, primary product/value, target customers, main competitors, and a significant recent development with its implication.",
+    "quick_summary": "Generated ~2-minute, high-impact overview hitting key interview talking points: mission, product/value, customers, competitors, recent development & implication.",
     "sub_modules": [
         {
         "title": "Company Overview",
@@ -107,99 +66,99 @@ def company_research_fun(data):
         "points": [
             {
             "main": "Company Snapshot",
-            "subPoints": ["Concise description of the identified company."]
+            "subPoints": ["Complete sentence describing the company."]
             },
             {
             "main": "Origins & Founders",
-            "subPoints": ["Details about when, where, and by whom the company was founded, vision behind creation."]
+            "subPoints": ["Sentence about founding date and location","Sentence listing key founder(s) names. State 'Founder information not found' if applicable","Sentence about the original vision or inspiration",...]
             },
             {
             "main": "Product & Services Portfolio",
-            "subPoints": ["Breakdown of the company’s full range of products, services, solutions, key offerings, innovation areas."]
+            "subPoints": ["Sentence(s) describing the range of products/services","Sentence highlighting key offerings or innovation areas",...]
             },
             {
             "main": "Revenue Model",
-            "subPoints": ["Explanation of how the company generates revenue, pricing structure, monetization strategy, income streams."]
+            "subPoints": ["Sentence explaining the primary revenue generation method","Sentence describing pricing or monetization strategy, if known","Sentence identifying primary income streams, if distinct",...]
             }
         ]
         },
         {
         "title": "Target Market & Customers",
 "completed":false,
-        "summary": "[A generated 2-3 sentence summary of the Target Market & Customers based on its populated points will appear here.]",
+        "summary": "Generated 2-3 sentence summary of Target Market findings.",
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the company's target market and customers.",
         "points": [
             {
             "main": "Primary Customer Segments",
-            "subPoints": ["Description of primary B2B/B2C segments and their characteristics."]
+            "subPoints": ["Sentence describing primary B2B/B2C segments","Sentence highlighting key characteristics/firmographics",...]
             },
             {
             "main": "Key Customer Challenges Solved",
-            "subPoints": ["List of specific problems/needs the company solves for its customers."]
+            "subPoints": ["Sentence listing specific problems/needs solved","Sentence describing the core value proposition from the customer view",...]
             },
             {
             "main": "Key Reasons Customers Choose the Company",
-            "subPoints": ["Top 2-3 reasons/USPs why customers select this company."]
+            "subPoints": ["Sentence listing the top 2-3 reasons/USPs",...]
             },
             {
             "main": "Key Industries Served",
-            "subPoints": ["Primary industries/verticals the company's products/services cater to."]
+            "subPoints": ["Sentence listing primary industries/verticals","Sentence noting any strategic focus or significant market share by industry",...]
             },
             {
             "main": "Notable Clients",
-            "subPoints": ["List of 5-7 significant clients (publicly mentioned or on company website) and their importance."]
+            "subPoints": ["List 5-7 significant, publicly known clients as bullet points or sentences. State 'Few notable clients publicly listed' if applicable","Sentence on the potential interview relevance of these clients",...]
             }
         ]
         },
         {
         "title": "Competitive Landscape",
 "completed":false,
-        "summary": "[A generated 2-3 sentence summary of the Competitive Landscape based on its populated points will appear here.]",
+        "summary": "[Generated 2-3 sentence summary of Competitive Landscape findings.]",
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the company's competitive landscape.",
         "points": [
             {
             "main": "Main Competitors",
-            "subPoints": ["List of 5-7 significant competitors (or as many as publicly available) and their primary focus areas."]
+            "subPoints": ["List of 5-7 significant competitors (or as many as publicly available) and their primary focus areas.",...]
             },
             {
             "main": "Key Differentiators (USPs)",
-            "subPoints": ["What makes the company stand out (1-3 points)."]
+            "subPoints": ["What makes the company stand out (1-3 points).",...]
             },
             {
             "main": "Competitive Strengths",
-            "subPoints": ["1-3 core advantages of the company."]
+            "subPoints": ["1-3 core advantages of the company.",...]
             },
             {
             "main": "Potential Weaknesses/Challenges",
-            "subPoints": ["1-3 potential vulnerabilities relative to competitors."]
+            "subPoints": ["1-3 potential vulnerabilities relative to competitors.",...]
             }
         ]
         },
         {
         "title": "Org Structure, Leadership & Culture",
 "completed":false,
-        "summary": "[A generated 2-3 sentence summary of the Org Structure, Leadership & Culture based on its populated points will appear here.]",
+        "summary": "[Generated 2-3 sentence summary of Org Structure, Leadership & Culture findings.]",
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the company's org structure, leadership, and culture.",
         "points": [
             {
             "main": "Size, Status & Location",
-            "subPoints": ["Approx Employee Count, Public/Private, HQ, Key Offices."]
+            "subPoints": ["Sentence with Approx Employee Count","Sentence with Public/Private Status","Sentence with HQ Location","Sentence with Other Key Office Locations, if relevant",...]
             },
             {
             "main": "Organizational Structure",
-            "subPoints": ["Parent Company, Key Subsidiaries/Divisions, recent restructuring."]
+            "subPoints": ["Sentence about Parent Company, if any","Sentence about Key Subsidiaries/Divisions, if any","Sentence noting recent restructuring, if known",...]
             },
             {
             "main": "Key Leadership",
-            "subPoints": ["CEO, CPO/Product Head, CTO/Engineering Head, other relevant VPs/Heads."]
+            "subPoints": ["CEO: Name or 'Information not found'","CPO/Head of Product: [Name or 'Information not found'","CTO/Head of Engineering: Name or 'Information not found'","Other relevant VPs/Heads: Name or 'Information not found'",...]
             },
             {
             "main": "Financial Health & Funding",
-            "subPoints": ["Recent Funding, Profitability/Revenue trends, growth signals."]
+            "subPoints": ["Sentence about Recent Funding (Amount/Date/Investors). State 'No recent funding information found' if applicable.","Sentence on Profitability/Revenue trends, if public. State 'Financials not publicly available' if applicable.","Sentence noting other growth signals, if observed.",...]
             },
             {
             "main": "Company Culture",
-            "subPoints": ["Inferred cultural aspects from mission, values, news; examples."]
+            "subPoints": [ "Sentence describing 1-2 inferred cultural aspects based on research","Sentence providing justification/example for the inferred aspects","State 'Limited public information on culture' if necessary",...]
             }
         ]
         },
@@ -212,9 +171,7 @@ def company_research_fun(data):
             {
             "main": "Key Events",
             "subPoints": [
-                "Raised $500M from investors like Tiger Global and Sequoia Capital in a Series C round.",
-                "Was named one of Inc. Magazine’s Best Workplaces, reflecting its consistent recognition as a top workplace.",
-                "Launched Product Y, a new AI-powered analytics tool, on 2023-05-15."
+                 "Factual sentence summarizing Event 1 (e.g., funding, launch, acquisition).","Factual sentence summarizing Event 2","Factual sentence summarizing Event 3","Add up to 2 more relevant recent events, if found","State 'Few major recent events found' if applicable",...
                 ]
             }
         ]
@@ -222,23 +179,22 @@ def company_research_fun(data):
         {
         "title": "Industry Context & Company Fit",
 "completed":false,
-        "summary": "[A generated 2-3 sentence summary of the Industry Context & Company Fit based on its populated points will appear here.]",
+        "summary": "Generated 2-3 sentence summary of Industry Context findings.",
         "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the industry context and company fit.",
         "points": [
             {
             "main": "Key Industry Trends Impacting the Company",
             "subPoints": [
-                "Increasingly stringent KYC/AML regulations require the company to continuously update its compliance tools and processes.",
-                "The rising sophistication of fraud tactics necessitates heavy investment in advanced fraud detection and prevention technologies by the company."
+                "Sentence describing Trend 1","Sentence explaining Trend 1's specific effect on this company","Sentence describing Trend 2","Sentence explaining Trend 2's specific effect on this company",...
                 ]
             },
             {
             "main": "Strategic Opportunities",
-            "subPoints": ["1-2 key growth opportunities based on trends and strengths."]
+            "subPoints": ["Sentence identifying 1-2 key growth opportunities based on trends/strengths.",...]
             },
             {
             "main": "Potential Headwinds/Risks",
-            "subPoints": ["1-2 key risks/challenges based on trends and weaknesses/market dynamics."]
+            "subPoints": ["Sentence identifying 1-2 key risks/challenges based on trends/weaknesses",...]
             }
         ]
         }
