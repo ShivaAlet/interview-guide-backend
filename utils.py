@@ -87,7 +87,7 @@ def generateCompanyResearchPrompt(data,module):
 
 
 def get_response(question, results,errorJsons, index):
-    model="perplexity/sonar" if(index==0 or index==1) else "google/gemini-2.5-flash-preview"
+    model="google/gemini-2.5-flash-preview"
     print(index,model)
     while True:
         try:

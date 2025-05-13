@@ -10,48 +10,40 @@ Your task is to analyze the provided Job Description (JD), identify the company,
 
     '''+data+'''
     ----
-  1.  *Identify Company:* Accurately extract the company name from the JD.
-2.  *Research:* Using the identified company name, leverage your knowledge base and search capabilities to gather comprehensive information on the points listed below under "Required Information Categories." Pay special attention to finding the company's founders.
-3.  *Output Style:*
-    *   Generate the response *exclusively* in the JSON format specified at the end. Do not include any text before or after the JSON object.
-    *   Populate the quick_summary field with a concise, high-impact overview suitable for an interview opening.
+1.  Identify Company: Use the company name provided by the user as the primary target for research. If a company website URL is also provided (which is optional), use it as the most definitive source to confirm the specific company. Analyze the Job Description (JD) (and the website if provided) to gain crucial contextual understanding (industry, products, location) that helps confirm the specific company, especially for common names or if the website is not available, and guides the subsequent research focus.
+2.  Research: Using the identified company, leverage your knowledge base and search capabilities to gather comprehensive information for all the points listed under "Required Information Categories" below. Prioritize information from official company sources (website, LinkedIn, press releases) and reputable business news outlets for accuracy, especially for details like founders, leadership, financials, and key events.
+3.  Output Style:
+    *   Generate the response exclusively in the JSON format specified at the end. Do not include any text before or after the JSON object.
+    *   Populate the quick_summary field with a concise, high-impact overview of the company (~1-2 minutes of talking points). This should provide a rapid understanding of the company's core identity and key activities.
     *   For each sub_module, first populate the subPoints within the points array.
-    *   *Crucially:* Write the content for each item in the subPoints arrays as *complete, informative sentences* or concise bullet points where a list format is natural (e.g., listing names, competitors, features). *Do not* write instructions or descriptions like "List the founders" within the subPoints values; instead, provide the actual information (e.g., "The company was founded by Jane Doe and John Smith.").
-    *   If specific information for a point cannot be found after searching (especially for founders, specific financials, etc.), *explicitly state* "Information not found" or "Specific details not publicly available" for that subPoint.
+    *   Crucially: Write the content for each item in the subPoints arrays as complete, informative sentences or concise bullet points where a list format is natural (e.g., listing names, competitors, features). Do not write instructions or descriptions like "List the founders" within the subPoints values; instead, provide the actual information (e.g., "The company was founded by Jane Doe and John Smith.").
+    *   If specific information for a point cannot be found after searching (especially for founders, specific financials, key leadership, etc.), explicitly state "Information not found" or "Specific details not publicly available" for that subPoint.
     *   After populating the points, generate a concise 2-3 sentence summary for each sub_module that synthesizes the key findings from its points.
     *   Ensure the completed flag remains false in the output JSON structure.
 
-*REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):*
+REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
 
-*   *Quick Summary:* High-impact overview (~2 mins) covering: Core mission/vision, primary product/service & differentiator, key customer segment & problem solved, top 1-2 competitors & company's advantage, one significant recent development & its implication.
-*   *Company Overview:*
+*   Quick Summary: A concise, high-impact overview providing a rapid understanding of the company. It should cover: Concise description of the company, Core mission/vision, primary product/service & differentiator, key customer segment & problem solved, and top 1-2 competitors.
+*   Company Overview:
     *   Company Snapshot: Concise description of the company.
-    *   Origins & Founders: Founding date, location, key founder(s), original vision/inspiration. (Emphasize finding founders).
-    *   Product & Services Portfolio: Range of products, services, solutions; key offerings; innovation areas.
-    *   Revenue Model: How revenue is generated, known pricing structure, monetization strategy, primary income streams.
-*   *Target Market & Customers:*
+    *   Origins & Founders: Founding date, location, key founder(s), original vision/inspiration. Actively seek founder names and founding details from reliable sources.
+    *   Product & Services Portfolio: Comprehensive list and summary of all products, services, and solutions offered by the company.
+*   Target Market & Customers:
     *   Primary Customer Segments: B2B/B2C segments, defining characteristics.
     *   Key Customer Challenges Solved: Problems/needs addressed by products/services.
     *   Key Reasons Customers Choose: Top 2-3 USPs/differentiators.
     *   Key Industries Served: Primary verticals, areas of strategic focus.
     *   Notable Clients: 5-7 significant clients (publicly known), brief interview relevance (e.g., 'Validates enterprise readiness').
-*   *Competitive Landscape:*
+*   Competitive Landscape:
     *   Main Competitors: 5-7 significant competitors (or fewer if appropriate), their focus.
     *   Key Differentiators (USPs): 1-3 points making the company stand out.
     *   Competitive Strengths: 1-3 core advantages (e.g., technology, brand).
     *   Potential Weaknesses/Challenges: 1-3 potential vulnerabilities relative to competitors.
-*   *Org Structure, Leadership & Culture:*
+*   Org Structure, Leadership & Culture:
     *   Size, Status & Location: Approx Employee Count, Public/Private, HQ, Key Offices.
     *   Organizational Structure: Parent Company, Key Subsidiaries/Divisions, recent restructuring.
-    *   Key Leadership: CEO, CPO/Product Head, CTO/Engineering Head, other relevant VPs/Heads (provide names).
-    *   Financial Health & Funding: Recent Funding (Round/Amount/Date/Investors), Profitability/Revenue trends (if public), growth signals.
-    *   Company Culture: 2-3 inferred aspects based on mission, values, reviews, news (provide justification or state if speculative).
-*   *Recent News & Key Developments:*
-    *   Key Recent Events: 3-5 significant events from the last ~2 years (funding, launches, acquisitions, partnerships). Summarize each factually in one sentence (e.g., "Acquired Company Y, specializing in Z technology, in Q3 2023.").
-*   *Industry Context & Company Fit:*
-    *   Key Industry Trends Impacting: 1-2 major trends and their specific effect on this company.
-    *   Strategic Opportunities: 1-2 growth opportunities based on trends/strengths.
-    *   Potential Headwinds/Risks: 1-2 key risks/challenges based on trends/weaknesses.
+    *   Key Leadership: Identify and list the names of key leadership roles: CEO, Head of Product (e.g., CPO), Head of Engineering (e.g., CTO), and other relevant VPs or divisional heads. Actively search company websites, official press releases, and credible professional profiles (like LinkedIn) for these names. State 'Information not found' if a name cannot be definitively identified from reliable sources.
+    *   Financial Health & Funding: Recent Funding (Round/Amount/Date/Investors). State 'No recent funding information found' if applicable.","Sentence on Profitability/Revenue trends, if public. State 'Financials not publicly available' if applicable.","Sentence noting other growth signals, if observed.",...]
 
     ----
     Give me response in this JSON format only. Adhere strictly to the structure provided:
@@ -311,6 +303,8 @@ def product_research_fun(data):
             - main: "Weaknesses", subPoints: ["Identify and briefly explain 2-3 internal limitations or areas for improvement for the [Primary Focus Product] (e.g., 'Perceived high price point compared to emerging competitors,' 'Reliance on a complex legacy system for certain functionalities')."]
             - main: "Opportunities", subPoints: ["Outline 1-2 significant external market opportunities that the [Primary Focus Product] is well-positioned to capitalize on.", "(Consider potential synergies with Contextual Products or emerging market needs)."]
             - main: "Threats", subPoints: ["Describe 1-2 key external threats or challenges that could negatively impact the [Primary Focus Product]'s market position or growth.", "(Consider competitive pressures, including those involving Contextual Products, or shifting technological landscapes)."]
+    ----
+    in each sub module the completed must be false only
     ----
     Give me response in this JSON format only:
     {
