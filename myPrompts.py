@@ -622,18 +622,10 @@ Card 6: Key Themes & Interview Angles
         mainPoint: Insightful Questions to Ask
 
             subPoints: Generate 3-5 potential questions the candidate could ask their interviewers, derived directly from ambiguities, strategic points, potential challenges, or missing information identified during this JD analysis. Frame these as questions that show thoughtful engagement with the role and its context.
+----
+in each sub module the completed must be false only
 
 ---
-
-**Card 4: Team Structure**
-
-- **Title:** Team Structure
-- **Summary Preview:** Understand key stakeholders and collaborators.
-- **Expanded Details:**
-    - Key Collaborators & Stakeholders: [Specific teams (Eng, Design, Sales)
-    or roles mentioned as partners OR "Key collaborators not specified"].
-    - Reporting Structure: [Who the role reports to, if mentioned OR "Reporting structure not specified"].
-    - Implied Collaboration Style: [Inference about cross-functional interaction style OR "Collaboration style not detailed"].
     ----
     Give me response in this JSON format only:
     {
