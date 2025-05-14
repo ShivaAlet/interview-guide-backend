@@ -18,7 +18,7 @@ def generatePrompts(data):
     data1 = "{\\n company_name:'"+data['company_name']+(f",\n company_website:{data.get('company_website', '')}" if data.get("company_website") else "")+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+("',\\n resume:'"+data['resume']+"'\\n }" if data['resume'] else "")
     prompts = [
          myPrompts.company_research_fun("{\\n company_name:'"+data['company_name']+(f",\n company_website:{data.get('company_website', '')}" if data.get("company_website") else "")+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']),
-         myPrompts.product_research_fun(data1),
+         myPrompts.product_research_fun("{\\n company_name:'"+data['company_name']+(f",\n company_website:{data.get('company_website', '')}" if data.get("company_website") else "")+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']),
          myPrompts.job_description_analysis_fun(data1),
          myPrompts.resume_experience_to_highlight_to_stand_out_fun(data1),
         "{\\n company_name:'"+data['company_name']+(f",\n company_website:{data.get('company_website', '')}" if data.get("company_website") else "")+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+("',\\n resume:'"+data['resume']+"'\\n }" if data['resume'] else "")+".Your goal is to just Generate entire Output of 'Hiring Manager Round' Array Data. Add more points,values, etc. as per your understanding and I want json data to be more so add accordingly. Result should contain all sub modules and it is fixed : 'Phase 1: Introduction & Background', 'Phase 2: Product Experience Deep Dives', 'Phase 3: Product Methodology Assessment', 'Phase 4: Cross-Functional Collaboration', 'Phase 5: Strategic Thinking', 'Phase 6: Technical Understanding', 'Phase 7: Role-Specific Challenges'. And give me JSON data of 'Hiring Manager Round' only and 'STRICTLY do not include any silly mistake in this JSON OUTPUT e.g. brackets, comas, quatations,'\\n'','\\t',etc.' and completed must be 'false' only so provide me entire full JSON Data in this exact JSON format only:{quick_summary:'',sub_modules:[{title:'Phase 1: Introduction & Background',completed:false,summary:'',content:'some text content only',points:[{main:'title of point can be short text or little long short text',subPoints:['value1 can be text only','value2',..]},{main:'',subPoints:['value1',..]},..]},{title:'Phase 2: Product Experience Deep Dives',completed:false,summary:'',content:'',points:[]}\\}...]}",
@@ -89,11 +89,6 @@ def generateCompanyResearchPrompt(data,module):
 def get_response(question, results,errorJsons, index):
     model="google/gemini-2.5-flash-preview"
     jdumps = json.dumps({
-                    "model": model,
-                    "messages": [
-                        {"role": "user", "content": question}
-                    ]
-                }) if index!=0 else json.dumps({
                         "model": "google/gemini-2.5-flash-preview",
                         "messages": [
                             {"role": "user", "content":question}
@@ -180,9 +175,8 @@ def get_response(question, results,errorJsons, index):
                 data=jdumps
             )
 
-            if index==0:
-                results[index]=json.loads(response.json()["choices"][0]["message"]["tool_calls"][0]["function"]["arguments"])
-                break
+            results[index]=json.loads(response.json()["choices"][0]["message"]["tool_calls"][0]["function"]["arguments"])
+            break
             
 
             result=response.json()["choices"][0]["message"]["content"]
