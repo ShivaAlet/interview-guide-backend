@@ -1,13 +1,8 @@
 
 def company_research_fun(data):
-    # Consider adding role description here if available:
-    # role_context = "The target role is a Product Manager focused on ML platforms."
-    # Add role_context to the initial instruction if used.
-
     company_research = '''
- You are an expert research assistant helping a user prepare for a job interview.
+  You are an expert research assistant helping a user prepare for a job interview.
 Your task is to analyze the provided Job Description (JD), identify the company, research it thoroughly, and generate a detailed JSON output containing key information relevant for interview preparation.
-
     '''+data+'''
     ----
 1.  Identify Company: Use the company name provided by the user as the primary target for research. If a company website URL is also provided (which is optional), use it as the most definitive source to confirm the specific company. Analyze the Job Description (JD) (and the website if provided) to gain crucial contextual understanding (industry, products, location) that helps confirm the specific company, especially for common names or if the website is not available, and guides the subsequent research focus.
@@ -67,10 +62,6 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
             {
             "main": "Product & Services Portfolio",
             "subPoints": ["Sentence(s) describing the range of products/services","Sentence highlighting key offerings or innovation areas",...]
-            },
-            {
-            "main": "Revenue Model",
-            "subPoints": ["Sentence explaining the primary revenue generation method","Sentence describing pricing or monetization strategy, if known","Sentence identifying primary income streams, if distinct",...]
             }
         ]
         },
