@@ -1,9 +1,45 @@
 
 def company_research_fun(data):
-    company_research = '''
+    question = (
+    "Explain the operating system modules in full detail.\n\n"
+    "Return the answer strictly in the following JSON format:\n"
+    "{\n"
+    '  "quick_summary": "1–2 paragraphs that accurately and clearly summarize the overall content of ALL sub-modules below. '
+    'This must reflect the actual information presented in the sub_modules. Do not write generic or vague content. It must be meaningful and complete.",\n'
+    '  "sub_modules": [\n'
+    '    {\n'
+    '      "title": "Title of the sub-module (must be meaningful and not blank)",\n'
+    '      "completed": false,\n'
+    '      "summary": "A detailed and meaningful 1-paragraph summary of this specific sub-module (must not be blank or generic)",\n'
+    '      "content": "3–4 full, well-formed sentences with rich, complete, and accurate explanation of the sub-module. Do not leave blank.",\n'
+    '      "points": [\n'
+    '        {\n'
+    '          "main": "Heading of the main concept (must be meaningful and specific)",\n'
+    '          "subPoints": [\n'
+    '            "Fully written explanation about this point (must not be vague or short)",\n'
+    '            "Another long and informative explanation related to the point",\n'
+    '            "..."\n'
+    '          ]\n'
+    '        },\n'
+    '        "... more point objects ..."\n'
+    '      ]\n'
+    '    },\n'
+    '    "... more sub-modules ..."\n'
+    '  ]\n'
+    '}\n\n'
+    "Strict Output Instructions:\n"
+    "- Ensure the ENTIRE output is valid, structured JSON.\n"
+    "- DO NOT leave any field blank or generic.\n"
+    "- The `quick_summary` MUST summarize the real sub-modules below in 1–2 strong paragraphs.\n"
+    "- Each `title`, `summary`, `content`, `main`, and every `subPoint` must be accurate, meaningful, detailed, and relevant.\n"
+    "- The `content` field must contain exactly 3–4 full, informative sentences.\n"
+    "- Avoid repetition, filler, or hallucination. Every piece of content must be factually correct and context-aware.\n"
+    "- Write for clarity and completeness. Use high-quality, well-structured language."
+)
+    company_research = f'''
   You are an expert research assistant helping a user prepare for a job interview.
 Your task is to analyze the provided Job Description (JD), identify the company, research it thoroughly, and generate a detailed JSON output containing key information relevant for interview preparation.
-    '''+data+'''
+    {data}
     ----
 1.  Identify Company: Use the company name provided by the user as the primary target for research. If a company website URL is also provided (which is optional), use it as the most definitive source to confirm the specific company. Analyze the Job Description (JD) (and the website if provided) to gain crucial contextual understanding (industry, products, location) that helps confirm the specific company, especially for common names or if the website is not available, and guides the subsequent research focus.
 2.  Research: Using the identified company, leverage your knowledge base and search capabilities to gather comprehensive information for all the points listed under "Required Information Categories" below. Prioritize information from official company sources (website, LinkedIn, press releases) and reputable business news outlets for accuracy, especially for details like founders, leadership, financials, and key events.
@@ -41,148 +77,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
     *   Financial Health & Funding: Recent Funding (Round/Amount/Date/Investors). State 'No recent funding information found' if applicable.","Sentence on Profitability/Revenue trends, if public. State 'Financials not publicly available' if applicable.","Sentence noting other growth signals, if observed.",...]
 
     ----
-    Give me response in this JSON format only. Adhere strictly to the structure provided:
-    {
-    "quick_summary": "Generated ~2-minute, high-impact overview hitting key interview talking points: mission, product/value, customers, competitors, recent development & implication.",
-    "sub_modules": [
-        {
-        "title": "Company Overview",
-"completed":false,
-        "summary": "[A generated 2-3 sentence summary of the Company Overview based on its populated points will appear here.]",
-        "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the company's overview.",
-        "points": [
-            {
-            "main": "Company Snapshot",
-            "subPoints": ["Complete sentence describing the company."]
-            },
-            {
-            "main": "Origins & Founders",
-            "subPoints": ["Sentence about founding date and location","Sentence listing key founder(s) names. State 'Founder information not found' if applicable","Sentence about the original vision or inspiration",...]
-            },
-            {
-            "main": "Product & Services Portfolio",
-            "subPoints": ["Sentence(s) describing the range of products/services","Sentence highlighting key offerings or innovation areas",...]
-            }
-        ]
-        },
-        {
-        "title": "Target Market & Customers",
-"completed":false,
-        "summary": "Generated 2-3 sentence summary of Target Market findings.",
-        "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the company's target market and customers.",
-        "points": [
-            {
-            "main": "Primary Customer Segments",
-            "subPoints": ["Sentence describing primary B2B/B2C segments","Sentence highlighting key characteristics/firmographics",...]
-            },
-            {
-            "main": "Key Customer Challenges Solved",
-            "subPoints": ["Sentence listing specific problems/needs solved","Sentence describing the core value proposition from the customer view",...]
-            },
-            {
-            "main": "Key Reasons Customers Choose the Company",
-            "subPoints": ["Sentence listing the top 2-3 reasons/USPs",...]
-            },
-            {
-            "main": "Key Industries Served",
-            "subPoints": ["Sentence listing primary industries/verticals","Sentence noting any strategic focus or significant market share by industry",...]
-            },
-            {
-            "main": "Notable Clients",
-            "subPoints": ["List 5-7 significant, publicly known clients as bullet points or sentences. State 'Few notable clients publicly listed' if applicable","Sentence on the potential interview relevance of these clients",...]
-            }
-        ]
-        },
-        {
-        "title": "Competitive Landscape",
-"completed":false,
-        "summary": "[Generated 2-3 sentence summary of Competitive Landscape findings.]",
-        "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the company's competitive landscape.",
-        "points": [
-            {
-            "main": "Main Competitors",
-            "subPoints": ["List of 5-7 significant competitors (or as many as publicly available) and their primary focus areas.",...]
-            },
-            {
-            "main": "Key Differentiators (USPs)",
-            "subPoints": ["What makes the company stand out (1-3 points).",...]
-            },
-            {
-            "main": "Competitive Strengths",
-            "subPoints": ["1-3 core advantages of the company.",...]
-            },
-            {
-            "main": "Potential Weaknesses/Challenges",
-            "subPoints": ["1-3 potential vulnerabilities relative to competitors.",...]
-            }
-        ]
-        },
-        {
-        "title": "Org Structure, Leadership & Culture",
-"completed":false,
-        "summary": "[Generated 2-3 sentence summary of Org Structure, Leadership & Culture findings.]",
-        "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the company's org structure, leadership, and culture.",
-        "points": [
-            {
-            "main": "Size, Status & Location",
-            "subPoints": ["Sentence with Approx Employee Count","Sentence with Public/Private Status","Sentence with HQ Location","Sentence with Other Key Office Locations, if relevant",...]
-            },
-            {
-            "main": "Organizational Structure",
-            "subPoints": ["Sentence about Parent Company, if any","Sentence about Key Subsidiaries/Divisions, if any","Sentence noting recent restructuring, if known",...]
-            },
-            {
-            "main": "Key Leadership",
-            "subPoints": ["CEO: Name or 'Information not found'","CPO/Head of Product: [Name or 'Information not found'","CTO/Head of Engineering: Name or 'Information not found'","Other relevant VPs/Heads: Name or 'Information not found'",...]
-            },
-            {
-            "main": "Financial Health & Funding",
-            "subPoints": ["Sentence about Recent Funding (Amount/Date/Investors). State 'No recent funding information found' if applicable.","Sentence on Profitability/Revenue trends, if public. State 'Financials not publicly available' if applicable.","Sentence noting other growth signals, if observed.",...]
-            },
-            {
-            "main": "Company Culture",
-            "subPoints": [ "Sentence describing 1-2 inferred cultural aspects based on research","Sentence providing justification/example for the inferred aspects","State 'Limited public information on culture' if necessary",...]
-            }
-        ]
-        },
-        {
-        "title": "Recent News & Key Developments",
-"completed":false,
-        "summary": "[A generated 1-2 sentence summary of the key recent events (e.g., funding, launches) based on its populated points will appear here.]",
-        "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about recent news and developments.",
-        "points": [
-            {
-            "main": "Key Events",
-            "subPoints": [
-                 "Factual sentence summarizing Event 1 (e.g., funding, launch, acquisition).","Factual sentence summarizing Event 2","Factual sentence summarizing Event 3","Add up to 2 more relevant recent events, if found","State 'Few major recent events found' if applicable",...
-                ]
-            }
-        ]
-        },
-        {
-        "title": "Industry Context & Company Fit",
-"completed":false,
-        "summary": "Generated 2-3 sentence summary of Industry Context findings.",
-        "content": "Detailed textual information synthesized from the points below, forming a coherent narrative about the industry context and company fit.",
-        "points": [
-            {
-            "main": "Key Industry Trends Impacting the Company",
-            "subPoints": [
-                "Sentence describing Trend 1","Sentence explaining Trend 1's specific effect on this company","Sentence describing Trend 2","Sentence explaining Trend 2's specific effect on this company",...
-                ]
-            },
-            {
-            "main": "Strategic Opportunities",
-            "subPoints": ["Sentence identifying 1-2 key growth opportunities based on trends/strengths.",...]
-            },
-            {
-            "main": "Potential Headwinds/Risks",
-            "subPoints": ["Sentence identifying 1-2 key risks/challenges based on trends/weaknesses",...]
-            }
-        ]
-        }
-    ]
-    }
+    {question}
     '''
     return company_research
 

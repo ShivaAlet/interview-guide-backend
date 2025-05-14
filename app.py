@@ -504,19 +504,167 @@ def update_csv():
 # @app.route("/test_response",methods=['POST'])
 # def test_response():
 #     try:
+#         data1=request.form
+#         question = (
+#     "Explain the operating system modules in full detail.\n\n"
+#     "Return the answer strictly in the following JSON format:\n"
+#     "{\n"
+#     '  "quick_summary": "1–2 paragraphs that accurately and clearly summarize the overall content of ALL sub-modules below. '
+#     'This must reflect the actual information presented in the sub_modules. Do not write generic or vague content. It must be meaningful and complete.",\n'
+#     '  "sub_modules": [\n'
+#     '    {\n'
+#     '      "title": "Title of the sub-module (must be meaningful and not blank)",\n'
+#     '      "completed": false,\n'
+#     '      "summary": "A detailed and meaningful 1-paragraph summary of this specific sub-module (must not be blank or generic)",\n'
+#     '      "content": "3–4 full, well-formed sentences with rich, complete, and accurate explanation of the sub-module. Do not leave blank.",\n'
+#     '      "points": [\n'
+#     '        {\n'
+#     '          "main": "Heading of the main concept (must be meaningful and specific)",\n'
+#     '          "subPoints": [\n'
+#     '            "Fully written explanation about this point (must not be vague or short)",\n'
+#     '            "Another long and informative explanation related to the point",\n'
+#     '            "..."\n'
+#     '          ]\n'
+#     '        },\n'
+#     '        "... more point objects ..."\n'
+#     '      ]\n'
+#     '    },\n'
+#     '    "... more sub-modules ..."\n'
+#     '  ]\n'
+#     '}\n\n'
+#     "Strict Output Instructions:\n"
+#     "- Ensure the ENTIRE output is valid, structured JSON.\n"
+#     "- DO NOT leave any field blank or generic.\n"
+#     "- The `quick_summary` MUST summarize the real sub-modules below in 1–2 strong paragraphs.\n"
+#     "- Each `title`, `summary`, `content`, `main`, and every `subPoint` must be accurate, meaningful, detailed, and relevant.\n"
+#     "- The `content` field must contain exactly 3–4 full, informative sentences.\n"
+#     "- Avoid repetition, filler, or hallucination. Every piece of content must be factually correct and context-aware.\n"
+#     "- Write for clarity and completeness. Use high-quality, well-structured language."
+# )
 #         response = requests.post(
 #                     url="https://openrouter.ai/api/v1/chat/completions",
 #                     headers={
 #                         "Authorization": "Bearer " + api_key,
 #                     },
 #                     data=json.dumps({
-#                         "model": "perplexity/sonar",
+#                         "model": "google/gemini-2.5-flash-preview",
 #                         "messages": [
-#                             {"role": "user", "content": "Who is the founder of Alloy company"}
-#                         ]
+#                             {"role": "user", "content": f'''
+#   You are an expert research assistant helping a user prepare for a job interview.
+# Your task is to analyze the provided Job Description (JD), identify the company, research it thoroughly, and generate a detailed JSON output containing key information relevant for interview preparation.
+#     {str(data1)}
+#     ----
+# 1.  Identify Company: Use the company name provided by the user as the primary target for research. If a company website URL is also provided (which is optional), use it as the most definitive source to confirm the specific company. Analyze the Job Description (JD) (and the website if provided) to gain crucial contextual understanding (industry, products, location) that helps confirm the specific company, especially for common names or if the website is not available, and guides the subsequent research focus.
+# 2.  Research: Using the identified company, leverage your knowledge base and search capabilities to gather comprehensive information for all the points listed under "Required Information Categories" below. Prioritize information from official company sources (website, LinkedIn, press releases) and reputable business news outlets for accuracy, especially for details like founders, leadership, financials, and key events.
+# 3.  Output Style:
+#     *   Generate the response exclusively in the JSON format specified at the end. Do not include any text before or after the JSON object.
+#     *   Populate the quick_summary field with a concise, high-impact overview of the company (~1-2 minutes of talking points). This should provide a rapid understanding of the company's core identity and key activities.
+#     *   For each sub_module, first populate the subPoints within the points array.
+#     *   Crucially: Write the content for each item in the subPoints arrays as complete, informative sentences or concise bullet points where a list format is natural (e.g., listing names, competitors, features). Do not write instructions or descriptions like "List the founders" within the subPoints values; instead, provide the actual information (e.g., "The company was founded by Jane Doe and John Smith.").
+#     *   If specific information for a point cannot be found after searching (especially for founders, specific financials, key leadership, etc.), explicitly state "Information not found" or "Specific details not publicly available" for that subPoint.
+#     *   After populating the points, generate a concise 2-3 sentence summary for each sub_module that synthesizes the key findings from its points.
+#     *   Ensure the completed flag remains false in the output JSON structure.
+
+# REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
+
+# *   Quick Summary: A concise, high-impact overview providing a rapid understanding of the company. It should cover: Concise description of the company, Core mission/vision, primary product/service & differentiator, key customer segment & problem solved, and top 1-2 competitors.
+# *   Company Overview:
+#     *   Company Snapshot: Concise description of the company.
+#     *   Origins & Founders: Founding date, location, key founder(s), original vision/inspiration. Actively seek founder names and founding details from reliable sources.
+#     *   Product & Services Portfolio: Comprehensive list and summary of all products, services, and solutions offered by the company.
+# *   Target Market & Customers:
+#     *   Primary Customer Segments: B2B/B2C segments, defining characteristics.
+#     *   Key Customer Challenges Solved: Problems/needs addressed by products/services.
+#     *   Key Reasons Customers Choose: Top 2-3 USPs/differentiators.
+#     *   Key Industries Served: Primary verticals, areas of strategic focus.
+#     *   Notable Clients: 5-7 significant clients (publicly known), brief interview relevance (e.g., 'Validates enterprise readiness').
+# *   Competitive Landscape:
+#     *   Main Competitors: 5-7 significant competitors (or fewer if appropriate), their focus.
+#     *   Key Differentiators (USPs): 1-3 points making the company stand out.
+#     *   Competitive Strengths: 1-3 core advantages (e.g., technology, brand).
+#     *   Potential Weaknesses/Challenges: 1-3 potential vulnerabilities relative to competitors.
+# *   Org Structure, Leadership & Culture:
+#     *   Size, Status & Location: Approx Employee Count, Public/Private, HQ, Key Offices.
+#     *   Organizational Structure: Parent Company, Key Subsidiaries/Divisions, recent restructuring.
+#     *   Key Leadership: Identify and list the names of key leadership roles: CEO, Head of Product (e.g., CPO), Head of Engineering (e.g., CTO), and other relevant VPs or divisional heads. Actively search company websites, official press releases, and credible professional profiles (like LinkedIn) for these names. State 'Information not found' if a name cannot be definitively identified from reliable sources.
+#     *   Financial Health & Funding: Recent Funding (Round/Amount/Date/Investors). State 'No recent funding information found' if applicable.","Sentence on Profitability/Revenue trends, if public. State 'Financials not publicly available' if applicable.","Sentence noting other growth signals, if observed.",...]
+#     ----
+#     {question}
+#     '''}
+#                         ],
+#                         "tools": [
+#             {
+#                 "type": "function",
+#                 "function": {
+#                     "name": "structured_module_output",
+#                     "description": "Return detailed explanation in structured sub_module format",
+#                     "parameters": {
+#                         "type": "object",
+#                         "properties": {
+#                             "quick_summary": {
+#                                 "type": "string",
+#                                 "description": "1-2 paragraph long information about all these sub modules"
+#                             },
+#                             "sub_modules": {
+#                                 "type": "array",
+#                                 "items": {
+#                                     "type": "object",
+#                                     "properties": {
+#                                         "title": {
+#                                             "type": "string",
+#                                             "description": "Title of the module"
+#                                         },
+#                                         "completed": {
+#                                             "type": "boolean",
+#                                             "description": "Whether this module is completed"
+#                                         },
+#                                         "summary": {
+#                                             "type": "string",
+#                                             "description": "1 paragraph long summary"
+#                                         },
+#                                         "content": {
+#                                             "type": "string",
+#                                             "description": "3-4 sentences long information"
+#                                         },
+#                                         "points": {
+#                                             "type": "array",
+#                                             "items": {
+#                                                 "type": "object",
+#                                                 "properties": {
+#                                                     "main": {
+#                                                         "type": "string",
+#                                                         "description": "Main point title"
+#                                                     },
+#                                                     "subPoints": {
+#                                                         "type": "array",
+#                                                         "items": {
+#                                                             "type": "string"
+#                                                         },
+#                                                         "description": "List of long information texts"
+#                                                     }
+#                                                 },
+#                                                 "required": ["main", "subPoints"]
+#                                             }
+#                                         }
+#                                     },
+#                                     "required": ["title", "completed", "summary", "content", "points"]
+#                                 }
+#                             }
+#                         },
+#                         "required": ["quick_summary", "sub_modules"]
+#                     }
+#                 }
+#             }
+#         ],
+#         "tool_choice": {
+#             "type": "function",
+#             "function": {
+#                 "name": "structured_module_output"
+#             }
+#         }
 #                     })
 #                 )
-#         return jsonify({"ans":response.json()["choices"][0]["message"]["content"]})
+#         return jsonify({"ans":json.loads(response.json()["choices"][0]["message"]["tool_calls"][0]["function"]["arguments"])})
 #     except Exception as e:
 #         return jsonify({"error":str(e)})
     

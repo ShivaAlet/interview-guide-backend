@@ -17,7 +17,7 @@ api_key = os.getenv("API_KEY")
 def generatePrompts(data):
     data1 = "{\\n company_name:'"+data['company_name']+(f",\n company_website:{data.get('company_website', '')}" if data.get("company_website") else "")+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']+("',\\n resume:'"+data['resume']+"'\\n }" if data['resume'] else "")
     prompts = [
-         myPrompts.company_research_fun(data1),
+         myPrompts.company_research_fun("{\\n company_name:'"+data['company_name']+(f",\n company_website:{data.get('company_website', '')}" if data.get("company_website") else "")+"',\\n job_role:'"+data['job_role']+"',\\n job_description:'"+data['job_description']),
          myPrompts.product_research_fun(data1),
          myPrompts.job_description_analysis_fun(data1),
          myPrompts.resume_experience_to_highlight_to_stand_out_fun(data1),
@@ -88,6 +88,87 @@ def generateCompanyResearchPrompt(data,module):
 
 def get_response(question, results,errorJsons, index):
     model="google/gemini-2.5-flash-preview"
+    jdumps = json.dumps({
+                    "model": model,
+                    "messages": [
+                        {"role": "user", "content": question}
+                    ]
+                }) if index!=0 else json.dumps({
+                        "model": "google/gemini-2.5-flash-preview",
+                        "messages": [
+                            {"role": "user", "content":question}
+                        ],
+                        "tools": [
+            {
+                "type": "function",
+                "function": {
+                    "name": "structured_module_output",
+                    "description": "Return detailed explanation in structured sub_module format",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "quick_summary": {
+                                "type": "string",
+                                "description": "1-2 paragraph long information about all these sub modules"
+                            },
+                            "sub_modules": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "title": {
+                                            "type": "string",
+                                            "description": "Title of the module"
+                                        },
+                                        "completed": {
+                                            "type": "boolean",
+                                            "description": "Whether this module is completed"
+                                        },
+                                        "summary": {
+                                            "type": "string",
+                                            "description": "1 paragraph long summary"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "description": "3-4 sentences long information"
+                                        },
+                                        "points": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "main": {
+                                                        "type": "string",
+                                                        "description": "Main point title"
+                                                    },
+                                                    "subPoints": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        },
+                                                        "description": "List of long information texts"
+                                                    }
+                                                },
+                                                "required": ["main", "subPoints"]
+                                            }
+                                        }
+                                    },
+                                    "required": ["title", "completed", "summary", "content", "points"]
+                                }
+                            }
+                        },
+                        "required": ["quick_summary", "sub_modules"]
+                    }
+                }
+            }
+        ],
+        "tool_choice": {
+            "type": "function",
+            "function": {
+                "name": "structured_module_output"
+            }
+        }
+                    })
     print(index,model)
     while True:
         try:
@@ -96,13 +177,14 @@ def get_response(question, results,errorJsons, index):
                 headers={
                     "Authorization": "Bearer " + api_key,
                 },
-                data=json.dumps({
-                    "model": model,
-                    "messages": [
-                        {"role": "user", "content": question}
-                    ]
-                })
+                data=jdumps
             )
+
+            if index==0:
+                results[index]=json.loads(response.json()["choices"][0]["message"]["tool_calls"][0]["function"]["arguments"])
+                break
+            
+
             result=response.json()["choices"][0]["message"]["content"]
             if result.startswith("```"):
         # Extract the content between triple backticks
