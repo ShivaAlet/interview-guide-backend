@@ -164,6 +164,84 @@ def get_response(question, results,errorJsons, index):
             }
         }
                     })
+    if index==0:
+        jdumps = json.dumps({
+                        "model": "google/gemini-2.5-flash-preview",
+                        "messages": [
+                            {"role": "user", "content":question}
+                        ],
+                        "tools": [
+  {
+    "type": "function",
+    "function": {
+      "name": "structured_module_output",
+      "description": "Return detailed explanation in structured sub_module format with fluent, engaging, meaningful content across all fields.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "quick_summary": {
+            "type": "string",
+            "description": "High-impact overview (~2 mins) covering: What the company does, its primary product/service, key customer segment & problem solved & company's advantage"
+          },
+          "sub_modules": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "Title of the individual module."
+                },
+                "completed": {
+                  "type": "boolean",
+                  "description": "Must always be false. Indicates this module is still in progress or review."
+                },
+                "summary": {
+                  "type": "string",
+                  "description": "A polished, engaging 1-paragraph summary highlighting the key points and value of this sub_module. Use natural transitions and a narrative tone."
+                },
+                "content": {
+                  "type": "string",
+                  "description": "Exactly 3–4 well-articulated, fluent sentences describing the module. Should add context, not just dry facts. Avoid short or incomplete explanations."
+                },
+                "points": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "main": {
+                        "type": "string",
+                        "description": "Title or category of the major point under this module."
+                      },
+                      "subPoints": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Each item must be a full, informative, well-structured sentence — not just keywords. Elaborate clearly and naturally. Add narrative tone where helpful. If data is missing, say so fluently."
+                      }
+                    },
+                    "required": ["main", "subPoints"]
+                  }
+                }
+              },
+              "required": ["title", "completed", "summary", "content", "points"]
+            }
+          }
+        },
+        "required": ["quick_summary", "sub_modules"]
+      }
+    }
+  }
+],
+        "tool_choice": {
+            "type": "function",
+            "function": {
+                "name": "structured_module_output"
+            }
+        }
+                    })
+    
     print(index,model)
     while True:
         try:

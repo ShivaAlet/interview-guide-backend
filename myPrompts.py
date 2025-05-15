@@ -35,6 +35,38 @@ question = (
     "- Write for clarity and completeness. Use high-quality, well-structured language."
 )
 
+question = (
+    "Explain operating system modules in depth. "
+    "Return the answer in the following strict JSON format:\n\n"
+    "{\n"
+    "  quick_summary: string (1–2 paragraphs — fluent, professional, and suitable for a 2-minute high-impact overview, ideally as an interview intro),\n"
+    "  sub_modules: [\n"
+    "    {\n"
+    "      title: string (module name),\n"
+    "      completed: false (always false),\n"
+    "      summary: string (concise 2-minute synthesis of key takeaways),\n"
+    "      content: string (3–4 fluent, well-articulated sentences with meaningful, well-structured explanations),\n"
+    "      points: [\n"
+    "        {\n"
+    "          main: string (point title),\n"
+    "          subPoints: [\n"
+    "            string (each value must be rich in content: well-written, thoughtful, fluent sentences, not just facts. Avoid placeholders. Include context or narrative tone.)\n"
+    "          ]\n"
+    "        },\n"
+    "        ...\n"
+    "      ]\n"
+    "    },\n"
+    "    ...\n"
+    "  ]\n"
+    "}\n\n"
+    "Instructions:\n"
+    "- Every field must be fully and meaningfully populated.\n"
+    "- Use a polished, slightly narrative, fluent style like: 'The module plays a crucial role in...'.\n"
+    "- Use bulleted lists only where needed and always with an introductory sentence.\n"
+    "- Do not leave any field blank.\n"
+    "- If a specific subPoint has no data, say so naturally (e.g., 'Detailed data for this is not widely published.').\n"
+)
+
 def company_research_fun(data):
     company_research = f'''
   You are an expert research assistant helping a user prepare for a job interview.
@@ -62,21 +94,7 @@ Research: **Using the identified company name, leverage your general knowledge b
 - Specific financial details (e.g., revenue trends if public, latest valuation if reported)
 - Notable clients/customers (verifying publicly acknowledged relationships)
 
-*Output Style:*
-
-- Generate the response *exclusively* in the JSON format specified in the "JSON OUTPUT STRUCTURE (EXAMPLE)" section. No preceding or succeeding text.
-- Populate the `quick_summary` with a 2-minute, high-impact overview in an engaging, fluent style suitable for an interview opening.
-- For each sub_module, populate `subPoints` within its `points` array, mapping `subPoint_name` to "REQUIRED INFORMATION CATEGORIES."
-- *Crucially: Crafting Engaging `subPoint_value` Content:*
-    - Write **fluent, well-articulated sentences** for each `subPoint_value`. Aim for a professional, slightly narrative, and thoughtful presentation of findings, rather than just bare facts.
-    - **Elaborate slightly to add context or impact**, moving beyond overly curt statements. Strive for natural language and varied sentence structure for better flow.
-    - **Refer to the provided style examples** (e.g., "Alloy embarked on its journey...") to understand the desired descriptive quality over purely factual reporting.
-    - Use concise bullet points *selectively* for genuine lists (e.g., multiple founders, features, competitors) where they enhance readability. Always introduce bulleted lists with a 
-    well-phrased, contextualizing sentence.
-    - `subPoint_value` must contain the *actual researched information* (e.g., "The company was co-founded by Jane Doe..."), not placeholder instructions.
-- If information is unfound, state this naturally within the `subPoint_value` (e.g., "While the exact founding location isn't widely publicized..." or "Specific pricing details are not publicly disclosed.").
-- Generate a concise 2 min sentence `summary` for each sub_module, synthesizing its key `points` in an engaging, fluent manner, highlighting salient takeaways.
-- Ensure `completed` flag remains `false`.
+-----
 
 REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
 
@@ -91,7 +109,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
 - **Products & Services Offered: Instruction:** Identify and list the company's key, distinct products and/or service lines. Aim to list all major offerings unless the company's portfolio is significantly smaller or larger (in which case, adjust to accurately represent their main offerings). For each offering, provide a concise 1-2 line description of what the product or service is and what it does. Information should be sourced primarily from searching the internet - the company's official website (e.g., "Products," "Services," "Solutions" pages) or your own knowledge base (if its up to date)
     - [Product/Service Name 1:** [Concise 1-2 sentence description of Product/Service 1.]
     - [Product/Service Name 2:** [Concise 1-2 sentence description of Product/Service 2.] ad keep repeat for all offerings found
-- **Business Model & Company Financials**
+- **Business Model & Company Financials:**
     - **Business Model & Monetization: 1- 3 points outlining what is the b primary business model of the company**
     - **Financials & Funding:** Recent Funding (Round/Amount/Date/Investors). Instruction - Focus on the last 2 funding round and focus on getting the latest data.
     - **Revenue:** List the most up to date revenue available of the company. Do not guess this number, if its not publicly available then mention as such. For companies that are public this number should be easily available. If the company is private focus on reputable news sources.
@@ -112,7 +130,23 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
 - **Industry Context, News & Outlook**
     - **Key Industry Trends:** List all the key trends in the company’s primary industry that the company
     - **Recent News & Key Developments:** 3-5 significant events from the last ~2 years (funding, product launches, acquisitions, partnerships, milestones reached etc.). Summarize each factually in one sentence (e.g., "Acquired Company Y, specializing in Z technology, in Q3 2023.")
-    ----
+    -----
+    Give me the JSON data exactly in this format only(100% required and must follow):
+
+- Generate the response *exclusively* in the JSON format specified in the "JSON OUTPUT STRUCTURE (EXAMPLE)" section. No preceding or succeeding text.
+- Populate the `quick_summary` with a *2-minute*, high-impact overview in an engaging, fluent style suitable for an interview opening.
+- For each sub_module, populate `subPoints` within its `points` array, mapping `subPoint_name` to "REQUIRED INFORMATION CATEGORIES."
+- *Crucially: Crafting Engaging `subPoint_value` Content:*
+    - Write **fluent, well-articulated sentences** for each `subPoint_value`. Aim for a professional, slightly narrative, and thoughtful presentation of findings, rather than just bare facts.
+    - **Elaborate slightly to add context or impact**, moving beyond overly curt statements. Strive for natural language and varied sentence structure for better flow.
+    - **Refer to the provided style examples** (e.g., "Alloy embarked on its journey...") to understand the desired descriptive quality over purely factual reporting.
+    - Use concise bullet points *selectively* for genuine lists (e.g., multiple founders, features, competitors) where they enhance readability. Always introduce bulleted lists with a 
+    well-phrased, contextualizing sentence.
+    - `subPoint_value` must contain the *actual researched information* (e.g., "The company was co-founded by Jane Doe..."), not placeholder instructions.
+- If information is unfound, state this naturally within the `subPoint_value` (e.g., "While the exact founding location isn't widely publicized..." or "Specific pricing details are not publicly disclosed.").
+- Generate a concise 2 min sentence `summary` for each sub_module, synthesizing its key `points` in an engaging, fluent manner, highlighting salient takeaways.
+- keep 'completed' as 'false' only in all following cards.
+- Ensure only the cards are `Company Overview`,`Products & Services Offered`,`Business Model & Company Financials`,`Target Market & Customers`,`Competitive Landscape`,`Org Structure and Leadership`,`Industry Context, News & Outlook`
     '''
     return company_research
 
