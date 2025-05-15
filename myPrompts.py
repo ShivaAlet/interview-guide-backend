@@ -134,7 +134,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
     Give me the JSON data exactly in this format only(100% required and must follow):
 
 - Generate the response *exclusively* in the JSON format specified in the "JSON OUTPUT STRUCTURE (EXAMPLE)" section. No preceding or succeeding text.
-- Populate the `quick_summary` with a *2-minute*, high-impact overview in an engaging, fluent style suitable for an interview opening.
+- Populate the `quick_summary` with a *2-minute 9-10 paragraphs*, high-impact overview in an engaging, fluent style suitable for an interview opening.
 - For each sub_module, populate `subPoints` within its `points` array, mapping `subPoint_name` to "REQUIRED INFORMATION CATEGORIES."
 - *Crucially: Crafting Engaging `subPoint_value` Content:*
     - Write **fluent, well-articulated sentences** for each `subPoint_value`. Aim for a professional, slightly narrative, and thoughtful presentation of findings, rather than just bare facts.
@@ -147,6 +147,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
 - Generate a concise 2 min sentence `summary` for each sub_module, synthesizing its key `points` in an engaging, fluent manner, highlighting salient takeaways.
 - keep 'completed' as 'false' only in all following cards.
 - Ensure only the cards are `Company Overview`,`Products & Services Offered`,`Business Model & Company Financials`,`Target Market & Customers`,`Competitive Landscape`,`Org Structure and Leadership`,`Industry Context, News & Outlook`
+- Ensure 'subPoints','content','points','title',etc. very very must be filled with content and each content must be atleast of length 54 words or more than 54 characters
     '''
     return company_research
 
