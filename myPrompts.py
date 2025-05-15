@@ -38,56 +38,81 @@ question = (
 def company_research_fun(data):
     company_research = f'''
   You are an expert research assistant helping a user prepare for a job interview.
-Your task is to analyze the provided Job Description (JD), identify the company, research it thoroughly, and generate a detailed JSON output containing key information relevant for interview preparation.
+Your task is to identify the company, research it thoroughly, and generate a detailed JSON output containing key information relevant for interview preparation.
     {data}
     ----
 
 *INSTRUCTIONS:*
 
-1.  *Identify Company:* Accurately extract the company name from the JD.
-2.  *Research:* Using the identified company name, leverage your knowledge base and search capabilities to gather comprehensive information on the points listed below under "Required Information Categories." Pay special attention to finding the company's founders.
-3.  *Output Style:*
-    *   Generate the response *exclusively* in the JSON format specified at the end. Do not include any text before or after the JSON object.
-    *   Populate the quick_summary field with a concise, high-impact overview suitable for an interview opening.
-    *   For each sub_module, first populate the subPoints within the points array.
-    *   *Crucially:* Write the content for each item in the subPoints arrays as *complete, informative sentences* or concise bullet points where a list format is natural (e.g., listing names, competitors, features). *Do not* write instructions or descriptions like "List the founders" within the subPoints values; instead, provide the actual information (e.g., "The company was founded by Jane Doe and John Smith.").
-    *   If specific information for a point cannot be found after searching (especially for founders, specific financials, etc.), *explicitly state* "Information not found" or "Specific details not publicly available" for that subPoint.
-    *   After populating the points, generate a concise 2-3 sentence summary for each sub_module that synthesizes the key findings from its points.
-    *   Ensure the completed flag remains false in the output JSON structure.
+1. Identify Company:
+    - Start with the 'COMPANY NAME' provided in the input as the primary candidate.
+    - **Crucially, use the 'COMPANY WEBSITE' (if available in the input) to disambiguate this name.** Analyze its domain to distinguish this specific company from others that might share a similar name. This step is vital for pinpointing the exact entity the user is referring to.
+    - Further refine and confirm the specific company identity by analyzing the 'JOB DESCRIPTION'. Look for contextual clues (industry, services mentioned, specific technologies, location if relevant) that align with the website information and the provided company name, helping to resolve any remaining ambiguity.
+    - Your objective is to accurately determine and confirm the single, specific company entity intended by the user for subsequent research.
 
-*REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):*
+Research: **Using the identified company name, leverage your general knowledge base for a foundational understanding of the company (e.g., its industry, general product categories, common perceptions). However, to ensure the highest accuracy and up-to-date information for specific factual and potentially time-sensitive details, you **must prioritize and actively employ your searching grounding (searching the internet) capabilities.** Aim for comprehensive information, using search to validate, update, or find details that are likely to be current or highly specific.This approach is especially critical for gathering precise information on:
 
-*   *Quick Summary:* High-impact overview (~2 mins) covering: Core mission/vision, primary product/service & differentiator, key customer segment & problem solved, top 1-2 competitors & company's advantage, one significant recent development & its implication.
-*   *Company Overview:*
-    *   Company Snapshot: Concise description of the company.
-    *   Origins & Founders: Founding date, location, key founder(s), original vision/inspiration. (Emphasize finding founders).
-    *   Product & Services Portfolio: Range of products, services, solutions; key offerings; innovation areas.
-    *   Revenue Model: How revenue is generated, known pricing structure, monetization strategy, primary income streams.
-*   *Target Market & Customers:*
-    *   Primary Customer Segments: B2B/B2C segments, defining characteristics.
-    *   Key Customer Challenges Solved: Problems/needs addressed by products/services.
-    *   Key Reasons Customers Choose: Top 2-3 USPs/differentiators.
-    *   Key Industries Served: Primary verticals, areas of strategic focus.
-    *   Notable Clients: 5-7 significant clients (publicly known), brief interview relevance (e.g., 'Validates enterprise readiness').
-*   *Competitive Landscape:*
-    *   Main Competitors: 5-7 significant competitors (or fewer if appropriate), their focus.
-    *   Key Differentiators (USPs): 1-3 points making the company stand out.
-    *   Competitive Strengths: 1-3 core advantages (e.g., technology, brand).
-    *   Potential Weaknesses/Challenges: 1-3 potential vulnerabilities relative to competitors.
-*   *Org Structure, Leadership & Culture:*
-    *   Size, Status & Location: Approx Employee Count, Public/Private, HQ, Key Offices.
-    *   Organizational Structure: Parent Company, Key Subsidiaries/Divisions, recent restructuring.
-    *   Key Leadership: CEO, CPO/Product Head, CTO/Engineering Head, other relevant VPs/Heads (provide names).
-    *   Financial Health & Funding: Recent Funding (Round/Amount/Date/Investors), Profitability/Revenue trends (if public), growth signals.
-    *   Company Culture: 2-3 inferred aspects based on mission, values, reviews, news (provide justification or state if speculative).
-*   *Recent News & Key Developments:*
-    *   Key Recent Events: 3-5 significant events from the last ~2 years (funding, launches, acquisitions, partnerships). Summarize each factually in one sentence (e.g., "Acquired Company Y, specializing in Z technology, in Q3 2023.").
-*   *Industry Context & Company Fit:*
-    *   Key Industry Trends Impacting: 1-2 major trends and their specific effect on this company.
-    *   Strategic Opportunities: 1-2 growth opportunities based on trends/strengths.
-    *   Potential Headwinds/Risks: 1-2 key risks/challenges based on trends/weaknesses.
+- Mission & Values
+- Founding Team - Company founding date & Key founder(s)
+- Products & Services Offered
+- Business Model & Market Footprint
+- Recent funding rounds (including amounts, dates, and key investors, if publicly available)
+- Key recent events (e.g., significant news, major product launches, acquisitions, strategic partnerships, ideally within the last 1-2 years)
+- Current key leadership roles and names (e.g., CEO, CPO, CTO)
+- Specific financial details (e.g., revenue trends if public, latest valuation if reported)
+- Notable clients/customers (verifying publicly acknowledged relationships)
+
+*Output Style:*
+
+- Generate the response *exclusively* in the JSON format specified in the "JSON OUTPUT STRUCTURE (EXAMPLE)" section. No preceding or succeeding text.
+- Populate the `quick_summary` with a 2-minute, high-impact overview in an engaging, fluent style suitable for an interview opening.
+- For each sub_module, populate `subPoints` within its `points` array, mapping `subPoint_name` to "REQUIRED INFORMATION CATEGORIES."
+- *Crucially: Crafting Engaging `subPoint_value` Content:*
+    - Write **fluent, well-articulated sentences** for each `subPoint_value`. Aim for a professional, slightly narrative, and thoughtful presentation of findings, rather than just bare facts.
+    - **Elaborate slightly to add context or impact**, moving beyond overly curt statements. Strive for natural language and varied sentence structure for better flow.
+    - **Refer to the provided style examples** (e.g., "Alloy embarked on its journey...") to understand the desired descriptive quality over purely factual reporting.
+    - Use concise bullet points *selectively* for genuine lists (e.g., multiple founders, features, competitors) where they enhance readability. Always introduce bulleted lists with a 
+    well-phrased, contextualizing sentence.
+    - `subPoint_value` must contain the *actual researched information* (e.g., "The company was co-founded by Jane Doe..."), not placeholder instructions.
+- If information is unfound, state this naturally within the `subPoint_value` (e.g., "While the exact founding location isn't widely publicized..." or "Specific pricing details are not publicly disclosed.").
+- Generate a concise 2 min sentence `summary` for each sub_module, synthesizing its key `points` in an engaging, fluent manner, highlighting salient takeaways.
+- Ensure `completed` flag remains `false`.
+
+REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
+
+- ***Quick Summary:*** High-impact overview (~2 mins) covering: What the company does, its primary product/service, key customer segment & problem solved & company's advantage
+- **Company Overview:**
+    - **Company Snapshot:** 3–4 sentence summary explaining what the company does, its core product or service, key innovation, and why it matters in its industry
+    - **Mission & Values: Instruction - This information should not be inferred or guessed, it should be searched on the web for the most accurate result**
+        - Mission: 1 sentence stating the mission of the company if available
+        - Vision: 1 sentence stating the vision of the company if available
+        - Values: List all the values of the company
+    - **Founding Team:** Provide a 1–2 sentence summary of when the company was founded and who the founders are
+- **Products & Services Offered: Instruction:** Identify and list the company's key, distinct products and/or service lines. Aim to list all major offerings unless the company's portfolio is significantly smaller or larger (in which case, adjust to accurately represent their main offerings). For each offering, provide a concise 1-2 line description of what the product or service is and what it does. Information should be sourced primarily from searching the internet - the company's official website (e.g., "Products," "Services," "Solutions" pages) or your own knowledge base (if its up to date)
+    - [Product/Service Name 1:** [Concise 1-2 sentence description of Product/Service 1.]
+    - [Product/Service Name 2:** [Concise 1-2 sentence description of Product/Service 2.] ad keep repeat for all offerings found
+- **Business Model & Company Financials**
+    - **Business Model & Monetization: 1- 3 points outlining what is the b primary business model of the company**
+    - **Financials & Funding:** Recent Funding (Round/Amount/Date/Investors). Instruction - Focus on the last 2 funding round and focus on getting the latest data.
+    - **Revenue:** List the most up to date revenue available of the company. Do not guess this number, if its not publicly available then mention as such. For companies that are public this number should be easily available. If the company is private focus on reputable news sources.
+- **Target Market & Customers:**
+    - Primary Customer Segments: Provide a 3-5 sentence summary of key industries, sectors or target market that the company serves, if they serve multiple industries then focus on the main industry they serve with the product mentioned in the job description. A
+    - Key Customer Challenges Solved: Problems/needs addressed by products/services.
+    - Key Reasons Customers Choose: Top 2-3 USPs/differentiators.
+    - Notable Clients: 5-7 significant clients that the company has worked with (publicly known)
+- **Competitive Landscape:**
+    - Main Competitors: List 5-7 significant competitors. These can be direct or indirect competitors
+    - Key Differentiators (USPs): 1-3 points making the differentiates the company from its competitors. Focus on the things that the company does that sets it apart from its competitors and is the reason companies prefer the company over the competitors
+    - Competitive Strengths: 1-3 core advantages (e.g., technology, brand).
+    - Potential Weaknesses/Challenges: 1-3 potential vulnerabilities relative to competitors.
+- **Org Structure and Leadership:**
+    - Size, Status & Location: Approx Employee Count, Public/Private, HQ, Key Offices.
+    - Organizational Structure: Parent Company, Key Subsidiaries/Divisions, recent restructuring.
+    - Key Leadership: CEO, CPO/Product Head, CTO/Engineering Head, other relevant VPs/Heads (provide names).
+- **Industry Context, News & Outlook**
+    - **Key Industry Trends:** List all the key trends in the company’s primary industry that the company
+    - **Recent News & Key Developments:** 3-5 significant events from the last ~2 years (funding, product launches, acquisitions, partnerships, milestones reached etc.). Summarize each factually in one sentence (e.g., "Acquired Company Y, specializing in Z technology, in Q3 2023.")
     ----
-    {question}
     '''
     return company_research
 
