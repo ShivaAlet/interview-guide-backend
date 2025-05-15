@@ -68,10 +68,11 @@ question = (
 )
 
 def company_research_fun(data):
-    company_research = f'''
+    company_research = (f'''
   You are an expert research assistant helping a user prepare for a job interview.
 Your task is to identify the company, research it thoroughly, and generate a detailed JSON output containing key information relevant for interview preparation.
-    {data}
+    {data}'''
+    '''
     ----
 
 *INSTRUCTIONS:*
@@ -131,24 +132,240 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
     - **Key Industry Trends:** List all the key trends in the company’s primary industry that the company
     - **Recent News & Key Developments:** 3-5 significant events from the last ~2 years (funding, product launches, acquisitions, partnerships, milestones reached etc.). Summarize each factually in one sentence (e.g., "Acquired Company Y, specializing in Z technology, in Q3 2023.")
     -----
-    Give me the JSON data exactly in this format only(100% required and must follow):
 
-- Generate the response *exclusively* in the JSON format specified in the "JSON OUTPUT STRUCTURE (EXAMPLE)" section. No preceding or succeeding text.
-- Populate the `quick_summary` with a *2-minute 9-10 paragraphs*, high-impact overview in an engaging, fluent style suitable for an interview opening.
-- For each sub_module, populate `subPoints` within its `points` array, mapping `subPoint_name` to "REQUIRED INFORMATION CATEGORIES."
-- *Crucially: Crafting Engaging `subPoint_value` Content:*
-    - Write **fluent, well-articulated sentences** for each `subPoint_value`. Aim for a professional, slightly narrative, and thoughtful presentation of findings, rather than just bare facts.
-    - **Elaborate slightly to add context or impact**, moving beyond overly curt statements. Strive for natural language and varied sentence structure for better flow.
-    - **Refer to the provided style examples** (e.g., "Alloy embarked on its journey...") to understand the desired descriptive quality over purely factual reporting.
-    - Use concise bullet points *selectively* for genuine lists (e.g., multiple founders, features, competitors) where they enhance readability. Always introduce bulleted lists with a 
-    well-phrased, contextualizing sentence.
-    - `subPoint_value` must contain the *actual researched information* (e.g., "The company was co-founded by Jane Doe..."), not placeholder instructions.
-- If information is unfound, state this naturally within the `subPoint_value` (e.g., "While the exact founding location isn't widely publicized..." or "Specific pricing details are not publicly disclosed.").
-- Generate a concise 2 min sentence `summary` for each sub_module, synthesizing its key `points` in an engaging, fluent manner, highlighting salient takeaways.
-- keep 'completed' as 'false' only in all following cards.
-- Ensure only the cards are `Company Overview`,`Products & Services Offered`,`Business Model & Company Financials`,`Target Market & Customers`,`Competitive Landscape`,`Org Structure and Leadership`,`Industry Context, News & Outlook`
-- Ensure 'subPoints','content','points','title',etc. very very must be filled with content and each content must be atleast of length 54 words or more than 54 characters
-    '''
+    **The JSON Output should be in this format only and ensure atleast `2 subPoints` should,must be filled in each object of sub_modules and the 'completed' must be 'false' only:**
+    {
+  "quick_summary": "[A comprehensive 5–6 paragraph overview covering what the company does, its products/services, customer segments, problems solved, competitive advantage, recent momentum, and industry relevance.]",
+  "sub_modules": [
+    {
+      "title": "Company Overview",
+      "completed": false,
+      "summary": "string (Engaging paragraph summarizing the company overview section) atleast of 54 words",
+      "content": "string (3–4 fluent sentences explaining the scope and value of this module) atleast of 54 words",
+      "points": [
+        {
+          "main": "Company Snapshot",
+          "subPoints": [
+            "String (3–4 sentence summary explaining what the company does, core product/service, key innovation, and relevance) atleast of 54 words",
+            ...
+          ]
+        },
+        {
+          "main": "Mission & Values",
+          "subPoints": [
+            "Mission: string (Mission of the company. Must be sourced, not inferred.) atleast of 54 words",
+            "Vision: string (Vision of the company. Must be sourced, not inferred.) atleast of 54 words",
+            "Values: [string, string, string] (List of values; must be sourced) atleast of 54 words",
+            ...
+          ]
+        },
+        {
+          "main": "Founding Team",
+          "subPoints": [
+            "String (1–2 sentence summary of when the company was founded and who the founders are) atleast of 54 words",
+            ...
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Products & Services Offered",
+      "completed": false,
+      "summary": "string (Summary explaining the company's product/service range and importance) atleast of 54 words",
+      "content": "string (3–4 fluent sentences describing key offerings and how they help customers) atleast of 54 words",
+      "points": [
+        {
+          "main": "Product & Service List",
+          "subPoints": [
+            "Product/Service A: string (Concise 1-2 sentence description of what it is and does) atleast of 54 words",
+            "Product/Service B: string (Same format, repeat as needed) atleast of 54 words",
+            ...
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Business Model & Company Financials",
+      "completed": false,
+      "summary": "string (Summary explaining how the company makes money, growth trajectory, and financial standing) atleast of 54 words",
+      "content": "string (3–4 fluent sentences on business model, recent funding, and revenue highlights) atleast of 54 words",
+      "points": [
+        {
+          "main": "Business Model & Monetization",
+          "subPoints": [
+            "String (e.g., 'Subscription-based SaaS platform for enterprise analytics') atleast of 54 words",
+            "String (e.g., 'Freemium pricing for individual users with tiered enterprise plans') atleast of 54 words",
+            ...
+          ]
+        },
+        {
+          "main": "Financials & Funding",
+          "subPoints": [
+            "Recent Funding Round 1: string (e.g., 'Series C – $120M – May 2023 – led by Sequoia') atleast of 54 words",
+            "Recent Funding Round 2: string (e.g., 'Series B – $80M – Feb 2022 – led by Accel') atleast of 54 words",
+            ...
+          ]
+        },
+        {
+          "main": "Revenue",
+          "subPoints": [
+            "Latest available revenue: string (e.g., '$210M in 2023' or 'Revenue not publicly available') atleast of 54 words",
+            ...
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Target Market & Customers",
+      "completed": false,
+      "summary": "string (Summary of target market, customer needs, and how the company addresses them) atleast of 54 words",
+      "content": "string (3–4 sentences describing customers, problems solved, and value delivered) atleast of 54 words",
+      "points": [
+        {
+          "main": "Primary Customer Segments",
+          "subPoints": [
+            "String (3–5 sentences on key industries, sectors, or personas served) atleast of 54 words",
+            ...
+          ]
+        },
+        {
+          "main": "Key Customer Challenges Solved",
+          "subPoints": [
+            "String (List of core problems solved by the company’s products/services) atleast of 54 words",
+            ...
+          ]
+        },
+        {
+          "main": "Key Reasons Customers Choose",
+          "subPoints": [
+            "String (1–2 sentence point on USP 1) atleast of 54 words",
+            "String (USP 2) atleast of 54 words",
+            "String (USP 3, if applicable) atleast of 54 words",
+            ...
+          ]
+        },
+        {
+          "main": "Notable Clients",
+          "subPoints": [
+            "Client 1 atleast of 54 words",
+            "Client 2 atleast of 54 words",
+            "Client 3 atleast of 54 words",
+            "Client 4 atleast of 54 words",
+            "Client 5 atleast of 54 words",
+            "Client 6 atleast of 54 words",
+            "Client 7 atleast of 54 words",
+            ...
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Competitive Landscape",
+      "completed": false,
+      "summary": "string (Summary outlining competitors and what gives the company an edge or poses a risk) atleast of 54 words",
+      "content": "string (3–4 sentences describing competitors, strengths, differentiators, and risks) atleast of 54 words",
+      "points": [
+        {
+          "main": "Main Competitors",
+          "subPoints": [
+            "Competitor A atleast of 54 words",
+            "Competitor B atleast of 54 words",
+            "Competitor C atleast of 54 words",
+            "Competitor D atleast of 54 words",
+            "Competitor E atleast of 54 words",
+            "Competitor F atleast of 54 words",
+            "Competitor G atleast of 54 words",
+            ...
+          ]
+        },
+        {
+          "main": "Key Differentiators (USPs)",
+          "subPoints": [
+            "String (Point 1) atleast of 54 words",
+            "String (Point 2) atleast of 54 words",
+            ...
+          ]
+        },
+        {
+          "main": "Competitive Strengths",
+          "subPoints": [
+            "String (e.g., 'Proprietary AI engine that automates analysis 30% faster') atleast of 54 words",
+            ...
+          ]
+        },
+        {
+          "main": "Potential Weaknesses/Challenges",
+          "subPoints": [
+            "String (e.g., 'Limited geographic reach compared to global competitors') atleast of 54 words",
+            ...
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Org Structure and Leadership",
+      "completed": false,
+      "summary": "string (Summary describing size, structure, and leadership team of the company) atleast of 54 words",
+      "content": "string (3–4 sentences about leadership, company structure, and global footprint) atleast of 54 words",
+      "points": [
+        {
+          "main": "Size, Status & Location",
+          "subPoints": [
+            "String (e.g., 'Approx 1,500 employees, private company, HQ in San Francisco, regional offices in London and Bangalore') atleast of 54 words",
+            ...
+          ]
+        },
+        {
+          "main": "Organizational Structure",
+          "subPoints": [
+            "String (e.g., 'Wholly-owned subsidiary of XYZ Group, with 3 business divisions: Consumer, Enterprise, Research') atleast of 54 words",
+            ...
+          ]
+        },
+        {
+          "main": "Key Leadership",
+          "subPoints": [
+            "CEO: Full Name atleast of 54 words",
+            "CPO: Full Name atleast of 54 words",
+            "CTO: Full Name atleast of 54 words",
+            "Other Key Heads: Role – Name atleast of 54 words",
+            ...
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Industry Context, News & Outlook",
+      "completed": false,
+      "summary": "string (Summary highlighting industry trends, company alignment, and recent developments) atleast of 54 words",
+      "content": "string (3–4 sentences about the market environment and what the company has recently done to adapt or lead) atleast of 54 words",
+      "points": [
+        {
+          "main": "Key Industry Trends",
+          "subPoints": [
+            "Trend 1 atleast of 54 words",
+            "Trend 2 atleast of 54 words",
+            "Trend 3 atleast of 54 words",
+            ...
+          ]
+        },
+        {
+          "main": "Recent News & Key Developments",
+          "subPoints": [
+            "Event 1: string (e.g., 'Acquired Company Y, specializing in Z, in Q3 2023') atleast of 54 words",
+            "Event 2 atleast of 54 words",
+            "Event 3 atleast of 54 words",
+            "Event 4 atleast of 54 words",
+            "Event 5 atleast of 54 words",
+            ...
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+    ''')
     return company_research
 
 def product_research_fun(data):

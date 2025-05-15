@@ -175,13 +175,13 @@ def get_response(question, results,errorJsons, index):
     "type": "function",
     "function": {
       "name": "structured_module_output",
-      "description": "Return detailed explanation in structured sub_module format with fluent, engaging, meaningful content across all fields.",
+      "description": "",
       "parameters": {
         "type": "object",
         "properties": {
           "quick_summary": {
             "type": "string",
-            "description": "High-impact overview (~2 mins) covering: What the company does, its primary product/service, key customer segment & problem solved & company's advantage"
+            "description": ""
           },
           "sub_modules": {
             "type": "array",
@@ -190,19 +190,19 @@ def get_response(question, results,errorJsons, index):
               "properties": {
                 "title": {
                   "type": "string",
-                  "description": "Title of the individual module."
+                  "description": ""
                 },
                 "completed": {
                   "type": "boolean",
-                  "description": "Must always be false. Indicates this module is still in progress or review."
+                  "description": ""
                 },
                 "summary": {
                   "type": "string",
-                  "description": "A polished, engaging 1-paragraph summary highlighting the key points and value of this sub_module. Use natural transitions and a narrative tone."
+                  "description": ""
                 },
                 "content": {
                   "type": "string",
-                  "description": "Exactly 3–4 well-articulated, fluent sentences describing the module. Should add context, not just dry facts. Avoid short or incomplete explanations."
+                  "description": ""
                 },
                 "points": {
                   "type": "array",
@@ -211,14 +211,14 @@ def get_response(question, results,errorJsons, index):
                     "properties": {
                       "main": {
                         "type": "string",
-                        "description": "Title or category of the major point under this module."
+                        "description": ""
                       },
                       "subPoints": {
                         "type": "array",
                         "items": {
                           "type": "string"
                         },
-                        "description": "Each item must be a full, informative, well-structured sentence — not just keywords. Elaborate clearly and naturally. Add narrative tone where helpful. If data is missing, say so fluently."
+                        "description": ""
                       }
                     },
                     "required": ["main", "subPoints"]
