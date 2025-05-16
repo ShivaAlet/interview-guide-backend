@@ -146,23 +146,23 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
         {
           "main": "Company Snapshot",
           "subPoints": [
-            "String (3–4 sentence summary explaining what the company does, core product/service, key innovation, and relevance) atleast of 54 words",
+            "String (3–4 sentence summary explaining what the company does, core product/service, key innovation, and relevance) atleast of 44 words",
             ...
           ]
         },
         {
           "main": "Mission & Values",
           "subPoints": [
-            "Mission: string (Mission of the company. Must be sourced, not inferred.) atleast of 54 words",
-            "Vision: string (Vision of the company. Must be sourced, not inferred.) atleast of 54 words",
-            "Values: [string, string, string] (List of values; must be sourced) atleast of 54 words",
+            "Mission: string (Mission of the company. Must be sourced, not inferred.) atleast of 44 words",
+            "Vision: string (Vision of the company. Must be sourced, not inferred.) atleast of 44 words",
+            "Values: [string, string, string] (List of values; must be sourced) atleast of 44 words",
             ...
           ]
         },
         {
           "main": "Founding Team",
           "subPoints": [
-            "String (1–2 sentence summary of when the company was founded and who the founders are) atleast of 54 words",
+            "String (1–2 sentence summary of when the company was founded and who the founders are) atleast of 44 words",
             ...
           ]
         }
@@ -177,8 +177,8 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
         {
           "main": "Product & Service List",
           "subPoints": [
-            "Product/Service A: string (Concise 1-2 sentence description of what it is and does) atleast of 54 words",
-            "Product/Service B: string (Same format, repeat as needed) atleast of 54 words",
+            "Product/Service A: string (Concise 1-2 sentence description of what it is and does) atleast of 44 words",
+            "Product/Service B: string (Same format, repeat as needed) atleast of 44 words",
             ...
           ]
         }
@@ -193,23 +193,23 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
         {
           "main": "Business Model & Monetization",
           "subPoints": [
-            "String (e.g., 'Subscription-based SaaS platform for enterprise analytics') atleast of 54 words",
-            "String (e.g., 'Freemium pricing for individual users with tiered enterprise plans') atleast of 54 words",
+            "String (e.g., 'Subscription-based SaaS platform for enterprise analytics') atleast of 44 words",
+            "String (e.g., 'Freemium pricing for individual users with tiered enterprise plans') atleast of 44 words",
             ...
           ]
         },
         {
           "main": "Financials & Funding",
           "subPoints": [
-            "Recent Funding Round 1: string (e.g., 'Series C – $120M – May 2023 – led by Sequoia') atleast of 54 words",
-            "Recent Funding Round 2: string (e.g., 'Series B – $80M – Feb 2022 – led by Accel') atleast of 54 words",
+            "Recent Funding Round 1: string (e.g., 'Series C – $120M – May 2023 – led by Sequoia') atleast of 44 words",
+            "Recent Funding Round 2: string (e.g., 'Series B – $80M – Feb 2022 – led by Accel') atleast of 44 words",
             ...
           ]
         },
         {
           "main": "Revenue",
           "subPoints": [
-            "Latest available revenue: string (e.g., '$210M in 2023' or 'Revenue not publicly available') atleast of 54 words",
+            "Latest available revenue: string (e.g., '$210M in 2023' or 'Revenue not publicly available') atleast of 44 words",
             ...
           ]
         }
@@ -224,36 +224,36 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
         {
           "main": "Primary Customer Segments",
           "subPoints": [
-            "String (3–5 sentences on key industries, sectors, or personas served) atleast of 54 words",
+            "String (3–5 sentences on key industries, sectors, or personas served) atleast of 44 words",
             ...
           ]
         },
         {
           "main": "Key Customer Challenges Solved",
           "subPoints": [
-            "String (List of core problems solved by the company’s products/services) atleast of 54 words",
+            "String (List of core problems solved by the company’s products/services) atleast of 44 words",
             ...
           ]
         },
         {
           "main": "Key Reasons Customers Choose",
           "subPoints": [
-            "String (1–2 sentence point on USP 1) atleast of 54 words",
-            "String (USP 2) atleast of 54 words",
-            "String (USP 3, if applicable) atleast of 54 words",
+            "String (1–2 sentence point on USP 1) atleast of 44 words",
+            "String (USP 2) atleast of 44 words",
+            "String (USP 3, if applicable) atleast of 44 words",
             ...
           ]
         },
         {
           "main": "Notable Clients",
           "subPoints": [
-            "Client 1 atleast of 54 words",
-            "Client 2 atleast of 54 words",
-            "Client 3 atleast of 54 words",
-            "Client 4 atleast of 54 words",
-            "Client 5 atleast of 54 words",
-            "Client 6 atleast of 54 words",
-            "Client 7 atleast of 54 words",
+            "Client 1 atleast of 44 words",
+            "Client 2 atleast of 44 words",
+            "Client 3 atleast of 44 words",
+            "Client 4 atleast of 44 words",
+            "Client 5 atleast of 44 words",
+            "Client 6 atleast of 44 words",
+            "Client 7 atleast of 44 words",
             ...
           ]
         }
@@ -268,35 +268,35 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
         {
           "main": "Main Competitors",
           "subPoints": [
-            "Competitor A atleast of 54 words",
-            "Competitor B atleast of 54 words",
-            "Competitor C atleast of 54 words",
-            "Competitor D atleast of 54 words",
-            "Competitor E atleast of 54 words",
-            "Competitor F atleast of 54 words",
-            "Competitor G atleast of 54 words",
+            "Competitor A atleast of 44 words",
+            "Competitor B atleast of 44 words",
+            "Competitor C atleast of 44 words",
+            "Competitor D atleast of 44 words",
+            "Competitor E atleast of 44 words",
+            "Competitor F atleast of 44 words",
+            "Competitor G atleast of 44 words",
             ...
           ]
         },
         {
           "main": "Key Differentiators (USPs)",
           "subPoints": [
-            "String (Point 1) atleast of 54 words",
-            "String (Point 2) atleast of 54 words",
+            "String (Point 1) atleast of 44 words",
+            "String (Point 2) atleast of 44 words",
             ...
           ]
         },
         {
           "main": "Competitive Strengths",
           "subPoints": [
-            "String (e.g., 'Proprietary AI engine that automates analysis 30% faster') atleast of 54 words",
+            "String (e.g., 'Proprietary AI engine that automates analysis 30% faster') atleast of 44 words",
             ...
           ]
         },
         {
           "main": "Potential Weaknesses/Challenges",
           "subPoints": [
-            "String (e.g., 'Limited geographic reach compared to global competitors') atleast of 54 words",
+            "String (e.g., 'Limited geographic reach compared to global competitors') atleast of 44 words",
             ...
           ]
         }
@@ -311,24 +311,24 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
         {
           "main": "Size, Status & Location",
           "subPoints": [
-            "String (e.g., 'Approx 1,500 employees, private company, HQ in San Francisco, regional offices in London and Bangalore') atleast of 54 words",
+            "String (e.g., 'Approx 1,500 employees, private company, HQ in San Francisco, regional offices in London and Bangalore') atleast of 44 words",
             ...
           ]
         },
         {
           "main": "Organizational Structure",
           "subPoints": [
-            "String (e.g., 'Wholly-owned subsidiary of XYZ Group, with 3 business divisions: Consumer, Enterprise, Research') atleast of 54 words",
+            "String (e.g., 'Wholly-owned subsidiary of XYZ Group, with 3 business divisions: Consumer, Enterprise, Research') atleast of 44 words",
             ...
           ]
         },
         {
           "main": "Key Leadership",
           "subPoints": [
-            "CEO: Full Name atleast of 54 words",
-            "CPO: Full Name atleast of 54 words",
-            "CTO: Full Name atleast of 54 words",
-            "Other Key Heads: Role – Name atleast of 54 words",
+            "CEO: Full Name atleast of 44 words",
+            "CPO: Full Name atleast of 44 words",
+            "CTO: Full Name atleast of 44 words",
+            "Other Key Heads: Role – Name atleast of 44 words",
             ...
           ]
         }
@@ -343,20 +343,20 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
         {
           "main": "Key Industry Trends",
           "subPoints": [
-            "Trend 1 atleast of 54 words",
-            "Trend 2 atleast of 54 words",
-            "Trend 3 atleast of 54 words",
+            "Trend 1 atleast of 44 words",
+            "Trend 2 atleast of 44 words",
+            "Trend 3 atleast of 44 words",
             ...
           ]
         },
         {
           "main": "Recent News & Key Developments",
           "subPoints": [
-            "Event 1: string (e.g., 'Acquired Company Y, specializing in Z, in Q3 2023') atleast of 54 words",
-            "Event 2 atleast of 54 words",
-            "Event 3 atleast of 54 words",
-            "Event 4 atleast of 54 words",
-            "Event 5 atleast of 54 words",
+            "Event 1: string (e.g., 'Acquired Company Y, specializing in Z, in Q3 2023') atleast of 44 words",
+            "Event 2 atleast of 44 words",
+            "Event 3 atleast of 44 words",
+            "Event 4 atleast of 44 words",
+            "Event 5 atleast of 44 words",
             ...
           ]
         }
@@ -369,116 +369,239 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
     return company_research
 
 def product_research_fun(data):
-    product_research = f'''
-    Analyse this entire
-    {data}
-    ----
-   Primary Goal: Generate a deep analysis of the product ecosystem most relevant to the this role described, tailored for a PM interview perspective, consolidated into 6 insightful cards. The key is to intelligently determine the most likely product focus.
-
-    Step 1: Identify Mentioned Products:
-    - Carefully read the Job Description (and Resume) to identify ALL specific products, product lines, platforms, or teams mentioned (e.g., "Search", "Maps", "Assistant", "Cloud Platform"). List them internally.
-
-    Step 2: Determine Primary Focus Product & Contextual Products (PM Role Context):
-    - Analyze the JD for PM Responsibility Signals: Look specifically within the "Responsibilities", "What You'll Do", or similar sections for keywords indicating direct ownership or primary focus for the PM role. Prioritize products associated with phrases like:
-        - "own the roadmap for [Product X]"
-        - "define the strategy for [Product X]"
-        - "responsible for the success of [Product X]"
-        - "drive the development of [Product X]"
-        - "manage the lifecycle of [Product X]"
-        - "gather requirements for [Product X]"
-    - Identify Primary Focus based on Signals:
-        - If one product is clearly associated with these PM responsibility keywords/phrases, designate it as the Primary Focus Product. List any other mentioned products as **Contextual Products.
-    - If No Clear Ownership Signal, Analyze JD Emphasis & Resume Alignment:
-        - If multiple products are mentioned without clear ownership keywords:
-            - Assess which product receives the most emphasis or detailed description within the core responsibilities section of the JD.
-            - If a resume is provided, assess if the candidate's experience (e.g., industry, technology, past product types) aligns more strongly with one mentioned product over the others.
-            - Prioritize based on this hierarchy: (1st) Strong emphasis in JD Responsibilities, (2nd) Clear alignment with Resume Experience. Designate the product identified via this analysis as the Primary Focus Product. List others as **Contextual Products.
-    - Handle Single Mention:
-        - If only one product is mentioned throughout the JD, it is the Primary Focus Product.
-    - Fallback Logic (If No Specific Product Identified Above):
-        - If no specific product is mentioned OR the JD remains vague despite the analysis above:
-            - Attempt to identify the company's single main/flagship/core product from General Company Info. Designate it as the Primary Focus Product (Fallback).
-            - If no single flagship is clear, identify the relevant product category/business line (e.g., "Cloud Data Services"). Designate this category as the Primary Focus (Category Fallback).
-
-    Step 3: Generate Analysis (Primary Focus + Comparative Mentions):
-    - Populate the requested 6-card JSON structure below.
-    - The deep analysis in each card should center on the Primary Focus Product/Category determined in Step 2.
-    - Crucially: Where relevant within the subPoints for the Primary Focus Product, briefly mention the Contextual Products (identified in Step 2) to provide comparison or show interplay (e.g., "integrates with [Contextual Product]", "unlike [Contextual Product] which focuses on X"). Do not dedicate separate points just for contextual products.
-    - *Writing Style Guidance:*
-        - *Clarity and Professionalism:* Ensure all output is written in clear, concise, and professional business language.
-        - *Descriptive Language:* Instead of very terse points, aim for descriptive phrasing that elaborates slightly to provide better understanding. Use strong verbs and precise terminology.
-        - *Complete Thoughts:* Even within bullet points (subPoints), aim for complete thoughts or sentences where appropriate, rather than just keywords, to enhance readability.
-        - *Engaging Tone:* While maintaining professionalism, strive for a tone that is informative and engaging for someone preparing for an interview.
-        - *Impact-Oriented:* When describing features, benefits, or differentiators, try to convey the impact or "so what?" for the user or customer.
-
-    # Module 2 - Know the Product (Analyze the Key Offering & Ecosystem)
-
-    1. Quick Summary (Executive Overview & Context):
-
-    - Purpose: Provide a concise summary of the analysis below, explicitly stating the context and the reasoning for the product identification strategy used.
-    - Content (Populate the 'quick_summary' field in the JSON):
-        - Start with the identification statement: Clearly state the Primary Focus Product/Category and specifically explain the reasoning based on Step 2 (e.g., "The JD emphasizes PM ownership ('owning the roadmap') for Search, designating it as the primary focus...", "Multiple products (Search, Maps) were mentioned; **Search is selected as the primary focus due to greater emphasis in the role's responsibilities...", "Based on the candidate's AI background in the resume aligning with mentions of AI features, Search AI initiatives are inferred as the primary focus...", "As no specific product was clearly defined for PM ownership, this analysis focuses on the flagship [Fallback Product Name]...", "JD vague, focusing analysis on the *[Category Fallback]* category...").
-        - If Contextual Products exist, list them: (e.g., "...while acknowledging the role interacts with Maps and Assistant.").
-        - Summarize Key Findings: Briefly cover the Primary Focus Product's core function & problem solved, target user, key differentiator/USP, market position, latest news/release, and monetization, synthesizing info from the 6 cards.
-
-    6-Card Structure Guidance (Primary Focus + Comparative Mentions):
-    For each card below, the 'summary' field should be a dynamically generated 3-5 sentence paragraph. This paragraph must summarize the key findings and main takeaways detailed within that specific card's 'points' (main points and their subPoints) for the [Primary Focus Product].
-
-    - Card 1: Product Identity & Value
-        - title: "Product Identity & Value"
-        - summary: "Generate a 3-5 sentence summary of this card's key findings regarding the [Primary Focus Product]'s core function, the problems it solves, its unique value proposition, and key differentiators, based on the details provided in the 'points' section of this card."
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Core Function", subPoints: ["Clearly articulate the primary purpose and functionality of the [Primary Focus Product].", "Elaborate on the core capability it delivers to users."]
-            - main: "Problems Solved", subPoints: ["Detail the top 2-3 specific user pain points or business challenges the [Primary Focus Product] effectively addresses.", "Explain how it alleviates these issues."]
-            - main: "Unique Value Proposition (UVP)", subPoints: ["Concisely explain the most compelling reason customers choose the [Primary Focus Product] over alternatives.", "If possible, highlight quantifiable benefits or unique outcomes that underscore its value."]
-            - main: "Key Differentiators", subPoints: ["Identify and describe 2-3 distinct aspects or features that clearly differentiate the [Primary Focus Product] in the market.", "Where relevant, briefly illustrate its advantages by comparing with Contextual Products or key competitors (e.g., '...unlike [Contextual Product] which serves X, [Primary Focus Product] excels in Y due to...')."]
-
-    - Card 2: Target Audience & Key Use Cases
-        - title: "Target Audience & Key Use Cases"
-        - summary: "Generate a 3-5 sentence summary of this card's key findings regarding the [Primary Focus Product]'s target user personas, primary use cases or workflows, and the core 'jobs-to-be-done', based on the details provided in the 'points' section of this card."
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Target User Personas", subPoints: ["Provide a clear description of the primary user segment(s) or ideal customer profile for the [Primary Focus Product].", "Include key characteristics or needs relevant to the product."]
-            - main: "Key Use Cases / Workflows", subPoints: ["Illustrate the top 2-3 common tasks or workflows where users engage with the [Primary Focus Product].", "Explain how the product facilitates these processes, and note any common integrations or handoffs with Contextual Products (e.g., '...users typically leverage [Primary Focus Product] for initial analysis, then transition to [Contextual Product] for advanced reporting.')."]
-            - main: "Jobs-To-Be-Done (JTBD)", subPoints: ["Articulate the fundamental 'job' or underlying need that users are 'hiring' the [Primary Focus Product] to fulfill from their perspective."]
-
-    - Card 3: Market Landscape & Positioning
-        - title: "Market Landscape & Positioning"
-        - summary: "Generate a 3-5 sentence summary of this card's key findings regarding the [Primary Focus Product]'s direct and indirect competitors, its target market segment and perceived position, and key market trends impacting its ecosystem, based on the details provided in the 'points' section of this card."
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Direct Competitors", subPoints: ["For 2-3 key direct competitors: State their name, briefly outline their primary strength or market focus, and explain how the [Primary Focus Product] differentiates itself.", "Example format: '[Competitor Name]: Known for [strength/focus]. [Primary Focus Product] differentiates by [key difference].'"]
-            - main: "Indirect Competitors / Alternatives", subPoints: ["Identify other types of solutions or alternative approaches users might consider instead of the [Primary Focus Product].", "Note if Contextual Products might serve as partial alternatives for specific niches or functionalities."]
-            - main: "Market Segment & Position", subPoints: ["Clearly define the specific market segment the [Primary Focus Product] targets.", "Describe its perceived market position (e.g., Leader, Challenger, Niche Specialist), citing any supporting evidence if readily available."]
-            - main: "Market Trends Impacting Ecosystem", subPoints: ["Discuss 1-2 significant industry or technological trends and explain how they are influencing the [Primary Focus Product] and potentially its related Contextual Products."]
-
-    - Card 4: Strategy, News & Outlook
-        - title: "Strategy, News & Outlook"
-        - summary: "Generate a 3-5 sentence summary of this card's key findings regarding recent significant news or developments for the [Primary Focus Product], its inferred vision/goal, recent strategic shifts, and potential future directions, based on the details provided in the 'points' section of this card."
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Recent Significant News & Developments", subPoints: ["Highlight the most significant recent (last 6-12 months) public announcement, product launch, or impactful company news related to the [Primary Focus Product].", "Summarize its key message and potential implications. If no major specific news, state this clearly."]
-            - main: "Inferred Vision/Goal", subPoints: ["Based on public statements, product evolution, and market positioning, articulate what appears to be the long-term strategic vision or aspiration for the [Primary Focus Product]."]
-            - main: "Recent Strategic Shifts", subPoints: ["Describe any discernible changes in the [Primary Focus Product]'s strategic direction, target market, or feature development priorities observed in the past 6-12 months."]
-            - main: "Potential Future Directions (Ecosystem)", subPoints: ["Speculate on 1-2 plausible future developments or strategic moves for the [Primary Focus Product], considering market trends.", "Explain how these might involve or impact Contextual Products within the ecosystem."]
-
-    - Card 5: Key Features, Technology & Monetization
-        - title: "Key Features, Technology & Monetization"
-        - summary: "Generate a 3-5 sentence summary of this card's key findings regarding the [Primary Focus Product]'s defining features and their value, strategically important technology, integration ecosystem, and its monetization and pricing strategy, based on the details provided in the 'points' section of this card."
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Defining Features & Value", subPoints: ["Showcase 2-3 standout or 'hero' features of the [Primary Focus Product]. For each, briefly describe the feature and clearly explain its contribution to the product's UVP or how it solves a critical user problem."]
-            - main: "Relevant Technology", subPoints: ["Discuss any underlying technology that is a core differentiator or strategic asset for the [Primary Focus Product] (e.g., 'Leverages a proprietary AI engine for predictive analytics,' 'Built on a highly scalable serverless architecture enabling global reach'). Avoid generic mentions."]
-            - main: "Integration Ecosystem", subPoints: ["Identify key third-party integrations crucial for the [Primary Focus Product]'s functionality or market appeal.", "Emphasize any tight integrations with Contextual Products and the value this provides (e.g., '[Primary Focus Product] offers seamless data synchronization with [Contextual Product], enabling a unified workflow for X and Y.')."]
-            - main: "Monetization & Pricing Strategy", subPoints: ["Clearly explain the primary way(s) the [Primary Focus Product] generates revenue (e.g., tiered subscriptions, usage-based billing).", "Provide a brief overview of its pricing model or common tiers."]
-
-    - Card 6: SWOT Analysis (Primary Focus)
-        - title: "SWOT Analysis"
-        - summary: "Generate a 3-5 sentence summary of this card's key findings regarding the [Primary Focus Product]'s internal strengths, weaknesses, external opportunities, and threats, based on the details provided in the 'points' section of this card."
-        - details (Map to 'points' array using 'main'/'subPoints'):
-            - main: "Strengths", subPoints: ["Identify and briefly explain 2-3 key internal advantages or core competencies of the [Primary Focus Product] (e.g., 'Strong brand equity and customer loyalty,' 'Proprietary technology offering a significant performance edge')."]
-            - main: "Weaknesses", subPoints: ["Identify and briefly explain 2-3 internal limitations or areas for improvement for the [Primary Focus Product] (e.g., 'Perceived high price point compared to emerging competitors,' 'Reliance on a complex legacy system for certain functionalities')."]
-            - main: "Opportunities", subPoints: ["Outline 1-2 significant external market opportunities that the [Primary Focus Product] is well-positioned to capitalize on.", "(Consider potential synergies with Contextual Products or emerging market needs)."]
-            - main: "Threats", subPoints: ["Describe 1-2 key external threats or challenges that could negatively impact the [Primary Focus Product]'s market position or growth.", "(Consider competitive pressures, including those involving Contextual Products, or shifting technological landscapes)."]
-    ----
-    {question}
+    product_research = (f'''
+    You are an expert Researcher helping a user prepare for a job interview by analyzing a specific product.
+Your task is to identify the primary product the candidate will be working on based on the Job Description (JD), company name and company website, research it thoroughly using primarily the provided company website, other official company sources, reputed website and your own knowledge base and generate a detailed JSON output containing key information relevant for interview preparation.
+    {data} Description (JD)'''
     '''
+    ----
+   *INSTRUCTIONS:*
+
+1. Identify Primary Focus Product:
+    - Start by carefully reading the **'JOB DESCRIPTION (JD)'** provided in the input to identify ALL specific products, product lines, platforms, or teams mentioned (e.g., "Search", "Maps", "Assistant", "Cloud Platform").
+    - Analyze the JD for **PM Responsibility Signals**: Look specifically within "Responsibilities", "What You'll Do", etc., for keywords indicating direct ownership or primary focus for the PM role (e.g., "own the roadmap for [Product X]", "define the strategy for [Product X]").
+    - **Crucially, use the 'COMPANY Name or Company WEBSITE URL' (provided in the input) to confirm the existence and details of any product(s) identified from the JD.** This step is vital for pinpointing the exact product offering.
+    - **Fallback Logic:** If no specific product is clearly identified for PM ownership in the JD, attempt to identify the company's main/flagship product relevant to the role from the **'COMPANY WEBSITE'**. If still unclear, identify the most relevant product category/business line from the website.
+    - Your objective is to accurately determine and confirm the single, **Primary Focus Product** (or product category) for subsequent research. Other mentioned products can be considered **Contextual Products**.
+2. Research Product Details: **Using the identified Primary Focus Product, conduct your deep research.**
+    - **The 'COMPANY WEBSITE ' provided in the input is your ABSOLUTE PRIMARY AND AUTHORITATIVE SOURCE for all specific product details.** This includes its features, functionality, target audience, value proposition, and monetization.
+    - You **MUST prioritize and actively use information directly from the provided 'COMPANY WEBSITE', official company sources (e.g., company blogs, official product documentation linked from the main website), reputable sources, and your knowledge base.** This ensures the highest accuracy and up-to-date information. Please ensure the information is as up-to-date as it can be.
+    - **For information NOT typically found on a product page (e.g., names of direct competitors not mentioned by the company, broad market trends for SWOT analysis), you may supplement with your general knowledge or web searching capabilities, but clearly state if the information is not from the official company website.**
+
+---
+
+REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Primary Focus Product**):
+
+- ***Quick Summary (Product Focus):*** High-impact overview (at least 260 words) covering: What the [Primary Focus Product] does, its primary user segment & key problem solved, its unique value proposition & key differentiators.
+- **Card 1: Product Fundamentals & Market Edge:**
+    - **What [Primary Focus Product] Does:** Clear, concise functional description.
+    - **Primary Target Market Segment:** The specific market/industry category the product primarily serves.
+    - **Key Problem(s) It Solves for Users:** Core pain points it addresses.
+    - **Unique Value Proposition (UVP):** Its distinct promise and most significant benefit.
+    - **Key Differentiators vs. Alternatives:** Standout aspects setting it apart.
+- **Card 2: Core Functionality:**
+    - **Identified Product Features & Descriptions:** List all significant product features with a 1-2 line summary of what each does and its benefit.
+    - **Key Underlying Technology (If Strategic):** Any specific tech fundamental to its performance or UVP.
+    - **Integration & Ecosystem Synergy:** Critical integrations and how they enhance value.
+    - **Monetization Strategy & Pricing Approach:** How the product generates revenue and its pricing model.
+- **Card 3: User Focus & Core Needs:**
+    - **Primary Target User Profile(s):** Detailed description of the main users.
+    - **Key Scenarios: How Users Engage:** Common workflows or tasks.
+    - **Fundamental User Needs Addressed:** Core 'jobs' or aspirations the product helps users fulfill.
+- **Card 4: Competitive Landscape (Product-Focused):**
+    - **Key Direct Competitors of [Primary Focus Product]:** Who offers similar solutions?
+    - **Indirect Competition & Alternative Solutions for the problem [Primary Focus Product] solves.**
+    - **[Primary Focus Product]'s Positioning Against Competitors:** How it aims to win.
+- **Card 5: SWOT Analysis ([Primary Focus Product]):**
+    - **Strengths:** Internal positives of the product.
+    - **Weaknesses:** Internal negatives/limitations of the product.
+    - **Opportunities:** External favorable factors for the product.
+    - **Threats:** External negative conditions for the product.
+    
+    ---
+    
+    **The JSON Output should be in this format only and ensure atleast `2 subPoints` should,must be filled in each object of sub_modules and the 'completed' must be 'false' only:**
+    {
+    "quick_summary": "[A comprehensive 5–6 paragraph overview covering what the Primary Focus Product does, its key features, target users, problems solved, unique value proposition, differentiators, and its role within the company's ecosystem.]",
+    "sub_modules": [
+    {
+    "title": "Product Fundamentals & Market Edge",
+    "completed": false,
+    "summary": "string (Engaging paragraph summarizing the Primary Focus Product's core identity, its target market, and its competitive edge, based on information from the company website.) atleast of 54 words",
+    "content": "string (3–4 fluent sentences explaining what this card covers about the product's foundational aspects and its standing in the market, emphasizing details from official sources.) atleast of 54 words",
+    "points": [
+    {
+    "main": "What [Primary Focus Product] Does",
+    "subPoints": [
+    "String (Concise overview of the product's primary function and capabilities, e.g., 'An advanced analytics platform for processing and visualizing large datasets.') atleast of 54 words",
+    "String (The main activity or process it enables for users, according to the company website.) atleast of 54 words"
+    ]
+    },
+    {
+    "main": "Primary Target Market Segment",
+    "subPoints": [
+    "String (The specific market or industry category the product primarily serves, e.g., 'Enterprise B2B SaaS companies,' as defined on the company website.) atleast of 54 words",
+    "String (Further details on the segment if available, e.g., 'Focuses on medium to large enterprises within the financial services and healthcare sectors.') atleast of 54 words"
+    ]
+    },
+    {
+    "main": "Key Problem(s) It Solves for Users",
+    "subPoints": [
+    "String (Top critical user pain point or business challenge the product resolves, as highlighted on the company website.) atleast of 54 words",
+    "String (Another significant problem it addresses, or details on how it provides a solution.) atleast of 54 words"
+    ]
+    },
+    {
+    "main": "Unique Value Proposition (UVP)",
+    "subPoints": [
+    "String (The core, compelling reason customers choose this product over alternatives, using language from the company website.) atleast of 54 words",
+    "String (The most significant benefit or outcome it distinctively delivers, if stated on the company website.) atleast of 54 words"
+    ]
+    },
+    {
+    "main": "Key Differentiators vs. Alternatives",
+    "subPoints": [
+    "String (A standout aspect - feature, technology, etc. - that sets it apart, as presented on the company website.) atleast of 54 words",
+    "String (Another key differentiator, e.g., 'Offers [Unique Aspect A], unlike most competitors who focus on [Common Aspect B].') atleast of 54 words"
+    ]
+    }
+    ]
+    },
+    {
+    "title": "Core Functionality & Value Delivery",
+    "completed": false,
+    "summary": "string (Summary explaining the Primary Focus Product's key features, the technology powering it, how it integrates, and its monetization model, all based on company website information.) atleast of 54 words",
+    "content": "string (3–4 fluent sentences describing the product's core mechanics – what it does, what it's built on if strategic, and how it makes money, emphasizing details from official sources.) atleast of 54 words",
+    "points": [
+    {
+    "main": "Identified Product Features & Descriptions",
+    "subPoints": [
+    "Feature 1: [Feature Name] - String (A 1-2 line summary of what the feature does and its primary user benefit or value, as described on the company website.) atleast of 54 words",
+    "Feature 2: [Feature Name] - String (Similar detailed description for another feature.) atleast of 54 words"
+    // Add more feature strings as identified, each trying to meet the word count through detailed description.
+    // "Strive to list all distinct features clearly described on the website."
+    ]
+    },
+    {
+    "main": "Key Underlying Technology (If a Strategic Differentiator)",
+    "subPoints": [
+    "String (Description of specific technology fundamental to its performance or UVP, if detailed on the company website, e.g., 'Leverages proprietary machine learning models for advanced predictive analytics.') atleast of 54 words",
+    "String (If standard tech or not detailed, statement like 'Built on a robust and scalable modern tech stack, focusing on reliable delivery of features,' or 'Specific underlying technology details are not highlighted on the website.') atleast of 54 words"
+    ]
+    },
+    {
+    "main": "Integration & Ecosystem Synergy",
+    "subPoints": [
+    "String (Key integrations critical to user workflows, e.g., with other company products or essential third-party services, as mentioned on the company website.) atleast of 54 words",
+    "String (How these integrations extend functionality or streamline user experience, e.g., 'Offers seamless data synchronization with [Contextual Product], enabling a unified workflow for X and Y,' based on website details.) atleast of 54 words"
+    ]
+    },
+    {
+    "main": "Monetization Strategy & Pricing Approach",
+    "subPoints": [
+    "String (How the product generates revenue, e.g., 'Tiered subscription model: Basic, Pro, Enterprise,' as stated on the company website.) atleast of 54 words",
+    "String (Brief overview of its pricing model or common tiers, e.g., 'Pricing is per user per month, with volume discounts for larger teams,' if available on the website. If not, state that pricing details are not publicly available on the site.) atleast of 54 words"
+    ]
+    }
+    ]
+    },
+    {
+    "title": "User Focus & Core Needs",
+    "completed": false,
+    "summary": "string (Summary of the Primary Focus Product's target users, how they engage with it, and the fundamental needs it meets, based on company website information.) atleast of 54 words",
+    "content": "string (3–4 sentences describing who uses the product, what they achieve with it, and the core problems or aspirations it addresses, emphasizing details from official sources.) atleast of 54 words",
+    "points": [
+    {
+    "main": "Primary Target User Profile(s)",
+    "subPoints": [
+    "String (Detailed description of the most important user segment or persona, e.g., 'Marketing Managers in mid-sized technology companies requiring advanced campaign analytics,' as defined on the company website.) atleast of 54 words",
+    "String (Key characteristics, roles, daily tasks, and motivations of another primary user profile relevant to the product, based on website information.) atleast of 54 words"
+    ]
+    },
+    {
+    "main": "Key Scenarios: How Users Engage with the Product",
+    "subPoints": [
+    "String (Scenario 1: Description of a common workflow or task a user performs with the product, e.g., 'To optimize ad spend, a user first ingests campaign data from multiple sources, then utilizes the platform's attribution modeling feature to identify high-performing channels, and finally generates a comprehensive report for stakeholders.') atleast of 54 words",
+    "String (Scenario 2: Similar detailed description for another key interaction or use case, as described or inferred from the company website.) atleast of 54 words"
+    ]
+    },
+    {
+    "main": "Fundamental User Needs Addressed",
+    "subPoints": [
+    "String (A core underlying need or 'job' the product helps users accomplish, e.g., 'To gain actionable insights from complex datasets to make data-driven business decisions,' inferred from website information.) atleast of 54 words",
+    "String (Another fundamental need or aspiration the product fulfills, framed as the progress users are trying to make, e.g., 'To streamline collaborative project management and improve team productivity on complex initiatives.') atleast of 54 words"
+    ]
+    }
+    ]
+    },
+    {
+    "title": "Competitive Landscape (Product-Focused)",
+    "completed": false,
+    "summary": "string (Summary outlining the Primary Focus Product's main competitors and how it differentiates itself within its specific market, based on website info and supplemented by general knowledge where stated.) atleast of 54 words",
+    "content": "string (3–4 sentences describing direct and indirect competitors, and the product's strategic positioning against them, emphasizing details from official sources where possible.) atleast of 54 words",
+    "points": [
+    {
+    "main": "Key Direct Competitors of [Primary Focus Product]",
+    "subPoints": [
+    "Competitor A: [Name]. String (Known for [Their main strength/focus area]. If competitor details are from general knowledge, state so. If from company website, cite that.) atleast of 54 words",
+    "Competitor B: [Name]. String (Similar detailed description for another direct competitor and its known strengths.) atleast of 54 words"
+    ]
+    },
+    {
+    "main": "Indirect Competition & Alternative Solutions",
+    "subPoints": [
+    "String (Other ways users currently address the core problem the Primary Focus Product solves, e.g., 'Utilizing generic spreadsheet software for data analysis, which lacks specialized features but is widely accessible,' inferred from product descriptions or general market understanding.) atleast of 54 words",
+    "String (Description of another alternative solution or type of indirect competitor, e.g., 'Developing custom in-house tools, which offer tailored functionality but require significant development resources and ongoing maintenance.') atleast of 54 words"
+    ]
+    },
+    {
+    "main": "[Primary Focus Product]'s Positioning Against Competitors",
+    "subPoints": [
+    "String (How the product aims to win against direct competitors, e.g., 'By offering a more intuitive user interface and significantly faster data processing speeds, as highlighted by its UVP and differentiators from the company website.') atleast of 54 words",
+    "String (Its key competitive advantage in the current landscape, e.g., 'Its unique focus on seamless integration with the broader [Company Name] ecosystem provides a unified user experience not easily matched by standalone competitors.') atleast of 54 words"
+    ]
+    }
+    ]
+    },
+    {
+    "title": "SWOT Analysis ([Primary Focus Product])",
+    "completed": false,
+    "summary": "string (Summary of the Primary Focus Product's internal strengths and weaknesses, and the external opportunities and threats it faces, based on website information and general market knowledge.) atleast of 54 words",
+    "content": "string (3–4 sentences providing a balanced overview of the product's strategic position based on the SWOT factors, emphasizing details from official sources for S & W.) atleast of 54 words",
+    "points": [
+    {
+    "main": "Strengths (Internal Positives of the Product)",
+    "subPoints": [
+    "String (A key internal advantage, e.g., 'Leverages [Company Name]'s strong brand reputation and existing enterprise customer base for market penetration,' derived from website and JD analysis.) atleast of 54 words",
+    "String (Another core competency, e.g., 'Possesses proprietary algorithms for [specific function] that deliver demonstrably superior accuracy compared to alternatives, as evidenced by case studies on the company website.') atleast of 54 words"
+    ]
+    },
+    {
+    "main": "Weaknesses (Internal Negatives/Limitations of the Product)",
+    "subPoints": [
+    "String (An internal limitation, e.g., 'The product currently has a steeper learning curve for non-technical users, potentially hindering wider adoption in certain segments,' inferred cautiously from website or JD.) atleast of 54 words",
+    "String (Another area for improvement, e.g., 'Perceived as having a higher price point compared to some newer, more narrowly focused competitors, which could be a barrier for smaller businesses.') atleast of 54 words"
+    ]
+    },
+    {
+    "main": "Opportunities (External Favorable Factors for the Product)",
+    "subPoints": [
+    "String (A significant external market opportunity, e.g., 'The rapidly growing market demand for AI-powered automation in [target industry] presents a significant expansion opportunity for the product’s advanced capabilities.') atleast of 54 words",
+    "String (Another potential opportunity, e.g., 'The increasing need for robust data privacy and compliance features offers a chance to further differentiate by enhancing its existing security architecture.') atleast of 54 words"
+    ]
+    },
+    {
+    "main": "Threats (External Negative Conditions for the Product)",
+    "subPoints": [
+    "String (A key external threat, e.g., 'Intense competition from both established players and agile startups introducing innovative features at a rapid pace, requiring continuous product development.') atleast of 54 words",
+    "String (Another potential challenge, e.g., 'Potential shifts in technology standards or user preferences towards open-source alternatives could impact long-term market share if not proactively addressed.') atleast of 54 words"
+    ]
+    }
+    ]
+    }
+    ]
+    }
+    ''')
     return product_research
 
 def job_description_analysis_fun(data):
