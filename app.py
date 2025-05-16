@@ -505,92 +505,312 @@ def update_csv():
 # def test_response():
 #     try:
 #         data1=request.form
-#         question = (
-#     "Explain the operating system modules in full detail.\n\n"
-#     "Return the answer strictly in the following JSON format:\n"
-#     "{\n"
-#     '  "quick_summary": "1–2 paragraphs that accurately and clearly summarize the overall content of ALL sub-modules below. '
-#     'This must reflect the actual information presented in the sub_modules. Do not write generic or vague content. It must be meaningful and complete.",\n'
-#     '  "sub_modules": [\n'
-#     '    {\n'
-#     '      "title": "Title of the sub-module (must be meaningful and not blank)",\n'
-#     '      "completed": false,\n'
-#     '      "summary": "A detailed and meaningful 1-paragraph summary of this specific sub-module (must not be blank or generic)",\n'
-#     '      "content": "3–4 full, well-formed sentences with rich, complete, and accurate explanation of the sub-module. Do not leave blank.",\n'
-#     '      "points": [\n'
-#     '        {\n'
-#     '          "main": "Heading of the main concept (must be meaningful and specific)",\n'
-#     '          "subPoints": [\n'
-#     '            "Fully written explanation about this point (must not be vague or short)",\n'
-#     '            "Another long and informative explanation related to the point",\n'
-#     '            "..."\n'
-#     '          ]\n'
-#     '        },\n'
-#     '        "... more point objects ..."\n'
-#     '      ]\n'
-#     '    },\n'
-#     '    "... more sub-modules ..."\n'
-#     '  ]\n'
-#     '}\n\n'
-#     "Strict Output Instructions:\n"
-#     "- Ensure the ENTIRE output is valid, structured JSON.\n"
-#     "- DO NOT leave any field blank or generic.\n"
-#     "- The `quick_summary` MUST summarize the real sub-modules below in 1–2 strong paragraphs.\n"
-#     "- Each `title`, `summary`, `content`, `main`, and every `subPoint` must be accurate, meaningful, detailed, and relevant.\n"
-#     "- The `content` field must contain exactly 3–4 full, informative sentences.\n"
-#     "- Avoid repetition, filler, or hallucination. Every piece of content must be factually correct and context-aware.\n"
-#     "- Write for clarity and completeness. Use high-quality, well-structured language."
-# )
+        
 #         response = requests.post(
 #                     url="https://openrouter.ai/api/v1/chat/completions",
 #                     headers={
 #                         "Authorization": "Bearer " + api_key,
 #                     },
 #                     data=json.dumps({
-#                         "model": "google/gemini-2.5-flash-preview",
+#                         "model": "google/gemini-2.0-flash-001",
+#                         "plugins": [{ "id": "web" }],
 #                         "messages": [
-#                             {"role": "user", "content": f'''
-#   You are an expert research assistant helping a user prepare for a job interview.
-# Your task is to analyze the provided Job Description (JD), identify the company, research it thoroughly, and generate a detailed JSON output containing key information relevant for interview preparation.
-#     {str(data1)}
+#                             {"role": "user", "content": (f'''
+#    You are an expert research assistant helping a user prepare for a job interview.
+# Your task is to identify the company, research it thoroughly, and generate a detailed JSON output containing key information relevant for interview preparation.
+#     {str(data1)}'''
+#     '''
 #     ----
-# 1.  Identify Company: Use the company name provided by the user as the primary target for research. If a company website URL is also provided (which is optional), use it as the most definitive source to confirm the specific company. Analyze the Job Description (JD) (and the website if provided) to gain crucial contextual understanding (industry, products, location) that helps confirm the specific company, especially for common names or if the website is not available, and guides the subsequent research focus.
-# 2.  Research: Using the identified company, leverage your knowledge base and search capabilities to gather comprehensive information for all the points listed under "Required Information Categories" below. Prioritize information from official company sources (website, LinkedIn, press releases) and reputable business news outlets for accuracy, especially for details like founders, leadership, financials, and key events.
-# 3.  Output Style:
-#     *   Generate the response exclusively in the JSON format specified at the end. Do not include any text before or after the JSON object.
-#     *   Populate the quick_summary field with a concise, high-impact overview of the company (~1-2 minutes of talking points). This should provide a rapid understanding of the company's core identity and key activities.
-#     *   For each sub_module, first populate the subPoints within the points array.
-#     *   Crucially: Write the content for each item in the subPoints arrays as complete, informative sentences or concise bullet points where a list format is natural (e.g., listing names, competitors, features). Do not write instructions or descriptions like "List the founders" within the subPoints values; instead, provide the actual information (e.g., "The company was founded by Jane Doe and John Smith.").
-#     *   If specific information for a point cannot be found after searching (especially for founders, specific financials, key leadership, etc.), explicitly state "Information not found" or "Specific details not publicly available" for that subPoint.
-#     *   After populating the points, generate a concise 2-3 sentence summary for each sub_module that synthesizes the key findings from its points.
-#     *   Ensure the completed flag remains false in the output JSON structure.
+# *INSTRUCTIONS:*
+
+# 1. Identify Company:
+#     - Start with the 'COMPANY NAME' provided in the input as the primary candidate.
+#     - **Crucially, use the 'COMPANY WEBSITE' (if available in the input) to disambiguate this name.** Analyze its domain to distinguish this specific company from others that might share a similar name. This step is vital for pinpointing the exact entity the user is referring to.
+#     - Further refine and confirm the specific company identity by analyzing the 'JOB DESCRIPTION'. Look for contextual clues (industry, services mentioned, specific technologies, location if relevant) that align with the website information and the provided company name, helping to resolve any remaining ambiguity.
+#     - Your objective is to accurately determine and confirm the single, specific company entity intended by the user for subsequent research.
+
+# Research: **Using the identified company name, leverage your general knowledge base for a foundational understanding of the company (e.g., its industry, general product categories, common perceptions). However, to ensure the highest accuracy and up-to-date information for specific factual and potentially time-sensitive details, you **must prioritize and actively employ your searching grounding (searching the internet) capabilities.** Aim for comprehensive information, using search to validate, update, or find details that are likely to be current or highly specific.This approach is especially critical for gathering precise information on:
+
+# - Mission & Values
+# - Founding Team - Company founding date & Key founder(s)
+# - Products & Services Offered
+# - Business Model & Market Footprint
+# - Recent funding rounds (including amounts, dates, and key investors, if publicly available)
+# - Key recent events (e.g., significant news, major product launches, acquisitions, strategic partnerships, ideally within the last 1-2 years)
+# - Current key leadership roles and names (e.g., CEO, CPO, CTO)
+# - Specific financial details (e.g., revenue trends if public, latest valuation if reported)
+# - Notable clients/customers (verifying publicly acknowledged relationships)
+
+# -----
 
 # REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
 
-# *   Quick Summary: A concise, high-impact overview providing a rapid understanding of the company. It should cover: Concise description of the company, Core mission/vision, primary product/service & differentiator, key customer segment & problem solved, and top 1-2 competitors.
-# *   Company Overview:
-#     *   Company Snapshot: Concise description of the company.
-#     *   Origins & Founders: Founding date, location, key founder(s), original vision/inspiration. Actively seek founder names and founding details from reliable sources.
-#     *   Product & Services Portfolio: Comprehensive list and summary of all products, services, and solutions offered by the company.
-# *   Target Market & Customers:
-#     *   Primary Customer Segments: B2B/B2C segments, defining characteristics.
-#     *   Key Customer Challenges Solved: Problems/needs addressed by products/services.
-#     *   Key Reasons Customers Choose: Top 2-3 USPs/differentiators.
-#     *   Key Industries Served: Primary verticals, areas of strategic focus.
-#     *   Notable Clients: 5-7 significant clients (publicly known), brief interview relevance (e.g., 'Validates enterprise readiness').
-# *   Competitive Landscape:
-#     *   Main Competitors: 5-7 significant competitors (or fewer if appropriate), their focus.
-#     *   Key Differentiators (USPs): 1-3 points making the company stand out.
-#     *   Competitive Strengths: 1-3 core advantages (e.g., technology, brand).
-#     *   Potential Weaknesses/Challenges: 1-3 potential vulnerabilities relative to competitors.
-# *   Org Structure, Leadership & Culture:
-#     *   Size, Status & Location: Approx Employee Count, Public/Private, HQ, Key Offices.
-#     *   Organizational Structure: Parent Company, Key Subsidiaries/Divisions, recent restructuring.
-#     *   Key Leadership: Identify and list the names of key leadership roles: CEO, Head of Product (e.g., CPO), Head of Engineering (e.g., CTO), and other relevant VPs or divisional heads. Actively search company websites, official press releases, and credible professional profiles (like LinkedIn) for these names. State 'Information not found' if a name cannot be definitively identified from reliable sources.
-#     *   Financial Health & Funding: Recent Funding (Round/Amount/Date/Investors). State 'No recent funding information found' if applicable.","Sentence on Profitability/Revenue trends, if public. State 'Financials not publicly available' if applicable.","Sentence noting other growth signals, if observed.",...]
-#     ----
-#     {question}
-#     '''}
+# - ***Quick Summary:*** High-impact overview (~2 mins) covering: What the company does, its primary product/service, key customer segment & problem solved & company's advantage
+# - **Company Overview:**
+#     - **Company Snapshot:** 3–4 sentence summary explaining what the company does, its core product or service, key innovation, and why it matters in its industry
+#     - **Mission & Values: Instruction - This information should not be inferred or guessed, it should be searched on the web for the most accurate result**
+#         - Mission: 1 sentence stating the mission of the company if available
+#         - Vision: 1 sentence stating the vision of the company if available
+#         - Values: List all the values of the company
+#     - **Founding Team:** Provide a 1–2 sentence summary of when the company was founded and who the founders are
+# - **Products & Services Offered: Instruction:** Identify and list the company's key, distinct products and/or service lines. Aim to list all major offerings unless the company's portfolio is significantly smaller or larger (in which case, adjust to accurately represent their main offerings). For each offering, provide a concise 1-2 line description of what the product or service is and what it does. Information should be sourced primarily from searching the internet - the company's official website (e.g., "Products," "Services," "Solutions" pages) or your own knowledge base (if its up to date)
+#     - [Product/Service Name 1:** [Concise 1-2 sentence description of Product/Service 1.]
+#     - [Product/Service Name 2:** [Concise 1-2 sentence description of Product/Service 2.] ad keep repeat for all offerings found
+# - **Business Model & Company Financials:**
+#     - **Business Model & Monetization: 1- 3 points outlining what is the b primary business model of the company**
+#     - **Financials & Funding:** Recent Funding (Round/Amount/Date/Investors). Instruction - Focus on the last 2 funding round and focus on getting the latest data.
+#     - **Revenue:** List the most up to date revenue available of the company. Do not guess this number, if its not publicly available then mention as such. For companies that are public this number should be easily available. If the company is private focus on reputable news sources.
+# - **Target Market & Customers:**
+#     - Primary Customer Segments: Provide a 3-5 sentence summary of key industries, sectors or target market that the company serves, if they serve multiple industries then focus on the main industry they serve with the product mentioned in the job description. A
+#     - Key Customer Challenges Solved: Problems/needs addressed by products/services.
+#     - Key Reasons Customers Choose: Top 2-3 USPs/differentiators.
+#     - Notable Clients: 5-7 significant clients that the company has worked with (publicly known)
+# - **Competitive Landscape:**
+#     - Main Competitors: List 5-7 significant competitors. These can be direct or indirect competitors
+#     - Key Differentiators (USPs): 1-3 points making the differentiates the company from its competitors. Focus on the things that the company does that sets it apart from its competitors and is the reason companies prefer the company over the competitors
+#     - Competitive Strengths: 1-3 core advantages (e.g., technology, brand).
+#     - Potential Weaknesses/Challenges: 1-3 potential vulnerabilities relative to competitors.
+# - **Org Structure and Leadership:**
+#     - Size, Status & Location: Approx Employee Count, Public/Private, HQ, Key Offices.
+#     - Organizational Structure: Parent Company, Key Subsidiaries/Divisions, recent restructuring.
+#     - Key Leadership: CEO, CPO/Product Head, CTO/Engineering Head, other relevant VPs/Heads (provide names).
+# - **Industry Context, News & Outlook**
+#     - **Key Industry Trends:** List all the key trends in the company’s primary industry that the company
+#     - **Recent News & Key Developments:** 3-5 significant events from the last ~2 years (funding, product launches, acquisitions, partnerships, milestones reached etc.). Summarize each factually in one sentence (e.g., "Acquired Company Y, specializing in Z technology, in Q3 2023.")
+#     -----
+
+#     **The JSON Output should be in this format only and ensure atleast `2 subPoints` should,must be filled in each object of sub_modules and the 'completed' must be 'false' only:**
+#     {
+#   "quick_summary": "[A comprehensive 5–6 paragraph overview covering what the company does, its products/services, customer segments, problems solved, competitive advantage, recent momentum, and industry relevance.]",
+#   "sub_modules": [
+#     {
+#       "title": "Company Overview",
+#       "completed": false,
+#       "summary": "string (Engaging paragraph summarizing the company overview section) ",
+#       "content": "string (3–4 fluent sentences explaining the scope and value of this module) ",
+#       "points": [
+#         {
+#           "main": "Company Snapshot",
+#           "subPoints": [
+#             "String (3–4 sentence summary explaining what the company does, core product/service, key innovation, and relevance) atleast of 44 words",
+#             ...
+#           ]
+#         },
+#         {
+#           "main": "Mission & Values",
+#           "subPoints": [
+#             "Mission: string (Mission of the company. Must be sourced, not inferred.) atleast of 44 words",
+#             "Vision: string (Vision of the company. Must be sourced, not inferred.) atleast of 44 words",
+#             "Values: [string, string, string] (List of values; must be sourced) atleast of 44 words",
+#             ...
+#           ]
+#         },
+#         {
+#           "main": "Founding Team",
+#           "subPoints": [
+#             "String (1–2 sentence summary of when the company was founded and who the founders are) atleast of 44 words",
+#             ...
+#           ]
+#         }
+#       ]
+#     },
+#     {
+#       "title": "Products & Services Offered",
+#       "completed": false,
+#       "summary": "string (Summary explaining the company's product/service range and importance) ",
+#       "content": "string (3–4 fluent sentences describing key offerings and how they help customers) ",
+#       "points": [
+#         {
+#           "main": "Product & Service List",
+#           "subPoints": [
+#             "Product/Service A: string (Concise 1-2 sentence description of what it is and does) atleast of 44 words",
+#             "Product/Service B: string (Same format, repeat as needed) atleast of 44 words",
+#             ...
+#           ]
+#         }
+#       ]
+#     },
+#     {
+#       "title": "Business Model & Company Financials",
+#       "completed": false,
+#       "summary": "string (Summary explaining how the company makes money, growth trajectory, and financial standing) ",
+#       "content": "string (3–4 fluent sentences on business model, recent funding, and revenue highlights) ",
+#       "points": [
+#         {
+#           "main": "Business Model & Monetization",
+#           "subPoints": [
+#             "String (e.g., 'Subscription-based SaaS platform for enterprise analytics') atleast of 44 words",
+#             "String (e.g., 'Freemium pricing for individual users with tiered enterprise plans') atleast of 44 words",
+#             ...
+#           ]
+#         },
+#         {
+#           "main": "Financials & Funding",
+#           "subPoints": [
+#             "Recent Funding Round 1: string (e.g., 'Series C – $120M – May 2023 – led by Sequoia') atleast of 44 words",
+#             "Recent Funding Round 2: string (e.g., 'Series B – $80M – Feb 2022 – led by Accel') atleast of 44 words",
+#             ...
+#           ]
+#         },
+#         {
+#           "main": "Revenue",
+#           "subPoints": [
+#             "Latest available revenue: string (e.g., '$210M in 2023' or 'Revenue not publicly available') atleast of 44 words",
+#             ...
+#           ]
+#         }
+#       ]
+#     },
+#     {
+#       "title": "Target Market & Customers",
+#       "completed": false,
+#       "summary": "string (Summary of target market, customer needs, and how the company addresses them) ",
+#       "content": "string (3–4 sentences describing customers, problems solved, and value delivered) ",
+#       "points": [
+#         {
+#           "main": "Primary Customer Segments",
+#           "subPoints": [
+#             "String (3–5 sentences on key industries, sectors, or personas served) atleast of 44 words",
+#             ...
+#           ]
+#         },
+#         {
+#           "main": "Key Customer Challenges Solved",
+#           "subPoints": [
+#             "String (List of core problems solved by the company’s products/services) atleast of 44 words",
+#             ...
+#           ]
+#         },
+#         {
+#           "main": "Key Reasons Customers Choose",
+#           "subPoints": [
+#             "String (1–2 sentence point on USP 1) atleast of 44 words",
+#             "String (USP 2) atleast of 44 words",
+#             "String (USP 3, if applicable) atleast of 44 words",
+#             ...
+#           ]
+#         },
+#         {
+#           "main": "Notable Clients",
+#           "subPoints": [
+#             "Client 1 atleast of 44 words",
+#             "Client 2 atleast of 44 words",
+#             "Client 3 atleast of 44 words",
+#             "Client 4 atleast of 44 words",
+#             "Client 5 atleast of 44 words",
+#             "Client 6 atleast of 44 words",
+#             "Client 7 atleast of 44 words",
+#             ...
+#           ]
+#         }
+#       ]
+#     },
+#     {
+#       "title": "Competitive Landscape",
+#       "completed": false,
+#       "summary": "string (Summary outlining competitors and what gives the company an edge or poses a risk) ",
+#       "content": "string (3–4 sentences describing competitors, strengths, differentiators, and risks) ",
+#       "points": [
+#         {
+#           "main": "Main Competitors",
+#           "subPoints": [
+#             "Competitor A atleast of 44 words",
+#             "Competitor B atleast of 44 words",
+#             "Competitor C atleast of 44 words",
+#             "Competitor D atleast of 44 words",
+#             "Competitor E atleast of 44 words",
+#             "Competitor F atleast of 44 words",
+#             "Competitor G atleast of 44 words",
+#             ...
+#           ]
+#         },
+#         {
+#           "main": "Key Differentiators (USPs)",
+#           "subPoints": [
+#             "String (Point 1) atleast of 44 words",
+#             "String (Point 2) atleast of 44 words",
+#             ...
+#           ]
+#         },
+#         {
+#           "main": "Competitive Strengths",
+#           "subPoints": [
+#             "String (e.g., 'Proprietary AI engine that automates analysis 30% faster') atleast of 44 words",
+#             ...
+#           ]
+#         },
+#         {
+#           "main": "Potential Weaknesses/Challenges",
+#           "subPoints": [
+#             "String (e.g., 'Limited geographic reach compared to global competitors') atleast of 44 words",
+#             ...
+#           ]
+#         }
+#       ]
+#     },
+#     {
+#       "title": "Org Structure and Leadership",
+#       "completed": false,
+#       "summary": "string (Summary describing size, structure, and leadership team of the company) ",
+#       "content": "string (3–4 sentences about leadership, company structure, and global footprint) ",
+#       "points": [
+#         {
+#           "main": "Size, Status & Location",
+#           "subPoints": [
+#             "String (e.g., 'Approx 1,500 employees, private company, HQ in San Francisco, regional offices in London and Bangalore') atleast of 44 words",
+#             ...
+#           ]
+#         },
+#         {
+#           "main": "Organizational Structure",
+#           "subPoints": [
+#             "String (e.g., 'Wholly-owned subsidiary of XYZ Group, with 3 business divisions: Consumer, Enterprise, Research') atleast of 44 words",
+#             ...
+#           ]
+#         },
+#         {
+#           "main": "Key Leadership",
+#           "subPoints": [
+#             "CEO: Full Name atleast of 44 words",
+#             "CPO: Full Name atleast of 44 words",
+#             "CTO: Full Name atleast of 44 words",
+#             "Other Key Heads: Role – Name atleast of 44 words",
+#             ...
+#           ]
+#         }
+#       ]
+#     },
+#     {
+#       "title": "Industry Context, News & Outlook",
+#       "completed": false,
+#       "summary": "string (Summary highlighting industry trends, company alignment, and recent developments) ",
+#       "content": "string (3–4 sentences about the market environment and what the company has recently done to adapt or lead) ",
+#       "points": [
+#         {
+#           "main": "Key Industry Trends",
+#           "subPoints": [
+#             "Trend 1 atleast of 44 words",
+#             "Trend 2 atleast of 44 words",
+#             "Trend 3 atleast of 44 words",
+#             ...
+#           ]
+#         },
+#         {
+#           "main": "Recent News & Key Developments",
+#           "subPoints": [
+#             "Event 1: string (e.g., 'Acquired Company Y, specializing in Z, in Q3 2023') atleast of 44 words",
+#             "Event 2 atleast of 44 words",
+#             "Event 3 atleast of 44 words",
+#             "Event 4 atleast of 44 words",
+#             "Event 5 atleast of 44 words",
+#             ...
+#           ]
+#         }
+#       ]
+#     }
+#   ]
+# }''')
+#     }
 #                         ],
 #                         "tools": [
 #             {
@@ -664,7 +884,7 @@ def update_csv():
 #         }
 #                     })
 #                 )
-#         return jsonify({"ans":json.loads(response.json()["choices"][0]["message"]["tool_calls"][0]["function"]["arguments"])})
+#         return jsonify({"ans":response.json()})
 #     except Exception as e:
 #         return jsonify({"error":str(e)})
     

@@ -87,86 +87,12 @@ def generateCompanyResearchPrompt(data,module):
 
 
 def get_response(question, results,errorJsons, index):
-    model="google/gemini-2.5-flash-preview"
+    model = "google/gemini-2.0-flash-001" if index == 0 or index == 1 else "google/gemini-2.5-pro-preview"
+    plugins = [{ "id": "web" }] if index == 0 or index == 1 else []
+    print(index,model,plugins)
     jdumps = json.dumps({
-                        "model": "google/gemini-2.5-flash-preview",
-                        "messages": [
-                            {"role": "user", "content":question}
-                        ],
-                        "tools": [
-            {
-                "type": "function",
-                "function": {
-                    "name": "structured_module_output",
-                    "description": "Return detailed explanation in structured sub_module format",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "quick_summary": {
-                                "type": "string",
-                                "description": "1-2 paragraph long information about all these sub modules"
-                            },
-                            "sub_modules": {
-                                "type": "array",
-                                "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "title": {
-                                            "type": "string",
-                                            "description": "Title of the module"
-                                        },
-                                        "completed": {
-                                            "type": "boolean",
-                                            "description": "Whether this module is completed"
-                                        },
-                                        "summary": {
-                                            "type": "string",
-                                            "description": "1 paragraph long summary"
-                                        },
-                                        "content": {
-                                            "type": "string",
-                                            "description": "3-4 sentences long information"
-                                        },
-                                        "points": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "main": {
-                                                        "type": "string",
-                                                        "description": "Main point title"
-                                                    },
-                                                    "subPoints": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "type": "string"
-                                                        },
-                                                        "description": "List of long information texts"
-                                                    }
-                                                },
-                                                "required": ["main", "subPoints"]
-                                            }
-                                        }
-                                    },
-                                    "required": ["title", "completed", "summary", "content", "points"]
-                                }
-                            }
-                        },
-                        "required": ["quick_summary", "sub_modules"]
-                    }
-                }
-            }
-        ],
-        "tool_choice": {
-            "type": "function",
-            "function": {
-                "name": "structured_module_output"
-            }
-        }
-                    })
-    if index==0:
-        jdumps = json.dumps({
-                        "model": "google/gemini-2.5-flash-preview",
+                        "model": model,
+                        "plugins": plugins,
                         "messages": [
                             {"role": "user", "content":question}
                         ],
@@ -241,8 +167,6 @@ def get_response(question, results,errorJsons, index):
             }
         }
                     })
-    
-    print(index,model)
     while True:
         try:
             response = requests.post(

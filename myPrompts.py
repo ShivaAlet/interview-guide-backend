@@ -141,28 +141,28 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
       "title": "Company Overview",
       "completed": false,
       "summary": "string (Engaging paragraph summarizing the company overview section) atleast of 54 words",
-      "content": "string (3–4 fluent sentences explaining the scope and value of this module) atleast of 54 words",
+      "content": "string (3–4 fluent sentences explaining the scope and value of this module) ",
       "points": [
         {
           "main": "Company Snapshot",
           "subPoints": [
-            "String (3–4 sentence summary explaining what the company does, core product/service, key innovation, and relevance) atleast of 44 words",
+            "String (3–4 sentence summary explaining what the company does, core product/service, key innovation, and relevance)",
             ...
           ]
         },
         {
           "main": "Mission & Values",
           "subPoints": [
-            "Mission: string (Mission of the company. Must be sourced, not inferred.) atleast of 44 words",
-            "Vision: string (Vision of the company. Must be sourced, not inferred.) atleast of 44 words",
-            "Values: [string, string, string] (List of values; must be sourced) atleast of 44 words",
+            "Mission: string (Mission of the company. Must be sourced, not inferred.)",
+            "Vision: string (Vision of the company. Must be sourced, not inferred.)",
+            "Values: [string, string, string] (List of values; must be sourced)",
             ...
           ]
         },
         {
           "main": "Founding Team",
           "subPoints": [
-            "String (1–2 sentence summary of when the company was founded and who the founders are) atleast of 44 words",
+            "String (1–2 sentence summary of when the company was founded and who the founders are)",
             ...
           ]
         }
@@ -171,14 +171,14 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
     {
       "title": "Products & Services Offered",
       "completed": false,
-      "summary": "string (Summary explaining the company's product/service range and importance) atleast of 54 words",
-      "content": "string (3–4 fluent sentences describing key offerings and how they help customers) atleast of 54 words",
+      "summary": "string (Summary explaining the company's product/service range and importance) ",
+      "content": "string (3–4 fluent sentences describing key offerings and how they help customers) ",
       "points": [
         {
           "main": "Product & Service List",
           "subPoints": [
-            "Product/Service A: string (Concise 1-2 sentence description of what it is and does) atleast of 44 words",
-            "Product/Service B: string (Same format, repeat as needed) atleast of 44 words",
+            "Product/Service A: string (Concise 1-2 sentence description of what it is and does)",
+            "Product/Service B: string (Same format, repeat as needed)",
             ...
           ]
         }
@@ -187,29 +187,29 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
     {
       "title": "Business Model & Company Financials",
       "completed": false,
-      "summary": "string (Summary explaining how the company makes money, growth trajectory, and financial standing) atleast of 54 words",
-      "content": "string (3–4 fluent sentences on business model, recent funding, and revenue highlights) atleast of 54 words",
+      "summary": "string (Summary explaining how the company makes money, growth trajectory, and financial standing) ",
+      "content": "string (3–4 fluent sentences on business model, recent funding, and revenue highlights) ",
       "points": [
         {
           "main": "Business Model & Monetization",
           "subPoints": [
-            "String (e.g., 'Subscription-based SaaS platform for enterprise analytics') atleast of 44 words",
-            "String (e.g., 'Freemium pricing for individual users with tiered enterprise plans') atleast of 44 words",
+            "String (e.g., 'Subscription-based SaaS platform for enterprise analytics')",
+            "String (e.g., 'Freemium pricing for individual users with tiered enterprise plans')",
             ...
           ]
         },
         {
           "main": "Financials & Funding",
           "subPoints": [
-            "Recent Funding Round 1: string (e.g., 'Series C – $120M – May 2023 – led by Sequoia') atleast of 44 words",
-            "Recent Funding Round 2: string (e.g., 'Series B – $80M – Feb 2022 – led by Accel') atleast of 44 words",
+            "Recent Funding Round 1: string (e.g., 'Series C – $120M – May 2023 – led by Sequoia')",
+            "Recent Funding Round 2: string (e.g., 'Series B – $80M – Feb 2022 – led by Accel')",
             ...
           ]
         },
         {
           "main": "Revenue",
           "subPoints": [
-            "Latest available revenue: string (e.g., '$210M in 2023' or 'Revenue not publicly available') atleast of 44 words",
+            "Latest available revenue: string (e.g., '$210M in 2023' or 'Revenue not publicly available')",
             ...
           ]
         }
@@ -218,42 +218,42 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
     {
       "title": "Target Market & Customers",
       "completed": false,
-      "summary": "string (Summary of target market, customer needs, and how the company addresses them) atleast of 54 words",
-      "content": "string (3–4 sentences describing customers, problems solved, and value delivered) atleast of 54 words",
+      "summary": "string (Summary of target market, customer needs, and how the company addresses them) ",
+      "content": "string (3–4 sentences describing customers, problems solved, and value delivered) ",
       "points": [
         {
           "main": "Primary Customer Segments",
           "subPoints": [
-            "String (3–5 sentences on key industries, sectors, or personas served) atleast of 44 words",
+            "String (3–5 sentences on key industries, sectors, or personas served)",
             ...
           ]
         },
         {
           "main": "Key Customer Challenges Solved",
           "subPoints": [
-            "String (List of core problems solved by the company’s products/services) atleast of 44 words",
+            "String (List of core problems solved by the company’s products/services)",
             ...
           ]
         },
         {
           "main": "Key Reasons Customers Choose",
           "subPoints": [
-            "String (1–2 sentence point on USP 1) atleast of 44 words",
-            "String (USP 2) atleast of 44 words",
-            "String (USP 3, if applicable) atleast of 44 words",
+            "String (1–2 sentence point on USP 1)",
+            "String (USP 2)",
+            "String (USP 3, if applicable)",
             ...
           ]
         },
         {
           "main": "Notable Clients",
           "subPoints": [
-            "Client 1 atleast of 44 words",
-            "Client 2 atleast of 44 words",
-            "Client 3 atleast of 44 words",
-            "Client 4 atleast of 44 words",
-            "Client 5 atleast of 44 words",
-            "Client 6 atleast of 44 words",
-            "Client 7 atleast of 44 words",
+            "Client 1",
+            "Client 2",
+            "Client 3",
+            "Client 4",
+            "Client 5",
+            "Client 6",
+            "Client 7",
             ...
           ]
         }
@@ -262,41 +262,41 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
     {
       "title": "Competitive Landscape",
       "completed": false,
-      "summary": "string (Summary outlining competitors and what gives the company an edge or poses a risk) atleast of 54 words",
-      "content": "string (3–4 sentences describing competitors, strengths, differentiators, and risks) atleast of 54 words",
+      "summary": "string (Summary outlining competitors and what gives the company an edge or poses a risk) ",
+      "content": "string (3–4 sentences describing competitors, strengths, differentiators, and risks) ",
       "points": [
         {
           "main": "Main Competitors",
           "subPoints": [
-            "Competitor A atleast of 44 words",
-            "Competitor B atleast of 44 words",
-            "Competitor C atleast of 44 words",
-            "Competitor D atleast of 44 words",
-            "Competitor E atleast of 44 words",
-            "Competitor F atleast of 44 words",
-            "Competitor G atleast of 44 words",
+            "Competitor A",
+            "Competitor B",
+            "Competitor C",
+            "Competitor D",
+            "Competitor E",
+            "Competitor F",
+            "Competitor G",
             ...
           ]
         },
         {
           "main": "Key Differentiators (USPs)",
           "subPoints": [
-            "String (Point 1) atleast of 44 words",
-            "String (Point 2) atleast of 44 words",
+            "String (Point 1)",
+            "String (Point 2)",
             ...
           ]
         },
         {
           "main": "Competitive Strengths",
           "subPoints": [
-            "String (e.g., 'Proprietary AI engine that automates analysis 30% faster') atleast of 44 words",
+            "String (e.g., 'Proprietary AI engine that automates analysis 30% faster')",
             ...
           ]
         },
         {
           "main": "Potential Weaknesses/Challenges",
           "subPoints": [
-            "String (e.g., 'Limited geographic reach compared to global competitors') atleast of 44 words",
+            "String (e.g., 'Limited geographic reach compared to global competitors')",
             ...
           ]
         }
@@ -305,30 +305,30 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
     {
       "title": "Org Structure and Leadership",
       "completed": false,
-      "summary": "string (Summary describing size, structure, and leadership team of the company) atleast of 54 words",
-      "content": "string (3–4 sentences about leadership, company structure, and global footprint) atleast of 54 words",
+      "summary": "string (Summary describing size, structure, and leadership team of the company) ",
+      "content": "string (3–4 sentences about leadership, company structure, and global footprint) ",
       "points": [
         {
           "main": "Size, Status & Location",
           "subPoints": [
-            "String (e.g., 'Approx 1,500 employees, private company, HQ in San Francisco, regional offices in London and Bangalore') atleast of 44 words",
+            "String (e.g., 'Approx 1,500 employees, private company, HQ in San Francisco, regional offices in London and Bangalore')",
             ...
           ]
         },
         {
           "main": "Organizational Structure",
           "subPoints": [
-            "String (e.g., 'Wholly-owned subsidiary of XYZ Group, with 3 business divisions: Consumer, Enterprise, Research') atleast of 44 words",
+            "String (e.g., 'Wholly-owned subsidiary of XYZ Group, with 3 business divisions: Consumer, Enterprise, Research')",
             ...
           ]
         },
         {
           "main": "Key Leadership",
           "subPoints": [
-            "CEO: Full Name atleast of 44 words",
-            "CPO: Full Name atleast of 44 words",
-            "CTO: Full Name atleast of 44 words",
-            "Other Key Heads: Role – Name atleast of 44 words",
+            "CEO: Full Name",
+            "CPO: Full Name",
+            "CTO: Full Name",
+            "Other Key Heads: Role – Name",
             ...
           ]
         }
@@ -337,26 +337,26 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
     {
       "title": "Industry Context, News & Outlook",
       "completed": false,
-      "summary": "string (Summary highlighting industry trends, company alignment, and recent developments) atleast of 54 words",
-      "content": "string (3–4 sentences about the market environment and what the company has recently done to adapt or lead) atleast of 54 words",
+      "summary": "string (Summary highlighting industry trends, company alignment, and recent developments) ",
+      "content": "string (3–4 sentences about the market environment and what the company has recently done to adapt or lead) ",
       "points": [
         {
           "main": "Key Industry Trends",
           "subPoints": [
-            "Trend 1 atleast of 44 words",
-            "Trend 2 atleast of 44 words",
-            "Trend 3 atleast of 44 words",
+            "Trend 1",
+            "Trend 2",
+            "Trend 3",
             ...
           ]
         },
         {
           "main": "Recent News & Key Developments",
           "subPoints": [
-            "Event 1: string (e.g., 'Acquired Company Y, specializing in Z, in Q3 2023') atleast of 44 words",
-            "Event 2 atleast of 44 words",
-            "Event 3 atleast of 44 words",
-            "Event 4 atleast of 44 words",
-            "Event 5 atleast of 44 words",
+            "Event 1: string (e.g., 'Acquired Company Y, specializing in Z, in Q3 2023')",
+            "Event 2",
+            "Event 3",
+            "Event 4",
+            "Event 5",
             ...
           ]
         }
@@ -427,42 +427,42 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Prima
     {
     "title": "Product Fundamentals & Market Edge",
     "completed": false,
-    "summary": "string (Engaging paragraph summarizing the Primary Focus Product's core identity, its target market, and its competitive edge, based on information from the company website.) atleast of 54 words",
-    "content": "string (3–4 fluent sentences explaining what this card covers about the product's foundational aspects and its standing in the market, emphasizing details from official sources.) atleast of 54 words",
+    "summary": "string (Engaging paragraph summarizing the Primary Focus Product's core identity, its target market, and its competitive edge, based on information from the company website.) ",
+    "content": "string (3–4 fluent sentences explaining what this card covers about the product's foundational aspects and its standing in the market, emphasizing details from official sources.) ",
     "points": [
     {
     "main": "What [Primary Focus Product] Does",
     "subPoints": [
-    "String (Concise overview of the product's primary function and capabilities, e.g., 'An advanced analytics platform for processing and visualizing large datasets.') atleast of 54 words",
-    "String (The main activity or process it enables for users, according to the company website.) atleast of 54 words"
+    "String (Concise overview of the product's primary function and capabilities, e.g., 'An advanced analytics platform for processing and visualizing large datasets.') ",
+    "String (The main activity or process it enables for users, according to the company website.) "
     ]
     },
     {
     "main": "Primary Target Market Segment",
     "subPoints": [
-    "String (The specific market or industry category the product primarily serves, e.g., 'Enterprise B2B SaaS companies,' as defined on the company website.) atleast of 54 words",
-    "String (Further details on the segment if available, e.g., 'Focuses on medium to large enterprises within the financial services and healthcare sectors.') atleast of 54 words"
+    "String (The specific market or industry category the product primarily serves, e.g., 'Enterprise B2B SaaS companies,' as defined on the company website.) ",
+    "String (Further details on the segment if available, e.g., 'Focuses on medium to large enterprises within the financial services and healthcare sectors.') "
     ]
     },
     {
     "main": "Key Problem(s) It Solves for Users",
     "subPoints": [
-    "String (Top critical user pain point or business challenge the product resolves, as highlighted on the company website.) atleast of 54 words",
-    "String (Another significant problem it addresses, or details on how it provides a solution.) atleast of 54 words"
+    "String (Top critical user pain point or business challenge the product resolves, as highlighted on the company website.) ",
+    "String (Another significant problem it addresses, or details on how it provides a solution.) "
     ]
     },
     {
     "main": "Unique Value Proposition (UVP)",
     "subPoints": [
-    "String (The core, compelling reason customers choose this product over alternatives, using language from the company website.) atleast of 54 words",
-    "String (The most significant benefit or outcome it distinctively delivers, if stated on the company website.) atleast of 54 words"
+    "String (The core, compelling reason customers choose this product over alternatives, using language from the company website.) ",
+    "String (The most significant benefit or outcome it distinctively delivers, if stated on the company website.) "
     ]
     },
     {
     "main": "Key Differentiators vs. Alternatives",
     "subPoints": [
-    "String (A standout aspect - feature, technology, etc. - that sets it apart, as presented on the company website.) atleast of 54 words",
-    "String (Another key differentiator, e.g., 'Offers [Unique Aspect A], unlike most competitors who focus on [Common Aspect B].') atleast of 54 words"
+    "String (A standout aspect - feature, technology, etc. - that sets it apart, as presented on the company website.) ",
+    "String (Another key differentiator, e.g., 'Offers [Unique Aspect A], unlike most competitors who focus on [Common Aspect B].') "
     ]
     }
     ]
@@ -470,7 +470,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Prima
     {
     "title": "Core Functionality & Value Delivery",
     "completed": false,
-    "summary": "string (Summary explaining the Primary Focus Product's key features, the technology powering it, how it integrates, and its monetization model, all based on company website information.) atleast of 54 words",
+    "summary": "string (Summary explaining the Primary Focus Product's key features, the technology powering it, how it integrates, and its monetization model, all based on company website information.) ",
     "content": "string (3–4 fluent sentences describing the product's core mechanics – what it does, what it's built on if strategic, and how it makes money, emphasizing details from official sources.) atleast of 54 words",
     "points": [
     {
