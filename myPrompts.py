@@ -106,7 +106,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
         - Mission: 1 sentence stating the mission of the company if available
         - Vision: 1 sentence stating the vision of the company if available
         - Values: List all the values of the company
-    - **Founding Team:** Provide a 1–2 sentence summary of when the company was founded and who the founders are
+    - **Founding Team:** String (In 1-2 sentences, state the *year* company_name was founded and list *all the names* *e.g. name(job title)* of its founders entirely from web search) e.g. *The founders of company_name are name1(job title), name2(job title), name3(job title),etc.*
 - **Products & Services Offered: Instruction:** Identify and list the company's key, distinct products and/or service lines. Aim to list all major offerings unless the company's portfolio is significantly smaller or larger (in which case, adjust to accurately represent their main offerings). For each offering, provide a concise 1-2 line description of what the product or service is and what it does. Information should be sourced primarily from searching the internet - the company's official website (e.g., "Products," "Services," "Solutions" pages) or your own knowledge base (if its up to date)
     - [Product/Service Name 1:** [Concise 1-2 sentence description of Product/Service 1.]
     - [Product/Service Name 2:** [Concise 1-2 sentence description of Product/Service 2.] ad keep repeat for all offerings found
@@ -162,7 +162,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
         {
           "main": "Founding Team",
           "subPoints": [
-            "String (1–2 sentence summary of when the company was founded and who the founders are)",
+            "String (In 1-2 sentences, state the *year* company_name was founded and list *all the names* *e.g. name(job title)* of its founders entirely from web search) e.g. *The founders of company_name are name1(job title), name2(job title), name3(job title),etc.*",
             ...
           ]
         }
@@ -201,8 +201,8 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
         {
           "main": "Financials & Funding",
           "subPoints": [
-            "Recent Funding Round 1: string (e.g., 'Series C – $120M – May 2023 – led by Sequoia')",
-            "Recent Funding Round 2: string (e.g., 'Series B – $80M – Feb 2022 – led by Accel')",
+            "Recent Funding (Round/Amount/Date/Investors). Instruction - Focus on the last [n] funding round and focus on getting the latest data. e.g. Recent Funding Round 1: string (e.g., 'Series C – $120M – May 2023 – led by Sequoia')",
+            "Recent Funding (Round/Amount/Date/Investors). Instruction - Focus on the last [n] funding round and focus on getting the latest data. e.g. Recent Funding Round 2: string (e.g., 'Series B – $80M – Feb 2022 – led by Accel')",
             ...
           ]
         },

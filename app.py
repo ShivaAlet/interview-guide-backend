@@ -513,7 +513,6 @@ def update_csv():
 #                     },
 #                     data=json.dumps({
 #                         "model": "google/gemini-2.0-flash-001",
-#                         "plugins": [{ "id": "web" }],
 #                         "messages": [
 #                             {"role": "user", "content": (f'''
 #    You are an expert research assistant helping a user prepare for a job interview.
@@ -552,14 +551,14 @@ def update_csv():
 #         - Mission: 1 sentence stating the mission of the company if available
 #         - Vision: 1 sentence stating the vision of the company if available
 #         - Values: List all the values of the company
-#     - **Founding Team:** Provide a 1–2 sentence summary of when the company was founded and who the founders are
+#     - **Founding Team:** String (In 1-2 sentences, state the *year* Alloy was founded and list *all the names* *e.g. name(job title)* of its founders entirely from web search) e.g. *The founders of company_name are name1(job title), name2(job title), name3(job title),etc.*
 # - **Products & Services Offered: Instruction:** Identify and list the company's key, distinct products and/or service lines. Aim to list all major offerings unless the company's portfolio is significantly smaller or larger (in which case, adjust to accurately represent their main offerings). For each offering, provide a concise 1-2 line description of what the product or service is and what it does. Information should be sourced primarily from searching the internet - the company's official website (e.g., "Products," "Services," "Solutions" pages) or your own knowledge base (if its up to date)
 #     - [Product/Service Name 1:** [Concise 1-2 sentence description of Product/Service 1.]
 #     - [Product/Service Name 2:** [Concise 1-2 sentence description of Product/Service 2.] ad keep repeat for all offerings found
 # - **Business Model & Company Financials:**
 #     - **Business Model & Monetization: 1- 3 points outlining what is the b primary business model of the company**
-#     - **Financials & Funding:** Recent Funding (Round/Amount/Date/Investors). Instruction - Focus on the last 2 funding round and focus on getting the latest data.
-#     - **Revenue:** List the most up to date revenue available of the company. Do not guess this number, if its not publicly available then mention as such. For companies that are public this number should be easily available. If the company is private focus on reputable news sources.
+#     - **Financials & Funding:** Recent Funding (Round/Amount/Date/Investors). Instruction - Focus on the last [n] funding round and focus on getting the latest data.
+#     - **Revenue:** *Please provide the latest funding amount, date, and valuation for company_name entirely from web search*.
 # - **Target Market & Customers:**
 #     - Primary Customer Segments: Provide a 3-5 sentence summary of key industries, sectors or target market that the company serves, if they serve multiple industries then focus on the main industry they serve with the product mentioned in the job description. A
 #     - Key Customer Challenges Solved: Problems/needs addressed by products/services.
@@ -586,29 +585,29 @@ def update_csv():
 #     {
 #       "title": "Company Overview",
 #       "completed": false,
-#       "summary": "string (Engaging paragraph summarizing the company overview section) ",
+#       "summary": "string (Engaging paragraph summarizing the company overview section) atleast of 54 words",
 #       "content": "string (3–4 fluent sentences explaining the scope and value of this module) ",
 #       "points": [
 #         {
 #           "main": "Company Snapshot",
 #           "subPoints": [
-#             "String (3–4 sentence summary explaining what the company does, core product/service, key innovation, and relevance) atleast of 44 words",
+#             "String (3–4 sentence summary explaining what the company does, core product/service, key innovation, and relevance)",
 #             ...
 #           ]
 #         },
 #         {
 #           "main": "Mission & Values",
 #           "subPoints": [
-#             "Mission: string (Mission of the company. Must be sourced, not inferred.) atleast of 44 words",
-#             "Vision: string (Vision of the company. Must be sourced, not inferred.) atleast of 44 words",
-#             "Values: [string, string, string] (List of values; must be sourced) atleast of 44 words",
+#             "Mission: string (Mission of the company. Must be sourced, not inferred.)",
+#             "Vision: string (Vision of the company. Must be sourced, not inferred.)",
+#             "Values: [string, string, string] (List of values; must be sourced)",
 #             ...
 #           ]
 #         },
 #         {
 #           "main": "Founding Team",
 #           "subPoints": [
-#             "String (1–2 sentence summary of when the company was founded and who the founders are) atleast of 44 words",
+#             "String (In 1-2 sentences, state the *year* Alloy was founded and list *all the names* *e.g. name(job title)* of its founders entirely from web search) e.g. *The founders of company_name are name1(job title), name2(job title), name3(job title),etc.*",
 #             ...
 #           ]
 #         }
@@ -623,8 +622,8 @@ def update_csv():
 #         {
 #           "main": "Product & Service List",
 #           "subPoints": [
-#             "Product/Service A: string (Concise 1-2 sentence description of what it is and does) atleast of 44 words",
-#             "Product/Service B: string (Same format, repeat as needed) atleast of 44 words",
+#             "Product/Service A: string (Concise 1-2 sentence description of what it is and does)",
+#             "Product/Service B: string (Same format, repeat as needed)",
 #             ...
 #           ]
 #         }
@@ -639,23 +638,23 @@ def update_csv():
 #         {
 #           "main": "Business Model & Monetization",
 #           "subPoints": [
-#             "String (e.g., 'Subscription-based SaaS platform for enterprise analytics') atleast of 44 words",
-#             "String (e.g., 'Freemium pricing for individual users with tiered enterprise plans') atleast of 44 words",
+#             "String (e.g., 'Subscription-based SaaS platform for enterprise analytics')",
+#             "String (e.g., 'Freemium pricing for individual users with tiered enterprise plans')",
 #             ...
 #           ]
 #         },
 #         {
 #           "main": "Financials & Funding",
 #           "subPoints": [
-#             "Recent Funding Round 1: string (e.g., 'Series C – $120M – May 2023 – led by Sequoia') atleast of 44 words",
-#             "Recent Funding Round 2: string (e.g., 'Series B – $80M – Feb 2022 – led by Accel') atleast of 44 words",
+#             "Recent Funding (Round/Amount/Date/Investors). Instruction - Focus on the last [n] funding round and focus on getting the latest data. e.g. Recent Funding Round 1: string (e.g., 'Series C – $120M – May 2023 – led by Sequoia')",
+#             "Recent Funding (Round/Amount/Date/Investors). Instruction - Focus on the last [n] funding round and focus on getting the latest data. e.g. Recent Funding Round 2: string (e.g., 'Series B – $80M – Feb 2022 – led by Accel')",
 #             ...
 #           ]
 #         },
 #         {
 #           "main": "Revenue",
 #           "subPoints": [
-#             "Latest available revenue: string (e.g., '$210M in 2023' or 'Revenue not publicly available') atleast of 44 words",
+#             "*Please provide the latest funding amount, date, and valuation for company_name entirely from web search*",
 #             ...
 #           ]
 #         }
@@ -670,36 +669,36 @@ def update_csv():
 #         {
 #           "main": "Primary Customer Segments",
 #           "subPoints": [
-#             "String (3–5 sentences on key industries, sectors, or personas served) atleast of 44 words",
+#             "String (3–5 sentences on key industries, sectors, or personas served)",
 #             ...
 #           ]
 #         },
 #         {
 #           "main": "Key Customer Challenges Solved",
 #           "subPoints": [
-#             "String (List of core problems solved by the company’s products/services) atleast of 44 words",
+#             "String (List of core problems solved by the company’s products/services)",
 #             ...
 #           ]
 #         },
 #         {
 #           "main": "Key Reasons Customers Choose",
 #           "subPoints": [
-#             "String (1–2 sentence point on USP 1) atleast of 44 words",
-#             "String (USP 2) atleast of 44 words",
-#             "String (USP 3, if applicable) atleast of 44 words",
+#             "String (1–2 sentence point on USP 1)",
+#             "String (USP 2)",
+#             "String (USP 3, if applicable)",
 #             ...
 #           ]
 #         },
 #         {
 #           "main": "Notable Clients",
 #           "subPoints": [
-#             "Client 1 atleast of 44 words",
-#             "Client 2 atleast of 44 words",
-#             "Client 3 atleast of 44 words",
-#             "Client 4 atleast of 44 words",
-#             "Client 5 atleast of 44 words",
-#             "Client 6 atleast of 44 words",
-#             "Client 7 atleast of 44 words",
+#             "Client 1",
+#             "Client 2",
+#             "Client 3",
+#             "Client 4",
+#             "Client 5",
+#             "Client 6",
+#             "Client 7",
 #             ...
 #           ]
 #         }
@@ -714,35 +713,35 @@ def update_csv():
 #         {
 #           "main": "Main Competitors",
 #           "subPoints": [
-#             "Competitor A atleast of 44 words",
-#             "Competitor B atleast of 44 words",
-#             "Competitor C atleast of 44 words",
-#             "Competitor D atleast of 44 words",
-#             "Competitor E atleast of 44 words",
-#             "Competitor F atleast of 44 words",
-#             "Competitor G atleast of 44 words",
+#             "Competitor A",
+#             "Competitor B",
+#             "Competitor C",
+#             "Competitor D",
+#             "Competitor E",
+#             "Competitor F",
+#             "Competitor G",
 #             ...
 #           ]
 #         },
 #         {
 #           "main": "Key Differentiators (USPs)",
 #           "subPoints": [
-#             "String (Point 1) atleast of 44 words",
-#             "String (Point 2) atleast of 44 words",
+#             "String (Point 1)",
+#             "String (Point 2)",
 #             ...
 #           ]
 #         },
 #         {
 #           "main": "Competitive Strengths",
 #           "subPoints": [
-#             "String (e.g., 'Proprietary AI engine that automates analysis 30% faster') atleast of 44 words",
+#             "String (e.g., 'Proprietary AI engine that automates analysis 30% faster')",
 #             ...
 #           ]
 #         },
 #         {
 #           "main": "Potential Weaknesses/Challenges",
 #           "subPoints": [
-#             "String (e.g., 'Limited geographic reach compared to global competitors') atleast of 44 words",
+#             "String (e.g., 'Limited geographic reach compared to global competitors')",
 #             ...
 #           ]
 #         }
@@ -757,24 +756,24 @@ def update_csv():
 #         {
 #           "main": "Size, Status & Location",
 #           "subPoints": [
-#             "String (e.g., 'Approx 1,500 employees, private company, HQ in San Francisco, regional offices in London and Bangalore') atleast of 44 words",
+#             "String (e.g., 'Approx 1,500 employees, private company, HQ in San Francisco, regional offices in London and Bangalore')",
 #             ...
 #           ]
 #         },
 #         {
 #           "main": "Organizational Structure",
 #           "subPoints": [
-#             "String (e.g., 'Wholly-owned subsidiary of XYZ Group, with 3 business divisions: Consumer, Enterprise, Research') atleast of 44 words",
+#             "String (e.g., 'Wholly-owned subsidiary of XYZ Group, with 3 business divisions: Consumer, Enterprise, Research')",
 #             ...
 #           ]
 #         },
 #         {
 #           "main": "Key Leadership",
 #           "subPoints": [
-#             "CEO: Full Name atleast of 44 words",
-#             "CPO: Full Name atleast of 44 words",
-#             "CTO: Full Name atleast of 44 words",
-#             "Other Key Heads: Role – Name atleast of 44 words",
+#             "CEO: Full Name",
+#             "CPO: Full Name",
+#             "CTO: Full Name",
+#             "Other Key Heads: Role – Name",
 #             ...
 #           ]
 #         }
@@ -789,20 +788,20 @@ def update_csv():
 #         {
 #           "main": "Key Industry Trends",
 #           "subPoints": [
-#             "Trend 1 atleast of 44 words",
-#             "Trend 2 atleast of 44 words",
-#             "Trend 3 atleast of 44 words",
+#             "Trend 1",
+#             "Trend 2",
+#             "Trend 3",
 #             ...
 #           ]
 #         },
 #         {
 #           "main": "Recent News & Key Developments",
 #           "subPoints": [
-#             "Event 1: string (e.g., 'Acquired Company Y, specializing in Z, in Q3 2023') atleast of 44 words",
-#             "Event 2 atleast of 44 words",
-#             "Event 3 atleast of 44 words",
-#             "Event 4 atleast of 44 words",
-#             "Event 5 atleast of 44 words",
+#             "Event 1: string (e.g., 'Acquired Company Y, specializing in Z, in Q3 2023')",
+#             "Event 2",
+#             "Event 3",
+#             "Event 4",
+#             "Event 5",
 #             ...
 #           ]
 #         }
@@ -814,67 +813,67 @@ def update_csv():
 #                         ],
 #                         "tools": [
 #             {
-#                 "type": "function",
-#                 "function": {
-#                     "name": "structured_module_output",
-#                     "description": "Return detailed explanation in structured sub_module format",
-#                     "parameters": {
-#                         "type": "object",
-#                         "properties": {
-#                             "quick_summary": {
-#                                 "type": "string",
-#                                 "description": "1-2 paragraph long information about all these sub modules"
-#                             },
-#                             "sub_modules": {
-#                                 "type": "array",
-#                                 "items": {
-#                                     "type": "object",
-#                                     "properties": {
-#                                         "title": {
-#                                             "type": "string",
-#                                             "description": "Title of the module"
-#                                         },
-#                                         "completed": {
-#                                             "type": "boolean",
-#                                             "description": "Whether this module is completed"
-#                                         },
-#                                         "summary": {
-#                                             "type": "string",
-#                                             "description": "1 paragraph long summary"
-#                                         },
-#                                         "content": {
-#                                             "type": "string",
-#                                             "description": "3-4 sentences long information"
-#                                         },
-#                                         "points": {
-#                                             "type": "array",
-#                                             "items": {
-#                                                 "type": "object",
-#                                                 "properties": {
-#                                                     "main": {
-#                                                         "type": "string",
-#                                                         "description": "Main point title"
-#                                                     },
-#                                                     "subPoints": {
-#                                                         "type": "array",
-#                                                         "items": {
-#                                                             "type": "string"
-#                                                         },
-#                                                         "description": "List of long information texts"
-#                                                     }
-#                                                 },
-#                                                 "required": ["main", "subPoints"]
-#                                             }
-#                                         }
-#                                     },
-#                                     "required": ["title", "completed", "summary", "content", "points"]
-#                                 }
-#                             }
+#     "type": "function",
+#     "function": {
+#       "name": "structured_module_output",
+#       "description": "",
+#       "parameters": {
+#         "type": "object",
+#         "properties": {
+#           "quick_summary": {
+#             "type": "string",
+#             "description": ""
+#           },
+#           "sub_modules": {
+#             "type": "array",
+#             "items": {
+#               "type": "object",
+#               "properties": {
+#                 "title": {
+#                   "type": "string",
+#                   "description": ""
+#                 },
+#                 "completed": {
+#                   "type": "boolean",
+#                   "description": ""
+#                 },
+#                 "summary": {
+#                   "type": "string",
+#                   "description": ""
+#                 },
+#                 "content": {
+#                   "type": "string",
+#                   "description": ""
+#                 },
+#                 "points": {
+#                   "type": "array",
+#                   "items": {
+#                     "type": "object",
+#                     "properties": {
+#                       "main": {
+#                         "type": "string",
+#                         "description": ""
+#                       },
+#                       "subPoints": {
+#                         "type": "array",
+#                         "items": {
+#                           "type": "string"
 #                         },
-#                         "required": ["quick_summary", "sub_modules"]
-#                     }
+#                         "description": ""
+#                       }
+#                     },
+#                     "required": ["main", "subPoints"]
+#                   }
 #                 }
+#               },
+#               "required": ["title", "completed", "summary", "content", "points"]
 #             }
+#           }
+#         },
+#         "required": ["quick_summary", "sub_modules"]
+#       }
+#     }
+#   }
 #         ],
 #         "tool_choice": {
 #             "type": "function",
@@ -884,7 +883,7 @@ def update_csv():
 #         }
 #                     })
 #                 )
-#         return jsonify({"ans":response.json()})
+#         return jsonify({"ans":json.loads(response.json()["choices"][0]["message"]["tool_calls"][0]["function"]["arguments"])})
 #     except Exception as e:
 #         return jsonify({"error":str(e)})
     
