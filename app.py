@@ -103,11 +103,12 @@ def all_modules():
         # Using multiprocessing to get responses
         manager = Manager()
         results = manager.list([None] * len(prompts))
+        citations = manager.list([None] * len(prompts))
         errorJsons = manager.list([None] * len(prompts))
         processes = []
 
         for i, prompt in enumerate(prompts):
-            process = Process(target=utils.get_response, args=(prompt, results, errorJsons, i))
+            process = Process(target=utils.get_response, args=(prompt, results, errorJsons,citations, i))
             processes.append(process)
             process.start()
 
@@ -115,7 +116,7 @@ def all_modules():
             process.join()
 
         idd = str(uuid.uuid4())
-        newGuide = utils.structureGuide(list(results), updated_data, idd)
+        newGuide = utils.structureGuide(list(results),list(citations), updated_data, idd)
 
         history = user.get("history", [])
         history.append(newGuide)
@@ -512,7 +513,8 @@ def update_csv():
 #                         "Authorization": "Bearer " + api_key,
 #                     },
 #                     data=json.dumps({
-#                         "model": "google/gemini-2.0-flash-001",
+#                         "model": "google/gemini-2.5-flash-preview",
+#                         "plugins": [{ "id": "web","max_results":10 }],
 #                         "messages": [
 #                             {"role": "user", "content": (f'''
 #    You are an expert research assistant helping a user prepare for a job interview.
@@ -883,7 +885,13 @@ def update_csv():
 #         }
 #                     })
 #                 )
-#         return jsonify({"ans":json.loads(response.json()["choices"][0]["message"]["tool_calls"][0]["function"]["arguments"])})
+#         citations=[]
+#         for citation in response.json()["choices"][0]["message"]["annotations"]:
+#             del citation["url_citation"]["start_index"]
+#             del citation["url_citation"]["end_index"]
+#             citation=citation["url_citation"]
+#             citations.append(citation)
+#         return jsonify({"ans":citations})
 #     except Exception as e:
 #         return jsonify({"error":str(e)})
     

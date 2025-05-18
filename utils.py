@@ -86,9 +86,9 @@ def generateCompanyResearchPrompt(data,module):
 
 
 
-def get_response(question, results,errorJsons, index):
+def get_response(question, results,errorJsons,citations1, index):
     model = "google/gemini-2.5-flash-preview"
-    plugins = [{ "id": "web" }] if index == 0 or index == 1 else []
+    plugins = [{ "id": "web","max_results":10 }] if index == 0 or index == 1 else []
     print(index,model,plugins)
     jdumps = json.dumps({
                         "model": model,
@@ -176,20 +176,16 @@ def get_response(question, results,errorJsons, index):
                 },
                 data=jdumps
             )
-
+            if index==0 or index==1:
+                citations=[]
+                for citation in response.json()["choices"][0]["message"]["annotations"]:
+                    del citation["url_citation"]["start_index"]
+                    del citation["url_citation"]["end_index"]
+                    citation=citation["url_citation"]
+                    citations.append(citation)
+                citations1[index]=citations
             results[index]=json.loads(response.json()["choices"][0]["message"]["tool_calls"][0]["function"]["arguments"])
             break
-            
-
-            result=response.json()["choices"][0]["message"]["content"]
-            if result.startswith("```"):
-        # Extract the content between triple backticks
-                match = re.search(r"```(?:json)?\s*(.*?)\s*```", result, re.DOTALL)
-                if match:
-                    result = match.group(1).strip()
-            # return json.loads(result)
-            results[index] = json.loads(result)
-            break  # success, exit loop
         except Exception as e:
             # errorJsons[index] = response.json()["choices"][0]["message"]["content"][8:-4]
             print(f"Error occurred: {e}. Retrying in 2 seconds...")
@@ -239,11 +235,27 @@ def checkPromptsResponseData(question):
 # checkPromptsResponseData("Get all interview questions of role Product Manager only in Google only from Glassdoor only")
 # checkPromptsResponseData("Provide me all most and recent minimum or more than 50-60 interview questions that are posted from current date to past dates  in glassdoor only of Product Manager Role and Google company in json format only [{quesiton'',date:''\\},{quesiton'',date:''\\},...]")
 
-def structureGuide(results,companyData,id):
+def structureGuide(results,citations,companyData,id):
     return {
         "id":id,
         "datetime":datetime.now(),
         "companyData":companyData,
+        "citations":{
+        "company_research": citations[0],
+        "product_research": citations[1],
+        "job_description_analysis": [],
+        "resume_experience_to_highlight_to_stand_out": [],
+        "hiring_manager_round": [],
+        "behavioral_interview": [],
+        "recruiter_screen_preparation": [],
+        "favorite_product_question": [],
+        "product_design": [],
+        "product_sense": [],
+        "product_strategy": [],
+        "analytical_estimation": [],
+        "technical": [],
+        "leadership":[]
+        },
         "result":{
         "company_research": results[0],
         "product_research": results[1],
