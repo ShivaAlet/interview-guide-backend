@@ -1,3 +1,72 @@
+question = (
+    "Explain the operating system modules in full detail.\n\n"
+    "Return the answer strictly in the following JSON format:\n"
+    "{\n"
+    '  "quick_summary": "1–2 paragraphs that accurately and clearly summarize the overall content of ALL sub-modules below. '
+    'This must reflect the actual information presented in the sub_modules. Do not write generic or vague content. It must be meaningful and complete.",\n'
+    '  "sub_modules": [\n'
+    '    {\n'
+    '      "title": "Title of the sub-module (must be meaningful and not blank)",\n'
+    '      "completed": false,\n'
+    '      "summary": "A detailed and meaningful 1-paragraph summary of this specific sub-module (must not be blank or generic)",\n'
+    '      "content": "3–4 full, well-formed sentences with rich, complete, and accurate explanation of the sub-module. Do not leave blank.",\n'
+    '      "points": [\n'
+    '        {\n'
+    '          "main": "Heading of the main concept (must be meaningful and specific)",\n'
+    '          "subPoints": [\n'
+    '            "Fully written explanation about this point (must not be vague or short)",\n'
+    '            "Another long and informative explanation related to the point",\n'
+    '            "..."\n'
+    '          ]\n'
+    '        },\n'
+    '        "... more point objects ..."\n'
+    '      ]\n'
+    '    },\n'
+    '    "... more sub-modules ..."\n'
+    '  ]\n'
+    '}\n\n'
+    "Strict Output Instructions:\n"
+    "- Ensure the ENTIRE output is valid, structured JSON.\n"
+    "- DO NOT leave any field blank or generic.\n"
+    "- The `quick_summary` MUST summarize the real sub-modules below in 1–2 strong paragraphs.\n"
+    "- Each `title`, `summary`, `content`, `main`, and every `subPoint` must be accurate, meaningful, detailed, and relevant.\n"
+    "- The `content` field must contain exactly 3–4 full, informative sentences.\n"
+    "- Avoid repetition, filler, or hallucination. Every piece of content must be factually correct and context-aware.\n"
+    "- Write for clarity and completeness. Use high-quality, well-structured language."
+)
+
+question = (
+    "Explain operating system modules in depth. "
+    "Return the answer in the following strict JSON format:\n\n"
+    "{\n"
+    "  quick_summary: string (1–2 paragraphs — fluent, professional, and suitable for a 2-minute high-impact overview, ideally as an interview intro),\n"
+    "  sub_modules: [\n"
+    "    {\n"
+    "      title: string (module name),\n"
+    "      completed: false (always false),\n"
+    "      summary: string (concise 2-minute synthesis of key takeaways),\n"
+    "      content: string (3–4 fluent, well-articulated sentences with meaningful, well-structured explanations),\n"
+    "      points: [\n"
+    "        {\n"
+    "          main: string (point title),\n"
+    "          subPoints: [\n"
+    "            string (each value must be rich in content: well-written, thoughtful, fluent sentences, not just facts. Avoid placeholders. Include context or narrative tone.)\n"
+    "          ]\n"
+    "        },\n"
+    "        ...\n"
+    "      ]\n"
+    "    },\n"
+    "    ...\n"
+    "  ]\n"
+    "}\n\n"
+    "Instructions:\n"
+    "- Every field must be fully and meaningfully populated.\n"
+    "- Use a polished, slightly narrative, fluent style like: 'The module plays a crucial role in...'.\n"
+    "- Use bulleted lists only where needed and always with an introductory sentence.\n"
+    "- Do not leave any field blank.\n"
+    "- If a specific subPoint has no data, say so naturally (e.g., 'Detailed data for this is not widely published.').\n"
+)
+
 def company_research_fun(data):
     company_research = (f'''
   You are an expert research assistant helping a user prepare for a job interview.
@@ -34,33 +103,16 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
 - **Company Overview:**
     - **Company Snapshot:** 3–4 sentence summary explaining what the company does, its core product or service, key innovation, and why it matters in its industry
     - **Mission & Values: Instruction - This information should not be inferred or guessed, it should be searched on the web for the most accurate result**
-        - Mission: 1 sentence stating the mission statement of the company, if available
-        - Vision: 1 sentence stating the vision statement of the company, if available
-        - Values/Principles: List all the values/principles of the company, if available
+        - Mission: 1 sentence stating the mission of the company if available
+        - Vision: 1 sentence stating the vision of the company if available
+        - Values: List all the values of the company
     - **Founding Team:** String (In 1-2 sentences, state the *year* company_name was founded and list *all the names* *e.g. name(job title)* of its founders entirely from web search) e.g. *The founders of company_name are name1(job title), name2(job title), name3(job title),etc.*
-- **Products & Services Offered: Instruction:** - Your primary task here is to thoroughly search the web, especially the company's official website (navigating their "Products," "Services," "Solutions," or equivalent sections), to identify and list all of the company's *main, distinct* products and/or service lines.
-    - **Distinguishing Main Products from Features:** If a company offers a primary product that has many features or sub-components, list the *main product* as the offering. Only list sub-components or features as separate "Product/Service" entries if the company markets and presents them as distinct, standalone offerings. The goal is to reflect how the company categorizes and presents its offerings to the market.
-    - **Handling Numerous Offerings:** For companies with an extensive portfolio of many distinct products/services, strive to list all *major* or *primary* offerings. If the list becomes exceptionally long (e.g., dozens of minor variations), prioritize those that appear most strategically important, are highlighted by the company, or (if a job description is part of the input) are most relevant to the role. However, the initial goal should be to capture the breadth of their main offerings.
-    - **Description:** For each distinct product or service identified, provide its name followed by a concise 1-2 line description detailing what it is and its core function or benefit.
-    - **Source Verification:** This information MUST be actively searched and verified online. Prioritize the company's official website and reputable industry sources. Do not rely solely on general knowledge, as product portfolios change.
-    Example Format (to be followed for each entry in the JSON subPoints):
+- **Products & Services Offered: Instruction:** Identify and list the company's key, distinct products and/or service lines. Aim to list all major offerings unless the company's portfolio is significantly smaller or larger (in which case, adjust to accurately represent their main offerings). For each offering, provide a concise 1-2 line description of what the product or service is and what it does. Information should be sourced primarily from searching the internet - the company's official website (e.g., "Products," "Services," "Solutions" pages) or your own knowledge base (if its up to date)
     - [Product/Service Name 1:** [Concise 1-2 sentence description of Product/Service 1.]
     - [Product/Service Name 2:** [Concise 1-2 sentence description of Product/Service 2.] ad keep repeat for all offerings found
 - **Business Model & Company Financials:**
     - **Business Model & Monetization: 1- 3 points outlining what is the b primary business model of the company**
-    - **- **Financials & Funding: Instructions for Research and Formatting:**
-    - **General Goal:** Provide a concise overview of the company's recent funding history. All information must be sourced from reliable web searches.
-    - **For Privately Held Companies:**
-        - **Objective:** Provide a comprehensive list of funding rounds, with a primary focus on the last 5 years, and also capturing essential earlier rounds if funding history is sparse.
-        - **Instruction:** Actively search for all known funding rounds.
-            - **Your primary goal is to list ALL distinct funding rounds announced in the past 5 years.** For each round, include its type (e.g., Seed, Series A, Pre-seed), amount, date (Month/Year or Q#/Year), and key/lead investors. Include all rounds found within this 5-year period, regardless of how many there are.
-            - **Additionally, if the company has had very few funding rounds in total (e.g., only 1-2 rounds ever) and these foundational rounds are older than 5 years, ensure these are also listed.** The aim is to provide a complete funding picture where possible.
-        - **Example for a subPoint string (to be used for each funding round listed in the JSON `subPoints`):** "Series C - $120M - May 2023 - led by Sequoia, participation from Accel."
-    - **For Publicly Traded Companies (e.g., those that have had an IPO):**
-        - **First subPoint string should typically state:** The company's public status, its stock ticker, the exchange it trades on, and its IPO date and key details (e.g., "Went public via IPO on NASDAQ (Ticker: GOOGL) on August 19, 2004, raising $1.67 billion.").
-        - **Subsequent subPoint strings (if applicable and significant recent events exist):** Detail any major post-IPO financing events like significant secondary offerings, large debt financing rounds, or major investments received. If no such recent, distinct "funding rounds" exist post-IPO, this can be briefly stated, or the IPO information might be the primary focus for funding history.
-        - **Avoid generic placeholders.** If specific post-IPO funding events aren't prominent, focus on the IPO details and current public market funding.
-    - **Formatting in JSON:** Each piece of funding information (whether a private round or a public company detail) should be a single string within the `subPoints` array for "Financials & Funding".
+    - **Financials & Funding:** Recent Funding (Round/Amount/Date/Investors). Instruction - Focus on the last 2 funding round and focus on getting the latest data.
     - **Revenue:** List the most up to date revenue available of the company. Do not guess this number, if its not publicly available then mention as such. For companies that are public this number should be easily available. If the company is private focus on reputable news sources.
 - **Target Market & Customers:**
     - Primary Customer Segments: Provide a 3-5 sentence summary of key industries, sectors or target market that the company serves, if they serve multiple industries then focus on the main industry they serve with the product mentioned in the job description. A
@@ -78,7 +130,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
     - Key Leadership: CEO, CPO/Product Head, CTO/Engineering Head, other relevant VPs/Heads (provide names).
 - **Industry Context, News & Outlook**
     - **Key Industry Trends:** List all the key trends in the company’s primary industry that the company
-    - **Recent News & Key Developments:** 3-5 significant events from the last 5 years (funding, product launches, acquisitions, partnerships, milestones reached etc.). Summarize each factually in one sentence (e.g., "Acquired Company Y, expanding its market presence in Asia, in Q3 2023.")
+    - **Recent News & Key Developments:** 3-5 significant events from the last ~2 years (funding, product launches, acquisitions, partnerships, milestones reached etc.). Summarize each factually in one sentence (e.g., "Acquired Company Y, specializing in Z technology, in Q3 2023.")
     -----
 
     **The JSON Output should be in this format only and ensure atleast `2 subPoints` should,must be filled in each object of sub_modules and the 'completed' must be 'false' only:**
@@ -103,7 +155,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
           "subPoints": [
             "Mission: string (Mission of the company. Must be sourced, not inferred.)",
             "Vision: string (Vision of the company. Must be sourced, not inferred.)",
-            "Values/Principles: [string, string, string] (List of values/Principles; must be sourced, not inferred.)",
+            "Values: [string, string, string] (List of values; must be sourced)",
             ...
           ]
         },
@@ -149,8 +201,8 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
         {
           "main": "Financials & Funding",
           "subPoints": [
-            "String (Detail of a specific funding event or relevant financial milestone. Examples: 'Series C – $120M – May 2023 – led by Sequoia' OR 'IPO: NASDAQ (TICKER) - Aug 2020, raised $500M' OR 'Post-IPO debt financing - $200M - Jan 2024')",
-            "String (Further funding details or milestones as applicable, following similar formats)",
+            "Recent Funding (Round/Amount/Date/Investors). Instruction - Focus on the last [n] funding round and focus on getting the latest data. e.g. Recent Funding Round 1: string (e.g., 'Series C – $120M – May 2023 – led by Sequoia')",
+            "Recent Funding (Round/Amount/Date/Investors). Instruction - Focus on the last [n] funding round and focus on getting the latest data. e.g. Recent Funding Round 2: string (e.g., 'Series B – $80M – Feb 2022 – led by Accel')",
             ...
           ]
         },
@@ -300,11 +352,11 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
         {
           "main": "Recent News & Key Developments",
           "subPoints": [
-            "Event 1: string (e.g., 'Acquired Company Y, expanding its market presence in Asia, in Q3 2023')",
-            "Event 2: string (Description of another significant event)",
-            "Event 3: string (Description of another significant event)",
-            "Event 4: string (If applicable)",
-            "Event 5: string (If applicable)",
+            "Event 1: string (e.g., 'Acquired Company Y, specializing in Z, in Q3 2023')",
+            "Event 2",
+            "Event 3",
+            "Event 4",
+            "Event 5",
             ...
           ]
         }
@@ -341,7 +393,7 @@ Your task is to identify the primary product the candidate will be working on ba
 REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Primary Focus Product**):
 
 - ***Quick Summary (Product Focus):*** High-impact overview (at least 260 words) covering: What the [Primary Focus Product] does, its primary user segment & key problem solved, its unique value proposition & key differentiators.
-- **Card 1: Product Functionality:**
+- **Card 1: Product Fundamentals & Market Edge:**
     - **What [Primary Focus Product] Does:** Clear, concise functional description.
     - **Primary Target Market Segment:** The specific market/industry category the product primarily serves.
     - **Key Problem(s) It Solves for Users:** Core pain points it addresses.
@@ -349,18 +401,18 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Prima
     - **Key Differentiators vs. Alternatives:** Standout aspects setting it apart.
 - **Card 2: Core Functionality:**
     - **Identified Product Features & Descriptions:** List all significant product features with a 1-2 line summary of what each does and its benefit.
-    - **Key Underlying Technology:** Any specific tech fundamental to its performance or UVP.
+    - **Key Underlying Technology (If Strategic):** Any specific tech fundamental to its performance or UVP.
     - **Integration & Ecosystem Synergy:** Critical integrations and how they enhance value.
     - **Monetization Strategy & Pricing Approach:** How the product generates revenue and its pricing model.
 - **Card 3: User Focus & Core Needs:**
     - **Primary Target User Profile(s):** Detailed description of the main users.
-    - **How Users Engage with the Product:** Common workflows or tasks.
+    - **Key Scenarios: How Users Engage:** Common workflows or tasks.
     - **Fundamental User Needs Addressed:** Core 'jobs' or aspirations the product helps users fulfill.
 - **Card 4: Competitive Landscape (Product-Focused):**
-    - **Key Direct Competitors:** Who offers similar solutions?
+    - **Key Direct Competitors of [Primary Focus Product]:** Who offers similar solutions?
     - **Indirect Competition & Alternative Solutions for the problem [Primary Focus Product] solves.**
-    - **Positioning Against Competitors:** How it aims to win.
-- **Card 5: SWOT Analysis:**
+    - **[Primary Focus Product]'s Positioning Against Competitors:** How it aims to win.
+- **Card 5: SWOT Analysis ([Primary Focus Product]):**
     - **Strengths:** Internal positives of the product.
     - **Weaknesses:** Internal negatives/limitations of the product.
     - **Opportunities:** External favorable factors for the product.
@@ -373,7 +425,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Prima
     "quick_summary": "[A comprehensive 5–6 paragraph overview covering what the Primary Focus Product does, its key features, target users, problems solved, unique value proposition, differentiators, and its role within the company's ecosystem.]",
     "sub_modules": [
     {
-    "title": "Product Functionality",
+    "title": "Product Fundamentals & Market Edge",
     "completed": false,
     "summary": "string (Engaging paragraph summarizing the Primary Focus Product's core identity, its target market, and its competitive edge, based on information from the company website.) ",
     "content": "string (3–4 fluent sentences explaining what this card covers about the product's foundational aspects and its standing in the market, emphasizing details from official sources.) ",
@@ -431,7 +483,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Prima
     ]
     },
     {
-    "main": "Key Underlying Technology",
+    "main": "Key Underlying Technology (If a Strategic Differentiator)",
     "subPoints": [
     "String (Description of specific technology fundamental to its performance or UVP, if detailed on the company website, e.g., 'Leverages proprietary machine learning models for advanced predictive analytics.') atleast of 54 words",
     "String (If standard tech or not detailed, statement like 'Built on a robust and scalable modern tech stack, focusing on reliable delivery of features,' or 'Specific underlying technology details are not highlighted on the website.') atleast of 54 words"
@@ -467,7 +519,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Prima
     ]
     },
     {
-    "main": "How Users Engage with the Product",
+    "main": "Key Scenarios: How Users Engage with the Product",
     "subPoints": [
     "String (Scenario 1: Description of a common workflow or task a user performs with the product, e.g., 'To optimize ad spend, a user first ingests campaign data from multiple sources, then utilizes the platform's attribution modeling feature to identify high-performing channels, and finally generates a comprehensive report for stakeholders.') atleast of 54 words",
     "String (Scenario 2: Similar detailed description for another key interaction or use case, as described or inferred from the company website.) atleast of 54 words"
@@ -489,7 +541,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Prima
     "content": "string (3–4 sentences describing direct and indirect competitors, and the product's strategic positioning against them, emphasizing details from official sources where possible.) atleast of 54 words",
     "points": [
     {
-    "main": "Key Direct Competitors",
+    "main": "Key Direct Competitors of [Primary Focus Product]",
     "subPoints": [
     "Competitor A: [Name]. String (Known for [Their main strength/focus area]. If competitor details are from general knowledge, state so. If from company website, cite that.) atleast of 54 words",
     "Competitor B: [Name]. String (Similar detailed description for another direct competitor and its known strengths.) atleast of 54 words"
@@ -503,7 +555,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Prima
     ]
     },
     {
-    "main": "Positioning Against Competitors",
+    "main": "[Primary Focus Product]'s Positioning Against Competitors",
     "subPoints": [
     "String (How the product aims to win against direct competitors, e.g., 'By offering a more intuitive user interface and significantly faster data processing speeds, as highlighted by its UVP and differentiators from the company website.') atleast of 54 words",
     "String (Its key competitive advantage in the current landscape, e.g., 'Its unique focus on seamless integration with the broader [Company Name] ecosystem provides a unified user experience not easily matched by standalone competitors.') atleast of 54 words"
@@ -512,34 +564,34 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Prima
     ]
     },
     {
-    "title": "SWOT Analysis",
+    "title": "SWOT Analysis ([Primary Focus Product])",
     "completed": false,
     "summary": "string (Summary of the Primary Focus Product's internal strengths and weaknesses, and the external opportunities and threats it faces, based on website information and general market knowledge.) atleast of 54 words",
     "content": "string (3–4 sentences providing a balanced overview of the product's strategic position based on the SWOT factors, emphasizing details from official sources for S & W.) atleast of 54 words",
     "points": [
     {
-    "main": "Strengths",
+    "main": "Strengths (Internal Positives of the Product)",
     "subPoints": [
     "String (A key internal advantage, e.g., 'Leverages [Company Name]'s strong brand reputation and existing enterprise customer base for market penetration,' derived from website and JD analysis.) atleast of 54 words",
     "String (Another core competency, e.g., 'Possesses proprietary algorithms for [specific function] that deliver demonstrably superior accuracy compared to alternatives, as evidenced by case studies on the company website.') atleast of 54 words"
     ]
     },
     {
-    "main": "Weaknesses",
+    "main": "Weaknesses (Internal Negatives/Limitations of the Product)",
     "subPoints": [
     "String (An internal limitation, e.g., 'The product currently has a steeper learning curve for non-technical users, potentially hindering wider adoption in certain segments,' inferred cautiously from website or JD.) atleast of 54 words",
     "String (Another area for improvement, e.g., 'Perceived as having a higher price point compared to some newer, more narrowly focused competitors, which could be a barrier for smaller businesses.') atleast of 54 words"
     ]
     },
     {
-    "main": "Opportunities",
+    "main": "Opportunities (External Favorable Factors for the Product)",
     "subPoints": [
     "String (A significant external market opportunity, e.g., 'The rapidly growing market demand for AI-powered automation in [target industry] presents a significant expansion opportunity for the product’s advanced capabilities.') atleast of 54 words",
     "String (Another potential opportunity, e.g., 'The increasing need for robust data privacy and compliance features offers a chance to further differentiate by enhancing its existing security architecture.') atleast of 54 words"
     ]
     },
     {
-    "main": "Threats",
+    "main": "Threats (External Negative Conditions for the Product)",
     "subPoints": [
     "String (A key external threat, e.g., 'Intense competition from both established players and agile startups introducing innovative features at a rapid pace, requiring continuous product development.') atleast of 54 words",
     "String (Another potential challenge, e.g., 'Potential shifts in technology standards or user preferences towards open-source alternatives could impact long-term market share if not proactively addressed.') atleast of 54 words"
