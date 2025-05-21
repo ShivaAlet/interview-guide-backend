@@ -342,7 +342,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Prima
 
 - ***Quick Summary (Product Focus):*** High-impact overview (at least 260 words) covering: What the [Primary Focus Product] does, its primary user segment & key problem solved, its unique value proposition & key differentiators.
 - **Card 1: Product Functionality:**
-    - **What [Primary Focus Product] Does:** Clear, concise functional description.
+    - **What Product Functionality Does:** Clear, concise functional description.
     - **Primary Target Market Segment:** The specific market/industry category the product primarily serves.
     - **Key Problem(s) It Solves for Users:** Core pain points it addresses.
     - **Unique Value Proposition (UVP):** Its distinct promise and most significant benefit.
@@ -379,7 +379,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Prima
     "content": "string (3–4 fluent sentences explaining what this card covers about the product's foundational aspects and its standing in the market, emphasizing details from official sources.) ",
     "points": [
     {
-    "main": "What [Primary Focus Product] Does",
+    "main": "What Product Functionality Does",
     "subPoints": [
     "String (Concise overview of the product's primary function and capabilities, e.g., 'An advanced analytics platform for processing and visualizing large datasets.') ",
     "String (The main activity or process it enables for users, according to the company website.) "
