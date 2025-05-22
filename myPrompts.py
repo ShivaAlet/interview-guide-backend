@@ -341,17 +341,17 @@ Your task is to identify the primary product the candidate will be working on ba
 REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Primary Focus Product**):
 
 - ***Quick Summary (Product Focus):*** High-impact overview (at least 260 words) covering: What the [Primary Focus Product] does, its primary user segment & key problem solved, its unique value proposition & key differentiators.
-- **Card 1: Product Functionality:**
-    - **What Product Functionality Does:** Clear, concise functional description.
+- **Card 1: Product Overview:**
+    - **What Core Product Does:** Clear, concise functional description.
     - **Primary Target Market Segment:** The specific market/industry category the product primarily serves.
     - **Key Problem(s) It Solves for Users:** Core pain points it addresses.
     - **Unique Value Proposition (UVP):** Its distinct promise and most significant benefit.
-    - **Key Differentiators vs. Alternatives:** Standout aspects setting it apart.
+    - ** Key Differentiators:** Standout aspects setting it apart.
 - **Card 2: Core Functionality:**
-    - **Identified Product Features & Descriptions:** List all significant product features with a 1-2 line summary of what each does and its benefit.
-    - **Key Underlying Technology:** Any specific tech fundamental to its performance or UVP.
-    - **Integration & Ecosystem Synergy:** Critical integrations and how they enhance value.
-    - **Monetization Strategy & Pricing Approach:** How the product generates revenue and its pricing model.
+    - Identified Product Features & Descriptions: List all significant product features with a 1-2 line summary of what each does and its benefit.
+    - Key Underlying Technology: Any specific tech fundamental to its performance or UVP.
+    - Integration & Ecosystem Synergy: Critical integrations and how they enhance value.
+    - Monetization Strategy & Pricing Approach: How the product generates revenue and its pricing model.
 - **Card 3: User Focus & Core Needs:**
     - **Primary Target User Profile(s):** Detailed description of the main users.
     - **How Users Engage with the Product:** Common workflows or tasks.
@@ -373,13 +373,13 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Prima
     "quick_summary": "[A comprehensive 5–6 paragraph overview covering what the Primary Focus Product does, its key features, target users, problems solved, unique value proposition, differentiators, and its role within the company's ecosystem.]",
     "sub_modules": [
     {
-    "title": "Product Functionality",
+    "title": "Product Overview",
     "completed": false,
     "summary": "string (Engaging paragraph summarizing the Primary Focus Product's core identity, its target market, and its competitive edge, based on information from the company website.) ",
     "content": "string (3–4 fluent sentences explaining what this card covers about the product's foundational aspects and its standing in the market, emphasizing details from official sources.) ",
     "points": [
     {
-    "main": "What Product Functionality Does",
+    "main": "What Core Product Does",
     "subPoints": [
     "String (Concise overview of the product's primary function and capabilities, e.g., 'An advanced analytics platform for processing and visualizing large datasets.') ",
     "String (The main activity or process it enables for users, according to the company website.) "
@@ -407,7 +407,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Prima
     ]
     },
     {
-    "main": "Key Differentiators vs. Alternatives",
+    "main": "Key Differentiators",
     "subPoints": [
     "String (A standout aspect - feature, technology, etc. - that sets it apart, as presented on the company website.) ",
     "String (Another key differentiator, e.g., 'Offers [Unique Aspect A], unlike most competitors who focus on [Common Aspect B].') "
@@ -416,7 +416,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure for the **Prima
     ]
     },
     {
-    "title": "Core Functionality & Value Delivery",
+    "title": "Core Functionality & Value",
     "completed": false,
     "summary": "string (Summary explaining the Primary Focus Product's key features, the technology powering it, how it integrates, and its monetization model, all based on company website information.) ",
     "content": "string (3–4 fluent sentences describing the product's core mechanics – what it does, what it's built on if strategic, and how it makes money, emphasizing details from official sources.) atleast of 54 words",
