@@ -903,15 +903,15 @@ qualifications and proactively address any potential concerns.
 
 Here's what you'll get:
 
-1. **Key Strengths & Alignment:** Pinpoints the areas where your resume clearly demonstrates the skills
+1. Key Strengths & Alignment: Pinpoints the areas where your resume clearly demonstrates the skills
 and experiences the job description is asking for. This helps you
 identify your strongest talking points.
-2. **Potential Gaps & How to Address:** Constructively highlights significant requirements from the job
+2. Potential Gaps & How to Address: Constructively highlights significant requirements from the job
 description that might not be immediately obvious from your resume.
 Importantly, it provides suggestions on how to frame your existing
 experience, discuss transferable skills, or prepare specific answers to
 bridge these perceived gaps during the interview.
-3. **Standout Experiences to Highlight:** Goes beyond simple keyword matching to identify 2-4 specific accomplishments or experiences from *your* resume that are particularly compelling for *this* role. For each standout point, it explains *why* it's relevant to the JD and *why* emphasizing it will help you differentiate yourself from other candidates.
+3. Standout Experiences to Highlight: Goes beyond simple keyword matching to identify 2-4 specific accomplishments or experiences from *your* resume that are particularly compelling for *this* role. For each standout point, it explains *why* it's relevant to the JD and *why* emphasizing it will help you differentiate yourself from other candidates.
 
 Essentially,
  this module transforms your resume and the JD into a personalized 
