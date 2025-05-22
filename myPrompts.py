@@ -1267,48 +1267,39 @@ def favorite_product_question_fun(data):
                                 '''
     ----
    Card 1: What’s Your Favorite Product?
-    - title: "🧠 Overview: “What’s Your Favorite Product?” Interview Question"
+    - title: "🧠 How to Answer Favorite Product Question"
     - summary: "A breakdown of one of the most common product management interview questions, why it’s asked, what to expect, variations, and how to answer effectively."
     - details (Map to 'points' array using 'main'/'subPoints'):
-        - main: "✅ Summary", subPoints: [
-            "This is one of the most common product management interview questions. It seems casual, but it's designed to assess how you think about products, empathize with users, and communicate clearly.",
-            "In this module, you’ll learn:",
-            "- Why interviewers ask this question",
-            "- What to expect during the interview",
-            "- Common variations of the question",
-            "- Tips for choosing a great product",
-            "- An example of how to suggest an improvement"
-        ]
         - main: "🤔 Why Do Interviewers Ask This?", subPoints: [
             "This question acts as a low-pressure warm-up to help the interviewer evaluate:",
-            "- Your product thinking and user empathy",
-            "- Your ability to analyze strengths, weaknesses, and tradeoffs",
-            "- Your communication skills and enthusiasm for product work",
+            "Your product thinking and user empathy",
+            "Your ability to analyze strengths, weaknesses, and tradeoffs",
+            "Your communication skills and enthusiasm for product work",
             "It’s also a fun way for them to get to know your interests and how you see the world."
         ]
         - main: "📋 What to Expect", subPoints: [
-            "- This is often the first real question in a PM interview.",
-            "- The conversation usually lasts 5–10 minutes.",
-            "- Expect a casual tone, but be ready for deeper follow-ups.",
+            "This is often the first real question in a PM interview.",
+            "The conversation usually lasts 5–10 minutes.",
+            "Expect a casual tone, but be ready for deeper follow-ups.",
             "Common follow-up questions include:",
-            "- “How would you improve it?”",
-            "- “What’s a product you dislike?”",
-            "- “How would you measure its success?”",
-            "- “What if you were the CEO — what would you change?”"
+            "How would you improve it?",
+            "What’s a product you dislike?",
+            "How would you measure its success?",
+            "What if you were the CEO — what would you change?"
         ]
         - main: "🔁 Common Variants", subPoints: [
             "Interviewers may tweak the question to test your flexibility. Examples include:",
-            "- “What’s your favorite Google product?”",
-            "- “What’s your favorite non-tech product?”",
-            "- “What are your top 3 favorite products?”",
-            "- “What’s a product you hate that others love?”",
-            "- “What’s a product with untapped potential?”"
+            "What’s your favorite Google product?",
+            "What’s your favorite non-tech product?",
+            "What are your top 3 favorite products?",
+            "What’s a product you hate that others love?",
+            "What’s a product with untapped potential?"
         ]
         - main: "💡 How to Choose a Good Product", subPoints: [
             "Pick something that reflects your:",
-            "- Passion — You enjoy using it and have real opinions about it.",
-            "- Perspective — You understand its strengths and limitations.",
-            "- Personality — It gives insight into how you think and work.",
+            "Passion — You enjoy using it and have real opinions about it.",
+            "Perspective — You understand its strengths and limitations.",
+            "Personality — It gives insight into how you think and work.",
             "Tips:",
             "✅ You can choose something popular — just add depth to your take.",
             "✅ Obscure products are fine — explain them clearly.",
@@ -1320,45 +1311,35 @@ def favorite_product_question_fun(data):
         ]
 ---
 Card 2: Favorite Product Answer Framework
-    - title: "📘 Title: Answering the “Favorite Product” Interview Question"
+    - title: "📘 Title: 5 Steps Framework"
     - summary: "Learn a proven 5-step framework to confidently answer the PM interview question: 'What is your favorite product and how would you improve it?'"
     - details (Map to 'points' array using 'main'/'subPoints'):
-        - main: "🧠 Subtitle", subPoints: [
-            "Use this 5-step framework to stand out with confidence"
-        ]
-        - main: "🧩 Summary", subPoints: [
-            "You’ll learn how to:",
-            "- Select the right product (and what to avoid)",
-            "- Give a sharp one-sentence intro",
-            "- Identify and personalize customer segments",
-            "- Tie features to pain points using the PAINO method",
-            "- Suggest thoughtful, strategic improvements"
-        ]
+
         - main: "✅ 1. Pick the Right Product", subPoints: [
-            "- Choose 3 digital and 1 physical product in advance",
-            "- Avoid:",
-            "  - Culturally niche tools (e.g., WeChat, rice cookers)",
-            "  - Overused answers (e.g., Spotify, Netflix)",
-            "- Select products your interviewer likely uses or knows"
+            "Choose 3 digital and 1 physical product in advance",
+            "Avoid:",
+            "Culturally niche tools (e.g., WeChat, rice cookers)",
+            "Overused answers (e.g., Spotify, Netflix)",
+            "Select products your interviewer likely uses or knows"
         ]
         - main: "🧭 2. Intro in One Sentence", subPoints: [
             "Briefly describe what the product does.",
             "Example:",
-            "> “Waze helps users navigate from point A to B using real-time traffic data.”"
+            "“Waze helps users navigate from point A to B using real-time traffic data.”"
         ]
         - main: "👥 3. Define Customer Segments", subPoints: [
             "List 3–4 user types and highlight which one you identify with.",
             "Example:",
-            "> “As a new parent, I use Waze to avoid long drives with a crying baby.”"
+            "“As a new parent, I use Waze to avoid long drives with a crying baby.”"
         ]
         - main: "💢 4. Pain-Driven Features", subPoints: [
             "For each of 3 pain points, follow this formula:",
             "Pain → App Feature → Outcome",
-            "- Tie real, emotional user needs to key features",
+            "Tie real, emotional user needs to key features",
             "Example:",
-            "> “Pain: Traffic stresses me out with kids in the car",
-            "> → Feature: Waze reroutes in real time",
-            "> → Outcome: I stay calm and get there faster.”"
+            "“Pain: Traffic stresses me out with kids in the car",
+            "Feature: Waze reroutes in real time",
+            "Outcome: I stay calm and get there faster.”"
         ]
         - main: "🔧 5. Suggest Improvements", subPoints: [
             "Use one or more of these 4 angles:",
@@ -1409,7 +1390,7 @@ Card 2: Favorite Product Answer Framework
         ]
         },
         {
-        "title": "Answering the 'Favorite Product' Interview Question",
+        "title": "5 Steps Framework",
 "completed":false,
         "summary": "a full summary text of some long length that summarizes all these modules",
         "content": "some full long information text",
@@ -1518,7 +1499,7 @@ Explain each step clearly before moving to the next, providing the requested det
 
 Framework:
 
-- Clarify and get context
+- Clarify and Get Context
     - (Include sample clarifying questions)
 - Mission/Vision
     - (Include advice for known company mission)
@@ -1553,7 +1534,7 @@ Framework:
     
     Framework
     
-    - Clarify and get context
+    - Clarify and Get Context
         - provide sample clarifying questions
     - Mission/Vision
         - provide users advice on how to define the mission of the company if they know the company
@@ -1640,7 +1621,7 @@ Generate ONE open-ended product design question that:
         "content": "some full long information text",
         "points": [
             {
-            "main": "Clarify and get context",
+            "main": "Clarify and Get Context",
             "subPoints": ["information description 1", "information description 2", "..."]
             },
             {
