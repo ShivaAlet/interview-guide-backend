@@ -18,7 +18,7 @@ Research: **Using the identified company name, leverage your general knowledge b
 
 - Mission & Values
 - Founding Team - Company founding date & Key founder(s)
-- Products & Services Offered
+- Products & Services
 - Business Model & Market Footprint
 - Recent funding rounds (including amounts, dates, and key investors, if publicly available)
 - Key recent events (e.g., significant news, major product launches, acquisitions, strategic partnerships, ideally within the last 1-2 years)
@@ -38,7 +38,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
         - Vision: 1 sentence stating the vision statement of the company, if available
         - Values/Principles: List all the values/principles of the company, if available
     - **Founding Team:** String (In 1-2 sentences, state the *year* company_name was founded and list *all the names* *e.g. name(job title)* of its founders entirely from web search) e.g. *The founders of company_name are name1(job title), name2(job title), name3(job title),etc.*
-- **Products & Services Offered: Instruction:** - Your primary task here is to thoroughly search the web, especially the company's official website (navigating their "Products," "Services," "Solutions," or equivalent sections), to identify and list all of the company's *main, distinct* products and/or service lines.
+- **Products & Services: Instruction:** - Your primary task here is to thoroughly search the web, especially the company's official website (navigating their "Products," "Services," "Solutions," or equivalent sections), to identify and list all of the company's *main, distinct* products and/or service lines.
     - **Distinguishing Main Products from Features:** If a company offers a primary product that has many features or sub-components, list the *main product* as the offering. Only list sub-components or features as separate "Product/Service" entries if the company markets and presents them as distinct, standalone offerings. The goal is to reflect how the company categorizes and presents its offerings to the market.
     - **Handling Numerous Offerings:** For companies with an extensive portfolio of many distinct products/services, strive to list all *major* or *primary* offerings. If the list becomes exceptionally long (e.g., dozens of minor variations), prioritize those that appear most strategically important, are highlighted by the company, or (if a job description is part of the input) are most relevant to the role. However, the initial goal should be to capture the breadth of their main offerings.
     - **Description:** For each distinct product or service identified, provide its name followed by a concise 1-2 line description detailing what it is and its core function or benefit.
@@ -72,11 +72,11 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
     - Key Differentiators (USPs): 1-3 points making the differentiates the company from its competitors. Focus on the things that the company does that sets it apart from its competitors and is the reason companies prefer the company over the competitors
     - Competitive Strengths: 1-3 core advantages (e.g., technology, brand).
     - Potential Weaknesses/Challenges: 1-3 potential vulnerabilities relative to competitors.
-- **Org Structure and Leadership:**
+- **Organization Structure & Leadership:**
     - Size, Status & Location: Approx Employee Count, Public/Private, HQ, Key Offices.
     - Organizational Structure: Parent Company, Key Subsidiaries/Divisions, recent restructuring.
     - Key Leadership: CEO, CPO/Product Head, CTO/Engineering Head, other relevant VPs/Heads (provide names).
-- **Industry Context, News & Outlook**
+- **Industry Context, News & Trends**
     - **Key Industry Trends:** List all the key trends in the company’s primary industry that the company
     - **Recent News & Key Developments:** 3-5 significant events from the last 5 years (funding, product launches, acquisitions, partnerships, milestones reached etc.). Summarize each factually in one sentence (e.g., "Acquired Company Y, expanding its market presence in Asia, in Q3 2023.")
     -----
@@ -117,7 +117,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
       ]
     },
     {
-      "title": "Products & Services Offered",
+      "title": "Products & Services",
       "completed": false,
       "summary": "string (Summary explaining the company's product/service range and importance) ",
       "content": "string (3–4 fluent sentences describing key offerings and how they help customers) ",
@@ -251,7 +251,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
       ]
     },
     {
-      "title": "Org Structure and Leadership",
+      "title": "Organization Structure & Leadership",
       "completed": false,
       "summary": "string (Summary describing size, structure, and leadership team of the company) ",
       "content": "string (3–4 sentences about leadership, company structure, and global footprint) ",
@@ -283,7 +283,7 @@ REQUIRED INFORMATION CATEGORIES (Map these to the JSON structure):
       ]
     },
     {
-      "title": "Industry Context, News & Outlook",
+      "title": "Industry Context, News & Trends",
       "completed": false,
       "summary": "string (Summary highlighting industry trends, company alignment, and recent developments) ",
       "content": "string (3–4 sentences about the market environment and what the company has recently done to adapt or lead) ",
