@@ -35,6 +35,7 @@ YOUR_GOOGLE_CLIENT_ID=os.getenv("YOUR_GOOGLE_CLIENT_ID")
 client = MongoClient(os.getenv("MONGO_URI"))
 db = client["Interview_Guide"]
 googleAuth = db["googleAuth"]
+userNotes = db["userNotes"]
 
 # Temporary folder to save PDFs
 UPLOAD_FOLDER = 'uploads'
@@ -289,7 +290,6 @@ def single_module(module_name):
     except Exception as e:
         return jsonify({"status": "Not Ok", "error": str(e)}), 400
 
-
 @app.route('/check_resume', methods=['POST'])
 def check_resume():
     access_key = request.headers.get('x-api-key')
@@ -334,7 +334,6 @@ def check_resume():
     except Exception as e:
         return jsonify({"status": "Not Ok", "error": str(e)}), 400
  
-
 @app.route('/google-login', methods=['POST'])
 def google_login():
     access_key = request.headers.get('x-api-key')
@@ -398,10 +397,54 @@ def get_guide(id):
                 return jsonify({"error": "User not found"}), 404
             history = user["history"]
             guide=next((g for g in history if g["id"] == id), None)
+            uNotes = userNotes.find_one({"guideId":id})
             if guide:
-                return jsonify({"status":"Ok","guide":guide}), 200
+                notes = {"guideId":id,"company_research":[],"product_research":[],"job_description_analysis":[],"resume_experience_to_highlight_to_stand_out":[],"behavioral_interview":[],"recruiter_screen_preparation":[],"favorite_product_question":[],"product_design":[],"product_sense":[],"product_strategy":[],"analytical_estimation":[],"technical":[],"leadership":[]}
+                if uNotes is None:
+                    userNotes.insert_one(notes)
+                else:
+                    notes=uNotes
+                return jsonify({"status":"Ok","guide":guide,"notes":utils.convert_objectid(notes)}), 200
             else:
                 return jsonify({"status":"Not Ok",'error': 'Guide not found with this id'}), 401
+        else:
+            return jsonify({"status":"Not Ok",'error': 'Authorization header missing'}), 401
+    except ExpiredSignatureError:
+        return jsonify({"status":"Not Ok",'error': 'Token has expired'}), 401
+    except InvalidTokenError:
+        return jsonify({"status":"Not Ok",'error': 'Invalid token'}), 401
+    except Exception as e:
+        return jsonify({"status":"Not Ok","error": "Invalid token","error":str(e)}), 400
+    
+@app.route("/save_note/<guideId>/<moduleName>",methods=['POST'])
+def save_note(guideId,moduleName):
+    access_key = request.headers.get('x-api-key')
+
+    if access_key!=ACCESS_KEY:
+        return jsonify({"status":"Not Ok","error": "missing or invalid access key"}), 400
+    try:   
+        required_keys = ["note"]
+        data = request.form
+
+        if not all(key in data for key in required_keys):
+            return jsonify({"error": "Missing keys"}), 400     
+        auth_header = request.headers.get('Authorization')
+        if auth_header:
+            token = auth_header.split(" ")[1] 
+            idinfo = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+            idinfo = idinfo["idinfo"]
+            user_email = idinfo['email']
+            user = googleAuth.find_one({"email": user_email})
+            if user is None:
+                return jsonify({"error": "User not found"}), 404
+            uNotes = userNotes.find_one({"guideId":guideId})
+            if uNotes is None:
+                 return jsonify({"status":"Not Ok","error":"Notes not found for this Id"}), 404
+            notes = uNotes
+            del notes["_id"]
+            notes[moduleName]=data["note"]
+            userNotes.update_one({"guideId":guideId},{"$set":notes})
+            return jsonify({"status":"Ok","message":"Note Saved successfully"}), 200
         else:
             return jsonify({"status":"Not Ok",'error': 'Authorization header missing'}), 401
     except ExpiredSignatureError:
