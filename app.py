@@ -123,7 +123,7 @@ def all_modules():
         history.append(newGuide)
 
         result = googleAuth.update_one({"email": user_email}, {"$set": {"history": history}})
-        notes = {"guideId":idd,"company_research":[],"product_research":[],"job_description_analysis":[],"resume_experience_to_highlight_to_stand_out":[],"behavioral_interview":[],"recruiter_screen_preparation":[],"favorite_product_question":[],"product_design":[],"product_sense":[],"product_strategy":[],"analytical_estimation":[],"technical":[],"leadership":[]}
+        notes = {"guideId":idd,"company_research":[],"product_research":[],"job_description_analysis":[],"resume_experience_to_highlight_to_stand_out":[],"hiring_manager_round":[],"behavioral_interview":[],"recruiter_screen_preparation":[],"favorite_product_question":[],"product_design":[],"product_sense":[],"product_strategy":[],"analytical_estimation":[],"technical":[],"leadership":[]}
         userNotes.insert_one(notes)
         if result.matched_count:
             return jsonify({"status": "Ok", "message": "User updated", "history": history, "guide": newGuide,"notes":utils.convert_objectid(notes)})
@@ -400,7 +400,7 @@ def get_guide(id):
             guide=next((g for g in history if g["id"] == id), None)
             uNotes = userNotes.find_one({"guideId":id})
             if guide:
-                notes = {"guideId":id,"company_research":[],"product_research":[],"job_description_analysis":[],"resume_experience_to_highlight_to_stand_out":[],"behavioral_interview":[],"recruiter_screen_preparation":[],"favorite_product_question":[],"product_design":[],"product_sense":[],"product_strategy":[],"analytical_estimation":[],"technical":[],"leadership":[]}
+                notes = {"guideId":id,"company_research":[],"product_research":[],"job_description_analysis":[],"resume_experience_to_highlight_to_stand_out":[],"hiring_manager_round":[],"behavioral_interview":[],"recruiter_screen_preparation":[],"favorite_product_question":[],"product_design":[],"product_sense":[],"product_strategy":[],"analytical_estimation":[],"technical":[],"leadership":[]}
                 if uNotes is None:
                     userNotes.insert_one(notes)
                 else:
