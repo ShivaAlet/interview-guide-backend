@@ -123,9 +123,10 @@ def all_modules():
         history.append(newGuide)
 
         result = googleAuth.update_one({"email": user_email}, {"$set": {"history": history}})
-
+        notes = {"guideId":idd,"company_research":[],"product_research":[],"job_description_analysis":[],"resume_experience_to_highlight_to_stand_out":[],"behavioral_interview":[],"recruiter_screen_preparation":[],"favorite_product_question":[],"product_design":[],"product_sense":[],"product_strategy":[],"analytical_estimation":[],"technical":[],"leadership":[]}
+        userNotes.insert_one(notes)
         if result.matched_count:
-            return jsonify({"status": "Ok", "message": "User updated", "history": history, "guide": newGuide})
+            return jsonify({"status": "Ok", "message": "User updated", "history": history, "guide": newGuide,"notes":utils.convert_objectid(notes)})
         else:
             return jsonify({"error": "Failed to update user history"}), 500
     
@@ -480,6 +481,9 @@ def delete_guide(id):
                     {"email": user_email},
                     {"$set": {"history": history}}
                 )
+                uNotes = userNotes.find_one({"guideId":id})
+                if uNotes is not None:
+                    userNotes.delete_one({"guideId":id})
                 return jsonify({"status": "Ok", "message": "Guide deleted successfully"}), 200
             else:
                 return jsonify({"status": "Not Ok", "error": "Guide not found with this id"}), 401
