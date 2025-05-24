@@ -88,6 +88,7 @@ def generateCompanyResearchPrompt(data,module):
 
 def get_response(question, results,errorJsons,citations1, index):
     model = "google/gemini-2.5-flash-preview"
+    # model = "google/gemini-2.5-flash-preview-05-20"
     plugins = [{ "id": "web","max_results":10 }] if index == 0 or index == 1 else []
     print(index,model,plugins)
     jdumps = json.dumps({
