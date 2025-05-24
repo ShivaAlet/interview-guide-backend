@@ -424,7 +424,7 @@ def save_note(guideId,moduleName):
         return jsonify({"status":"Not Ok","error": "missing or invalid access key"}), 400
     try:   
         required_keys = ["note"]
-        data = request.form
+        data = request.json
 
         if not all(key in data for key in required_keys):
             return jsonify({"error": "Missing keys"}), 400     
