@@ -432,6 +432,33 @@ def get_guide(id):
     except Exception as e:
         return jsonify({"status":"Not Ok","error": "Invalid token","error":str(e)}), 400
     
+@app.route("/get_notes/<id>",methods=['GET'])
+def get_notes(id):
+    access_key = request.headers.get('x-api-key')
+
+    if access_key!=ACCESS_KEY:
+        return jsonify({"status":"Not Ok","error": "missing or invalid access key"}), 400
+    try:        
+        auth_header = request.headers.get('Authorization')
+        if auth_header:
+            token = auth_header.split(" ")[1] 
+            idinfo = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+            idinfo = idinfo["idinfo"]
+            user_email = idinfo['email']
+            user = googleAuth.find_one({"email": user_email})
+            if user is None:
+                return jsonify({"error": "User not found"}), 404
+            uNotes = userNotes.find_one({"guideId":id})
+            return jsonify({"status":"Ok","notes":utils.convert_objectid(uNotes)}), 200
+        else:
+            return jsonify({"status":"Not Ok",'error': 'Authorization header missing'}), 401
+    except ExpiredSignatureError:
+        return jsonify({"status":"Not Ok",'error': 'Token has expired'}), 401
+    except InvalidTokenError:
+        return jsonify({"status":"Not Ok",'error': 'Invalid token'}), 401
+    except Exception as e:
+        return jsonify({"status":"Not Ok","error": "Invalid token","error":str(e)}), 400
+    
 @app.route("/save_note/<guideId>/<moduleName>",methods=['POST'])
 def save_note(guideId,moduleName):
     access_key = request.headers.get('x-api-key')
