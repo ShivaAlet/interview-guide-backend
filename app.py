@@ -352,7 +352,22 @@ def google_login():
         if user is None:
             user={"name":user_name,"email":user_email,"credits":100,"history":[],"createdAt":datetime.now()}
             googleAuth.insert_one(user)
-        return jsonify({"status":"Ok","message": "Login Successful", "user":utils.convert_objectid(user)})
+        uNotes = []
+        for notes in userNotes.find({}):
+            if len(notes['company_research'])>0 or len(notes['product_research'])>0 or len(notes['job_description_analysis'])>0 or len(notes['resume_experience_to_highlight_to_stand_out'])>0 or len(notes['leadership'])>0 or len(notes['behavioral_interview'])>0 or len(notes['recruiter_screen_preparation'])>0 or len(notes['favorite_product_question'])>0 or len(notes['product_design'])>0 or len(notes['product_sense'])>0 or len(notes['product_strategy'])>0 or len(notes['analytical_estimation'])>0 or len(notes['technical'])>0:
+                uNotes.append({"guideId":notes["guideId"],"haveNotes":True})
+            else:
+                uNotes.append({"guideId":notes["guideId"],"haveNotes":False})
+        filteredNotes = []
+        for uNote in user["history"]:
+            filteredNotes.append(uNote["id"])
+
+        haveNotes = []
+        for note in uNotes:
+            if note["guideId"] in filteredNotes:
+                haveNotes.append(note)
+
+        return jsonify({"status":"Ok","message": "Login Successful", "user":utils.convert_objectid(user),"uNotes":haveNotes})
     except ExpiredSignatureError:
         return jsonify({"status":"Not Ok",'error': 'Token has expired'}), 401
     except InvalidTokenError:
